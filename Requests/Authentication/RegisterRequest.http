@@ -1,0 +1,11 @@
+@host=https://api-gateway-app.wonderfulwave-67ac4af3.eastus.azurecontainerapps.io
+
+POST {{host}}/authentication/register
+Content-Type: application/json
+
+{
+    "FirstName": "Admin",
+    "LastName": "Admin",
+    "email": "admin@sneaker-collector.com",
+    "password": "admin"
+}
