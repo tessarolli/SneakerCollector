@@ -3,10 +3,10 @@
 // </copyright>
 
 using FluentValidation;
-using ProductService.Domain.Shoes.ValueObjects;
+using ProductService.Domain.Brands.ValueObjects;
 using SharedDefinitions.Domain.Common;
 
-namespace ProductService.Domain.Shoes.Validators;
+namespace ProductService.Domain.Brands.Validators;
 
 /// <summary>
 /// Brand Entity Validation Rules.

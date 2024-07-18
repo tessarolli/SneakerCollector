@@ -8,6 +8,7 @@ using Dapr.Client;
 using FluentResults;
 using Microsoft.Extensions.Logging;
 using ProductService.Application.Abstractions.Repositories;
+using ProductService.Domain.Brands;
 using ProductService.Domain.Dtos;
 using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.Enums;

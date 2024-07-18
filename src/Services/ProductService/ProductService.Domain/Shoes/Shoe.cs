@@ -3,6 +3,7 @@
 // </copyright>
 
 using FluentResults;
+using ProductService.Domain.Brands;
 using ProductService.Domain.Dtos;
 using ProductService.Domain.Shoes.Validators;
 using ProductService.Domain.Shoes.ValueObjects;

@@ -11,6 +11,7 @@ using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.Enums;
 using NSubstitute;
 using FluentAssertions;
+using ProductService.Domain.Brands;
 
 namespace ProductService.UnitTests.Infrastructure;
 

@@ -3,11 +3,11 @@
 // </copyright>
 
 using FluentResults;
+using ProductService.Domain.Brands.ValueObjects;
 using ProductService.Domain.Shoes.Validators;
-using ProductService.Domain.Shoes.ValueObjects;
 using SharedDefinitions.Domain.Common.DDD;
 
-namespace ProductService.Domain.Shoes;
+namespace ProductService.Domain.Brands;
 
 /// <summary>
 /// Brand Entity.

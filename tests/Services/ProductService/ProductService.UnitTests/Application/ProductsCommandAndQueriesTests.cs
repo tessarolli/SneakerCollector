@@ -5,6 +5,7 @@ using ProductService.Application.Shoes.Commands.UpdateShoe;
 using ProductService.Application.Shoes.Dtos;
 using ProductService.Application.Shoes.Queries.GetShoeById;
 using ProductService.Application.Shoes.Queries.GetShoesList;
+using ProductService.Domain.Brands;
 using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.Enums;
 using ProductService.Domain.Shoes.ValueObjects;

@@ -1,27 +1,26 @@
-﻿// <copyright file="UpdateShoeCommandHandler.cs" company="SneakerCollector">
+﻿// <copyright file="UpdateBrandCommandHandler.cs" company="SneakerCollector">
 // Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentResults;
 using ProductService.Application.Abstractions.Repositories;
-using ProductService.Application.Shoes.Dtos;
+using ProductService.Application.Brands.Dtos;
 using ProductService.Domain.Brands;
-using ProductService.Domain.Shoes;
-using ProductService.Domain.Shoes.ValueObjects;
+using ProductService.Domain.Brands.ValueObjects;
 using SharedDefinitions.Application.Abstractions.Messaging;
 
-namespace ProductService.Application.Shoes.Commands.UpdateShoe;
+namespace ProductService.Application.Brands.Commands.UpdateBrand;
 
 /// <summary>
-/// Mediator Handler for the <see cref="UpdateShoeCommand"/>.
+/// Mediator Handler for the <see cref="UpdateBrandCommand"/>.
 /// </summary>
 /// <param name="shoeRepository">Injected UserRepository.</param>
-public class UpdateShoeCommandHandler(IShoeRepository shoeRepository) : ICommandHandler<UpdateShoeCommand, ShoeDto>
+public class UpdateBrandCommandHandler(IBrandRepository shoeRepository) : ICommandHandler<UpdateBrandCommand, BrandDto>
 {
-    private readonly IShoeRepository _shoeRepository = shoeRepository;
+    private readonly IBrandRepository _shoeRepository = shoeRepository;
 
     /// <inheritdoc/>
-    public async Task<Result<ShoeDto>> Handle(UpdateShoeCommand request, CancellationToken cancellationToken)
+    public async Task<Result<BrandDto>> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
     {
         var brandDomainModelResult = Brand.Create(new(request.BrandId), request.BrandName);
         if (brandDomainModelResult.IsFailed)
@@ -29,8 +28,8 @@ public class UpdateShoeCommandHandler(IShoeRepository shoeRepository) : ICommand
             return Result.Fail(brandDomainModelResult.Errors);
         }
 
-        var shoeDomainModel = Shoe.Create(
-            new ShoeId(request.ShoeId),
+        var shoeDomainModel = Brand.Create(
+            new BrandId(request.BrandId),
             request.OwnerId,
             request.Name,
             brandDomainModelResult.Value,
@@ -50,7 +49,7 @@ public class UpdateShoeCommandHandler(IShoeRepository shoeRepository) : ICommand
             return Result.Fail(updateResult.Errors);
         }
 
-        return Result.Ok(new ShoeDto(
+        return Result.Ok(new BrandDto(
             updateResult.Value.Id.Value,
             updateResult.Value.OwnerId,
             updateResult.Value.BrandId,

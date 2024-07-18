@@ -4,7 +4,7 @@
 
 using SharedDefinitions.Domain.Common.DDD;
 
-namespace ProductService.Domain.Shoes.ValueObjects;
+namespace ProductService.Domain.Brands.ValueObjects;
 
 /// <summary>
 /// Brand Id Value Object.
