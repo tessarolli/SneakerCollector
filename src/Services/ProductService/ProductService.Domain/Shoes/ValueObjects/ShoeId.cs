@@ -9,21 +9,13 @@ namespace ProductService.Domain.Shoes.ValueObjects;
 /// <summary>
 /// Shoe Id Value Object.
 /// </summary>
-public sealed class ShoeId : ValueObject
+/// <param name="id">Id value if exists.</param>
+public sealed class ShoeId(long? id = null) : ValueObject
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ShoeId"/> class.
-    /// </summary>
-    /// <param name="id">Id value if exists.</param>
-    public ShoeId(long? id = null)
-    {
-        Value = id ?? 0;
-    }
-
     /// <summary>
     /// Gets the Shoe ID.
     /// </summary>
-    public long Value { get; }
+    public long Value { get; } = id ?? 0;
 
     /// <summary>
     /// Method required for comparing value objects.

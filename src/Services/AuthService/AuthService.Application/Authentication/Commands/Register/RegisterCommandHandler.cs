@@ -17,24 +17,14 @@ namespace AuthService.Application.Authentication.Commands.Register;
 /// <summary>
 /// The implementation for the Register Command.
 /// </summary>
-public class RegisterCommandHandler : ICommandHandler<RegisterCommand, AuthenticationResult>
+/// <param name="userRepository">IUserRepository being injected.</param>
+/// <param name="jwtTokenGenerator">IJwtTokenGenerator being injected.</param>
+/// <param name="passwordHasher">IPasswordHashingService being injected.</param>
+public class RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator, IPasswordHashingService passwordHasher) : ICommandHandler<RegisterCommand, AuthenticationResult>
 {
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
-    private readonly IUserRepository _userRepository;
-    private readonly IPasswordHashingService _passwordHasher;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RegisterCommandHandler"/> class.
-    /// </summary>
-    /// <param name="userRepository">IUserRepository being injected.</param>
-    /// <param name="jwtTokenGenerator">IJwtTokenGenerator being injected.</param>
-    /// <param name="passwordHasher">IPasswordHashingService being injected.</param>
-    public RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator, IPasswordHashingService passwordHasher)
-    {
-        _jwtTokenGenerator = jwtTokenGenerator;
-        _userRepository = userRepository;
-        _passwordHasher = passwordHasher;
-    }
+    private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly IPasswordHashingService _passwordHasher = passwordHasher;
 
     /// <summary>
     /// The actual command Handler implementation for registering a new user.

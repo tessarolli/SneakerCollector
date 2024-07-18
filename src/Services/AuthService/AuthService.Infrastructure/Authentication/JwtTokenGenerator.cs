@@ -16,18 +16,10 @@ namespace AuthService.Infrastructure.Authentication;
 /// <summary>
 /// Jwt Token Generator.
 /// </summary>
-public class JwtTokenGenerator : IJwtTokenGenerator
+/// <param name="optionsJwtSettings">JwtSetting injected.</param>
+public class JwtTokenGenerator(IOptions<JwtSettings> optionsJwtSettings) : IJwtTokenGenerator
 {
-    private readonly JwtSettings _jwtSettings;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JwtTokenGenerator"/> class.
-    /// </summary>
-    /// <param name="optionsJwtSettings">JwtSetting injected.</param>
-    public JwtTokenGenerator(IOptions<JwtSettings> optionsJwtSettings)
-    {
-        _jwtSettings = optionsJwtSettings.Value;
-    }
+    private readonly JwtSettings _jwtSettings = optionsJwtSettings.Value;
 
     /// <inheritdoc/>
     public string GenerateToken(User user)

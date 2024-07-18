@@ -10,28 +10,19 @@ namespace ProductService.Domain.Shoes.ValueObjects;
 /// <summary>
 /// The Price value object.
 /// </summary>
-public class Price : ValueObject
+/// <param name="currency">Currency type.</param>
+/// <param name="amount">Price Amount.</param>
+public class Price(Currency currency, decimal amount) : ValueObject
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Price"/> class.
-    /// </summary>
-    /// <param name="currency">Currency type.</param>
-    /// <param name="amount">Price Amount.</param>
-    public Price(Currency currency, decimal amount)
-    {
-        Currency = currency;
-        Amount = amount;
-    }
-
     /// <summary>
     /// Gets the Price Amount.
     /// </summary>
-    public decimal Amount { get; }
+    public decimal Amount { get; } = amount;
 
     /// <summary>
     /// Gets the Price Unit.
     /// </summary>
-    public Currency Currency { get; }
+    public Currency Currency { get; } = currency;
 
     /// <inheritdoc/>
     public override IEnumerable<object> GetEqualityComponents()

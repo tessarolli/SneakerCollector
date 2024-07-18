@@ -12,18 +12,11 @@ namespace AuthService.Application.Users.Queries.GetUsersList;
 /// <summary>
 /// Mediator Handler for the <see cref="GetUsersListQuery"/>.
 /// </summary>
-public class GetUsersListQueryHandler : IQueryHandler<GetUsersListQuery, List<UserDto>>
+/// <param name="userRepository">Injected UserRepository.</param>
+public class GetUsersListQueryHandler(IUserRepository userRepository)
+    : IQueryHandler<GetUsersListQuery, List<UserDto>>
 {
-    private readonly IUserRepository _userRepository;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GetUsersListQueryHandler"/> class.
-    /// </summary>
-    /// <param name="userRepository">Injected UserRepository.</param>
-    public GetUsersListQueryHandler(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
+    private readonly IUserRepository _userRepository = userRepository;
 
     /// <inheritdoc/>
     public async Task<Result<List<UserDto>>> Handle(GetUsersListQuery query, CancellationToken cancellationToken)

@@ -18,21 +18,21 @@ namespace AuthService.API.Controllers;
 /// <summary>
 /// Authentication Controller.
 /// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="AuthenticationController"/> class.
+/// </remarks>
+/// <param name="mediator">Injected _mediator.</param>
+/// <param name="mapper">Injected _mapper.</param>
+/// <param name="logger">Injected Logger.</param>
+/// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
 [Route("authentication")]
-public class AuthenticationController : ResultControllerBase<AuthenticationController>
+public class AuthenticationController(
+    IMediator mediator,
+    IMapper mapper,
+    ILogger<AuthenticationController> logger,
+    IExceptionHandlingService exceptionHandlingService)
+    : ResultControllerBase<AuthenticationController>(mediator, mapper, logger, exceptionHandlingService)
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AuthenticationController"/> class.
-    /// </summary>
-    /// <param name="mediator">Injected _mediator.</param>
-    /// <param name="mapper">Injected _mapper.</param>
-    /// <param name="logger">Injected Logger.</param>
-    /// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
-    public AuthenticationController(IMediator mediator, IMapper mapper, ILogger<AuthenticationController> logger, IExceptionHandlingService exceptionHandlingService)
-        : base(mediator, mapper, logger, exceptionHandlingService)
-    {
-    }
-
     /// <summary>
     /// Endpoint to register an user.
     /// </summary>

@@ -2,65 +2,89 @@
 // Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using System.Diagnostics;
-
 namespace SharedDefinitions.Domain.Common.DDD;
 
 /// <summary>
-/// An abstract class that should be implemented to represent an Value Object.
+/// An abstract class that should be implemented to represent a Value Object and provide equality comparison.
 /// </summary>
-public abstract class ValueObject : IEquatable<ValueObject>
+public abstract class ValueObject : IEqualityComparer<ValueObject>
 {
     /// <summary>
     /// Equality operator.
     /// </summary>
-    /// <param name="left">Left entity.</param>
-    /// <param name="right">Right entity.</param>
-    /// <returns>True if both entities have the same Ids.</returns>
+    /// <param name="left">Left value object.</param>
+    /// <param name="right">Right value object.</param>
+    /// <returns>True if both value objects are equal.</returns>
     public static bool operator ==(ValueObject left, ValueObject right)
     {
-        return Equals(left, right);
+        return left.Equals(right);
     }
 
     /// <summary>
-    /// Not Equal operator.
+    /// Inequality operator.
     /// </summary>
-    /// <param name="left">Left entity.</param>
-    /// <param name="right">Right entity.</param>
-    /// <returns>True if both entities have different Ids.</returns>
+    /// <param name="left">Left value object.</param>
+    /// <param name="right">Right value object.</param>
+    /// <returns>True if both value objects are not equal.</returns>
     public static bool operator !=(ValueObject left, ValueObject right)
     {
-        return !Equals(left, right);
+        return !left.Equals(right);
     }
 
     /// <summary>
-    /// Abstract method to get all properties from the value object to calculate equality.
-    /// Disclaimer: An value object is only equal when all of its properties have equal values.
+    /// Determines whether two objects of type T are equal.
     /// </summary>
-    /// <returns>Should be implemented to yield return propertyName for each property of the value object.</returns>
-    public abstract IEnumerable<object> GetEqualityComponents();
-
-    /// <inheritdoc/>
-    public override int GetHashCode()
+    /// <param name="x">The first object to compare.</param>
+    /// <param name="y">The second object to compare.</param>
+    /// <returns>true if the specified objects are equal; otherwise, false.</returns>
+    public bool Equals(ValueObject? x, ValueObject? y)
     {
-        return GetEqualityComponents().Select(x => x?.GetHashCode() ?? 0).Aggregate((x, y) => x ^ y);
-    }
+        if (ReferenceEquals(x, y))
+        {
+            return true;
+        }
 
-    /// <inheritdoc/>
-    public bool Equals(ValueObject? other)
-    {
-        return Equals((object?)other);
+        if (x is null || y is null)
+        {
+            return false;
+        }
+
+        return x.GetEqualityComponents().SequenceEqual(y.GetEqualityComponents());
     }
 
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
-        if (obj is null || obj.GetType() != GetType())
+        if (obj is ValueObject other)
         {
-            return false;
+            return Equals(this, other);
         }
 
-        var valueObject = (ValueObject)obj;
-        return GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
+        return false;
     }
+
+    /// <summary>
+    /// Returns a hash code for the specified object.
+    /// </summary>
+    /// <param name="obj">The object for which to get a hash code.</param>
+    /// <returns>A hash code for the specified object.</returns>
+    public int GetHashCode(ValueObject obj)
+    {
+        return obj.GetEqualityComponents()
+            .Select(x => x?.GetHashCode() ?? 0)
+            .Aggregate((x, y) => x ^ y);
+    }
+
+    /// <inheritdoc/>
+    public override int GetHashCode()
+    {
+        return GetHashCode(this);
+    }
+
+    /// <summary>
+    /// Abstract method to get all properties from the value object to calculate equality.
+    /// Disclaimer: A value object is only equal when all of its properties have equal values.
+    /// </summary>
+    /// <returns>Should be implemented to yield return propertyName for each property of the value object.</returns>
+    public abstract IEnumerable<object> GetEqualityComponents();
 }

@@ -14,19 +14,11 @@ namespace SharedDefinitions.Application.Common.Behaviors;
 /// </summary>
 /// <typeparam name="TRequest">The type of the incoming request contract.</typeparam>
 /// <typeparam name="TResponse">The type of the request's response contract.</typeparam>
-public class PipelineRequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+/// <param name="validators">Injected validators.</param>
+public class PipelineRequestValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
-    private readonly IEnumerable<IValidator<TRequest>> validators;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PipelineRequestValidationBehavior{TRequest, TResponse}"/> class.
-    /// </summary>
-    /// <param name="validators">Injected validators.</param>
-    public PipelineRequestValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
-    {
-        this.validators = validators;
-    }
+    private readonly IEnumerable<IValidator<TRequest>> validators = validators;
 
     /// <inheritdoc/>
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
@@ -46,14 +38,14 @@ public class PipelineRequestValidationBehavior<TRequest, TResponse> : IPipelineB
             .Distinct()
             .ToArray();
 
-        if (errors.Any())
+        if (errors.Length != 0)
         {
             return (TResponse)typeof(Result<>)
                 .GetGenericTypeDefinition()
                 .MakeGenericType(typeof(TResponse).GenericTypeArguments[0])
                 .GetMethods()
                 .First(x => x.Name == "WithErrors")
-                .Invoke(Activator.CreateInstance(typeof(TResponse)), new object?[] { errors })!;
+                .Invoke(Activator.CreateInstance(typeof(TResponse)), [errors])!;
         }
 
         return await next();

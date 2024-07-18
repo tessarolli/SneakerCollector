@@ -232,10 +232,10 @@ public class UsersCommandAndQueriesTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
         result.Value.Should().HaveCount(1);
-        result.Value.First().FirstName.Should().Be("John");
-        result.Value.First().LastName.Should().Be("Doe");
-        result.Value.First().Email.Should().Be("john.doe@example.com");
-        result.Value.First().Role.Should().Be((int)Roles.Admin);
+        result.Value[0].FirstName.Should().Be("John");
+        result.Value[0].LastName.Should().Be("Doe");
+        result.Value[0].Email.Should().Be("john.doe@example.com");
+        result.Value[0].Role.Should().Be((int)Roles.Admin);
     }
 
     [Fact]

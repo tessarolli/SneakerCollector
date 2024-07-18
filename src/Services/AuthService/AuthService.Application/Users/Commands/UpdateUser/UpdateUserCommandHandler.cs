@@ -15,21 +15,15 @@ namespace AuthService.Application.Users.Commands.UpdateUser;
 /// <summary>
 /// Mediator Handler for the <see cref="UpdateUserCommand"/>.
 /// </summary>
-public class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, UserDto>
+/// <param name="userRepository">Injected _userRepository.</param>
+/// <param name="passwordHasher">Injected _passwordHasher.</param>
+public class UpdateUserCommandHandler(
+    IUserRepository userRepository,
+    IPasswordHashingService passwordHasher)
+    : ICommandHandler<UpdateUserCommand, UserDto>
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IPasswordHashingService _passwordHasher;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UpdateUserCommandHandler"/> class.
-    /// </summary>
-    /// <param name="userRepository">Injected _userRepository.</param>
-    /// <param name="passwordHasher">Injected _passwordHasher.</param>
-    public UpdateUserCommandHandler(IUserRepository userRepository, IPasswordHashingService passwordHasher)
-    {
-        _userRepository = userRepository;
-        _passwordHasher = passwordHasher;
-    }
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly IPasswordHashingService _passwordHasher = passwordHasher;
 
     /// <inheritdoc/>
     public async Task<Result<UserDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)

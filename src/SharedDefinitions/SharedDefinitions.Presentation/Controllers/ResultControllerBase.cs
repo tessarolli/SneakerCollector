@@ -108,7 +108,7 @@ public class ResultControllerBase<TController>(
 
         Logger.LogInformation("Request Failure with message(s):\n{ErrorMessages}", errorMessages);
 
-        var status = GetStatusCode(result);
+        var status = ResultControllerBase<TController>.GetStatusCode(result);
 
         var problemDetails = new ProblemDetails
         {
@@ -116,7 +116,7 @@ public class ResultControllerBase<TController>(
             Status = status.Item1,
             Title = status.Item2,
             Detail = "One or more erros ocurred.",
-            Type = $"https://httpstatuses.com/{GetStatusCode(result)}",
+            Type = $"https://httpstatuses.com/{ResultControllerBase<TController>.GetStatusCode(result)}",
             Extensions = { { "errors", errorMessages } },
         };
 
@@ -124,6 +124,37 @@ public class ResultControllerBase<TController>(
         {
             StatusCode = problemDetails.Status,
         };
+    }
+
+    /// <summary>
+    /// Get Http Status Code from Result.
+    /// </summary>
+    /// <typeparam name="T">Result Type.</typeparam>
+    /// <param name="result">instance.</param>
+    /// <returns>Http Status code.</returns>
+    private static (int, string) GetStatusCode<T>(Result<T> result)
+    {
+        if (result.HasError<ValidationError>())
+        {
+            return (400, "Validation Error");
+        }
+
+        if (result.HasError<UnauthorizedError>())
+        {
+            return (403, "You dont have permission to access this resource.");
+        }
+
+        if (result.HasError<NotFoundError>())
+        {
+            return (404, "Resource Not Found.");
+        }
+
+        if (result.HasError<ConflictError>())
+        {
+            return (409, "A resource with the same content already exists.");
+        }
+
+        return (500, "Internal Server Error");
     }
 
     private object CreateCommandFromRequest<TCommandOrQuery>(object? request)
@@ -147,36 +178,5 @@ public class ResultControllerBase<TController>(
         return typeof(TDto) == typeof(Result)
             ? await _mediator.Send((IRequest<Result>)command)
             : await _mediator.Send((IRequest<Result<TDto>>)command);
-    }
-
-    /// <summary>
-    /// Get Http Status Code from Result.
-    /// </summary>
-    /// <typeparam name="T">Result Type.</typeparam>
-    /// <param name="result">instance.</param>
-    /// <returns>Http Status code.</returns>
-    private (int, string) GetStatusCode<T>(Result<T> result)
-    {
-        if (result.HasError<ValidationError>())
-        {
-            return (400, "Validation Error");
-        }
-
-        if (result.HasError<UnauthorizedError>())
-        {
-            return (403, "You dont have permission to access this resource.");
-        }
-
-        if (result.HasError<NotFoundError>())
-        {
-            return (404, "Resource Not Found.");
-        }
-
-        if (result.HasError<ConflictError>())
-        {
-            return (409, "A resource with the same content already exists.");
-        }
-
-        return (500, "Internal Server Error");
     }
 }

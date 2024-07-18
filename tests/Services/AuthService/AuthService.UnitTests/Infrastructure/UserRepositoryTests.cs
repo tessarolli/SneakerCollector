@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Data;
 using System.Data.Common;
-using AuthService.Application.Abstractions.Repositories;
 using SharedDefinitions.Domain.Common.Abstractions;
 using AuthService.Contracts.Enums;
 using AuthService.Domain.Users;
@@ -14,7 +13,7 @@ namespace AuthService.UnitTests.Infrastructure;
 
 public class UserRepositoryTests
 {
-    private readonly IUserRepository _userRepository;
+    private readonly UserRepository _userRepository;
     private readonly IDapperUtility _dapper;
 
     public UserRepositoryTests()
@@ -58,7 +57,7 @@ public class UserRepositoryTests
         _dapper.QueryAsync<UserDb>(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>()).Returns(expectedUsers);
 
         // Act
-        var result = await _userRepository.GetByIdsAsync(new long[] { 1, 2 });
+        var result = await _userRepository.GetByIdsAsync([1, 2]);
 
         // Assert
         result.Should().NotBeNull();

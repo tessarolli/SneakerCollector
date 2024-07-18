@@ -21,15 +21,9 @@ public static class ExceptionExtensions
     /// <returns>A pretty text message.</returns>
     public static string GetPrettyMessage(this Exception ex, ILogger logger)
     {
-        string msg;
-
-        if (ex.InnerException != null && ex.InnerException is SocketException)
-        {
-            msg = "There was a problem connecting to the database.";
-        }
-        else
-        {
-            msg = ex switch
+        var msg = ex.InnerException is SocketException
+            ? "There was a problem connecting to the database."
+            : ex switch
             {
                 NpgsqlException npgsqlException when npgsqlException.SqlState == "23505" => "The record already exists.",
                 NpgsqlException npgsqlException when npgsqlException.SqlState == "23503" => "A required foreign key value does not exist.",
@@ -41,9 +35,8 @@ public static class ExceptionExtensions
                 TimeoutException => "The operation timed out.",
                 _ => "An error occurred while executing a database operation."
             };
-        }
 
-        logger.LogError(ex, "{ex}", msg);
+        logger.LogError(ex, "{Msg}", msg);
 
         return msg;
     }

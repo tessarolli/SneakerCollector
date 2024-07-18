@@ -21,27 +21,17 @@ namespace ProductService.Infrastructure.Repositories;
 /// <summary>
 /// The shoeDb Repository Implementation.
 /// </summary>
-public class ShoeRepository : IShoeRepository
+/// <param name="dapperUtility">IDapperUtility to inject.</param>
+/// <param name="logger">ILogger to inject.</param>
+/// <param name="dapr">DaprClient to inject.</param>
+public class ShoeRepository(
+    IDapperUtility dapperUtility,
+    ILogger<ShoeRepository> logger,
+    DaprClient dapr) : IShoeRepository
 {
-    private readonly IDapperUtility _db;
-    private readonly DaprClient _dapr;
-    private readonly ILogger _logger;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ShoeRepository"/> class.
-    /// </summary>
-    /// <param name="dapperUtility">IDapperUtility to inject.</param>
-    /// <param name="logger">ILogger to inject.</param>
-    /// <param name="dapr">DaprClient to inject.</param>
-    public ShoeRepository(
-        IDapperUtility dapperUtility,
-        ILogger<ShoeRepository> logger,
-        DaprClient dapr)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _db = dapperUtility ?? throw new ArgumentNullException(nameof(dapperUtility));
-        _dapr = dapr ?? throw new ArgumentNullException(nameof(dapr));
-    }
+    private readonly IDapperUtility _db = dapperUtility ?? throw new ArgumentNullException(nameof(dapperUtility));
+    private readonly DaprClient _dapr = dapr ?? throw new ArgumentNullException(nameof(dapr));
+    private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     /// <inheritdoc/>
     public async Task<Result<Shoe>> GetByIdAsync(ShoeId id, DbTransaction? transaction = null)
