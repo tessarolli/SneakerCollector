@@ -1,10 +1,10 @@
 ﻿// <copyright file="InvalidPasswordError.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.SharedDefinitions.Application.Common.Errors;
+using SharedDefinitions.Application.Common.Errors;
 
-namespace SneakerCollector.Services.AuthService.Application.Authentication.Errors;
+namespace AuthService.Application.Authentication.Errors;
 
 /// <summary>
 /// Invalid Password error.

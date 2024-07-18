@@ -1,8 +1,8 @@
 ﻿// <copyright file="AggregateRoot.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.SharedDefinitions.Domain.Common.DDD;
+namespace SharedDefinitions.Domain.Common.DDD;
 
 /// <summary>
 /// Base class for Aggregate Roots.

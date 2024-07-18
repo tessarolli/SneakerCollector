@@ -1,13 +1,13 @@
 ﻿// <copyright file="GetUsersListQueryHandler.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Application.Abstractions.Repositories;
+using AuthService.Application.Users.Dtos;
 using FluentResults;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.AuthService.Application.Users.Dtos;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Messaging;
+using SharedDefinitions.Application.Abstractions.Messaging;
 
-namespace SneakerCollector.Services.AuthService.Application.Users.Queries.GetUsersList;
+namespace AuthService.Application.Users.Queries.GetUsersList;
 
 /// <summary>
 /// Mediator Handler for the <see cref="GetUsersListQuery"/>.

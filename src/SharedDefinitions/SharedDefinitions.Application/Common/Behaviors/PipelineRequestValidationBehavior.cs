@@ -1,13 +1,13 @@
 ﻿// <copyright file="PipelineRequestValidationBehavior.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.SharedDefinitions.Domain.Common;
 using FluentResults;
 using FluentValidation;
 using MediatR;
+using SharedDefinitions.Domain.Common;
 
-namespace SneakerCollector.SharedDefinitions.Application.Common.Behaviors;
+namespace SharedDefinitions.Application.Common.Behaviors;
 
 /// <summary>
 /// Provides a generic Validation Behavior for incoming requests.
@@ -53,7 +53,7 @@ public class PipelineRequestValidationBehavior<TRequest, TResponse> : IPipelineB
                 .MakeGenericType(typeof(TResponse).GenericTypeArguments[0])
                 .GetMethods()
                 .First(x => x.Name == "WithErrors")
-                .Invoke(Activator.CreateInstance(typeof(TResponse)), new object?[] { errors }) !;
+                .Invoke(Activator.CreateInstance(typeof(TResponse)), new object?[] { errors })!;
         }
 
         return await next();

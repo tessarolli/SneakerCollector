@@ -1,10 +1,10 @@
 ﻿// <copyright file="ValueObject.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using System.Diagnostics;
 
-namespace SneakerCollector.SharedDefinitions.Domain.Common.DDD;
+namespace SharedDefinitions.Domain.Common.DDD;
 
 /// <summary>
 /// An abstract class that should be implemented to represent an Value Object.

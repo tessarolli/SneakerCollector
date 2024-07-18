@@ -1,10 +1,10 @@
 ﻿// <copyright file="AuthenticationResult.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.Services.AuthService.Domain.Users;
+using AuthService.Domain.Users;
 
-namespace SneakerCollector.Services.AuthService.Application.Authentication.Results;
+namespace AuthService.Application.Authentication.Results;
 
 /// <summary>
 /// Contract for an Authentication Result response.

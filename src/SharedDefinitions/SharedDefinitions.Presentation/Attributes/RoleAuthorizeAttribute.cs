@@ -1,12 +1,11 @@
 ﻿// <copyright file="RoleAuthorizeAttribute.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-
+using AuthService.Contracts.Enums;
 using Microsoft.AspNetCore.Authorization;
-using SneakerCollector.Services.AuthService.Contracts.Enums;
 
-namespace SneakerCollector.SharedDefinitions.Presentation.Attributes;
+namespace SharedDefinitions.Presentation.Attributes;
 
 /// <summary>
 /// Role Based Authorization support.
@@ -20,7 +19,7 @@ public class RoleAuthorizeAttribute : AuthorizeAttribute
     /// </summary>
     public RoleAuthorizeAttribute()
     {
-        Roles = string.Join(',', Enum.GetNames(typeof(Roles)).ToArray());
+        Roles = string.Join(',', Enum.GetNames(typeof(Roles)));
     }
 
     /// <summary>

@@ -1,8 +1,8 @@
 ﻿// <copyright file="AuthenticatedUserDto.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.SharedDefinitions.Application.Dtos;
+namespace SharedDefinitions.Application.Dtos;
 
 /// <summary>
 /// Data Transfer Object for the Authenticated user.

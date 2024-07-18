@@ -1,29 +1,25 @@
 ﻿// <copyright file="DeleteUserCommandHandler.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Application.Abstractions.Repositories;
+using AuthService.Domain.Users.ValueObjects;
 using FluentResults;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.AuthService.Domain.Users.ValueObjects;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Messaging;
+using SharedDefinitions.Application.Abstractions.Messaging;
 
-namespace SneakerCollector.Services.AuthService.Application.Users.Commands.DeleteUser;
+namespace AuthService.Application.Users.Commands.DeleteUser;
 
 /// <summary>
 /// Mediator Handler for the <see cref="DeleteUserCommand"/>.
 /// </summary>
-public class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand>
+/// <remarks>
+/// Initializes a new instance of the <see cref="DeleteUserCommandHandler"/> class.
+/// </remarks>
+/// <param name="userRepository">Injected UserRepository.</param>
+public class DeleteUserCommandHandler(IUserRepository userRepository)
+    : ICommandHandler<DeleteUserCommand>
 {
-    private readonly IUserRepository _userRepository;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DeleteUserCommandHandler"/> class.
-    /// </summary>
-    /// <param name="userRepository">Injected UserRepository.</param>
-    public DeleteUserCommandHandler(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
+    private readonly IUserRepository _userRepository = userRepository;
 
     /// <inheritdoc/>
     public async Task<Result> Handle(DeleteUserCommand request, CancellationToken cancellationToken)

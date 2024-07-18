@@ -1,12 +1,12 @@
 ﻿// <copyright file="AuthenticationResponseMappingConfig.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Application.Authentication.Results;
+using AuthService.Contracts.Authentication;
 using Mapster;
-using SneakerCollector.Services.AuthService.Application.Authentication.Results;
-using SneakerCollector.Services.AuthService.Contracts.Authentication;
 
-namespace SneakerCollector.Services.AuthService.API.Mappings;
+namespace AuthService.API.Mappings;
 
 /// <summary>
 /// Authentication Mapster Config Mapping.

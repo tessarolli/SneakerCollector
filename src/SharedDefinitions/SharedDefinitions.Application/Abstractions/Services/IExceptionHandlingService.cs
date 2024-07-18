@@ -1,11 +1,11 @@
 ﻿// <copyright file="IExceptionHandlingService.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentResults;
 using Microsoft.Extensions.Logging;
 
-namespace SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
+namespace SharedDefinitions.Application.Abstractions.Services;
 
 /// <summary>
 /// Exception Handling Interface.

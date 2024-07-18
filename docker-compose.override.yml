@@ -45,34 +45,6 @@ services:
       - dapr-placement
       - redis
 
-  discount-service-api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=80
-    ports:
-      - "5020:80"
-      - "50021:50001" # Dapr instances communicate over gRPC so we need to expose the gRPC port
-      - "3520:3500" # Dapr sidecar port
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-  discount-service-api-dapr:
-    command: [
-      "./daprd",
-      "-app-id", "discount-service-api",
-      "-app-port", "80",
-      "-placement-host-address", "dapr-placement:50000",
-      "-components-path", "/components",
-      "-config", "/configuration/config.yaml",
-      "-log-level", "debug"
-    ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - dapr-placement
-      - redis
-
   product-service-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

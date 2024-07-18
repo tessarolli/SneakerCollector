@@ -1,10 +1,10 @@
 ﻿// <copyright file="UpdateUserCommandValidator.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentValidation;
 
-namespace SneakerCollector.Services.AuthService.Application.Users.Commands.UpdateUser;
+namespace AuthService.Application.Users.Commands.UpdateUser;
 
 /// <summary>
 /// Validator for the <see cref="UpdateUserCommand"/>.

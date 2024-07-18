@@ -1,34 +1,24 @@
 ﻿// <copyright file="DependencyInjection.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using System;
-using System.Data;
-using System.Data.Common;
 using System.Text;
-using Dapr.Client;
-using Dapr.Extensions.Configuration;
-using Google.Api;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Npgsql;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Infrastructure.Abstractions;
+using SharedDefinitions.Infrastructure.Authentication;
 using SharedDefinitions.Infrastructure.Services;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
-using SneakerCollector.SharedDefinitions.Infrastructure.Abstractions;
-using SneakerCollector.SharedDefinitions.Infrastructure.Authentication;
-using SneakerCollector.SharedDefinitions.Infrastructure.Services;
-using SneakerCollector.SharedDefinitions.Infrastructure.Utilities;
+using SharedDefinitions.Infrastructure.Utilities;
 
-namespace SneakerCollector.SharedDefinitions.Infrastructure;
+namespace SharedDefinitions.Infrastructure;
 
 /// <summary>
 /// Dependency Injection.
@@ -53,8 +43,6 @@ public static class DependencyInjection
         builder.Services.AddDaprClient();
 
         builder.Services.AddScoped<IExceptionHandlingService, ExceptionHandlingService>();
-
-        builder.Services.AddScoped<ICacheService, DaprCacheService>();
 
         return builder.Services;
     }
@@ -94,7 +82,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IDapperUtility, DapperUtility>();
 
-        services.AddScoped(typeof(ISqlConnectionFactory<>), typeof(PostgresSqlConnectionFactory<>));
+        services.AddScoped(typeof(ISqlConnectionFactory<>), typeof(PostgresSqlConnectionFactory));
 
         return services;
     }

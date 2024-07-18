@@ -1,11 +1,11 @@
 ﻿// <copyright file="ICommandHandler.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentResults;
 using MediatR;
 
-namespace SneakerCollector.SharedDefinitions.Application.Abstractions.Messaging;
+namespace SharedDefinitions.Application.Abstractions.Messaging;
 
 /// <summary>
 /// ICommandHandler Interface.

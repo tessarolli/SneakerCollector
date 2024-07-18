@@ -1,13 +1,11 @@
 ﻿// <copyright file="RegisterCommand.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.Services.AuthService.Application.Authentication.Results;
-using FluentResults;
-using MediatR;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Messaging;
+using AuthService.Application.Authentication.Results;
+using SharedDefinitions.Application.Abstractions.Messaging;
 
-namespace SneakerCollector.Services.AuthService.Application.Authentication.Commands.Register;
+namespace AuthService.Application.Authentication.Commands.Register;
 
 /// <summary>
 /// Contract for the Register Command

@@ -1,16 +1,15 @@
 ﻿// <copyright file="DependencyInjection.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.SharedDefinitions.Application;
-using SneakerCollector.SharedDefinitions.Application.Common.Behaviors;
+using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
+using SharedDefinitions.Application;
+using SharedDefinitions.Application.Common.Behaviors;
 
-namespace SneakerCollector.SharedDefinitions.Application;
+namespace SharedDefinitions.Application;
 
 /// <summary>
 /// Provides support for Dependency Injection.

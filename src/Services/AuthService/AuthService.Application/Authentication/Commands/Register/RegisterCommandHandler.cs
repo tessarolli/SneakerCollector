@@ -1,18 +1,18 @@
 ﻿// <copyright file="RegisterCommandHandler.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Application.Abstractions.Authentication;
+using AuthService.Application.Abstractions.Repositories;
+using AuthService.Application.Authentication.Errors;
+using AuthService.Application.Authentication.Results;
+using AuthService.Domain.Users;
 using FluentResults;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Authentication;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.AuthService.Application.Authentication.Errors;
-using SneakerCollector.Services.AuthService.Application.Authentication.Results;
-using SneakerCollector.Services.AuthService.Domain.Users;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Messaging;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
-using SneakerCollector.SharedDefinitions.Application.Common.Errors;
+using SharedDefinitions.Application.Abstractions.Messaging;
+using SharedDefinitions.Application.Common.Errors;
+using SharedDefinitions.Domain.Common.Abstractions;
 
-namespace SneakerCollector.Services.AuthService.Application.Authentication.Commands.Register;
+namespace AuthService.Application.Authentication.Commands.Register;
 
 /// <summary>
 /// The implementation for the Register Command.

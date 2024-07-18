@@ -1,44 +1,41 @@
 ﻿// <copyright file="UsersController.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Application.Users.Commands.AddUser;
+using AuthService.Application.Users.Commands.DeleteUser;
+using AuthService.Application.Users.Commands.UpdateUser;
+using AuthService.Application.Users.Dtos;
+using AuthService.Application.Users.Queries.GetUserById;
+using AuthService.Application.Users.Queries.GetUsersList;
+using AuthService.Contracts.Enums;
+using AuthService.Contracts.User.Requests;
+using AuthService.Contracts.User.Responses;
 using FluentResults;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SneakerCollector.Services.AuthService.Application.Users.Commands.AddUser;
-using SneakerCollector.Services.AuthService.Application.Users.Commands.DeleteUser;
-using SneakerCollector.Services.AuthService.Application.Users.Commands.UpdateUser;
-using SneakerCollector.Services.AuthService.Application.Users.Dtos;
-using SneakerCollector.Services.AuthService.Application.Users.Queries.GetUserById;
-using SneakerCollector.Services.AuthService.Application.Users.Queries.GetUsersList;
-using SneakerCollector.Services.AuthService.Contracts.Enums;
-using SneakerCollector.Services.AuthService.Contracts.User.Requests;
-using SneakerCollector.Services.AuthService.Contracts.User.Responses;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
-using SneakerCollector.SharedDefinitions.Presentation.Attributes;
-using SneakerCollector.SharedDefinitions.Presentation.Controllers;
+using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Presentation.Attributes;
+using SharedDefinitions.Presentation.Controllers;
 
-namespace SneakerCollector.Services.AuthService.API.Controllers;
+namespace AuthService.API.Controllers;
 
 /// <summary>
 /// Users Controller.
 /// </summary>
+/// <param name="mediator">Injected _mediator.</param>
+/// <param name="mapper">Injected _mapper.</param>
+/// <param name="logger">Injected Logger.</param>
+/// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
 [Route("[controller]")]
-public class UsersController : ResultControllerBase<UsersController>
+public class UsersController(
+    IMediator mediator,
+    IMapper mapper,
+    ILogger<UsersController> logger,
+    IExceptionHandlingService exceptionHandlingService)
+    : ResultControllerBase<UsersController>(mediator, mapper, logger, exceptionHandlingService)
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UsersController"/> class.
-    /// </summary>
-    /// <param name="mediator">Injected _mediator.</param>
-    /// <param name="mapper">Injected _mapper.</param>
-    /// <param name="logger">Injected _logger.</param>
-    /// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
-    public UsersController(IMediator mediator, IMapper mapper, ILogger<UsersController> logger, IExceptionHandlingService exceptionHandlingService)
-        : base(mediator, mapper, logger, exceptionHandlingService)
-    {
-    }
-
     /// <summary>
     /// Gets a list of Users.
     /// </summary>

@@ -1,17 +1,17 @@
 ﻿// <copyright file="JwtTokenGenerator.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AuthService.Application.Abstractions.Authentication;
+using AuthService.Domain.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Authentication;
-using SneakerCollector.Services.AuthService.Domain.Users;
-using SneakerCollector.SharedDefinitions.Infrastructure.Authentication;
+using SharedDefinitions.Infrastructure.Authentication;
 
-namespace SneakerCollector.Services.AuthService.Infrastructure.Authentication;
+namespace AuthService.Infrastructure.Authentication;
 
 /// <summary>
 /// Jwt Token Generator.

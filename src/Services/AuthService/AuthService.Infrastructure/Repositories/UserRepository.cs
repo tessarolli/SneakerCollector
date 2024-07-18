@@ -1,58 +1,47 @@
 ﻿// <copyright file="UserRepository.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using System.Data;
-using System.Data.Common;
+using AuthService.Application.Abstractions.Repositories;
+using AuthService.Contracts.Enums;
+using AuthService.Domain.Users;
+using AuthService.Domain.Users.ValueObjects;
+using AuthService.Infrastructure.Dtos;
 using FluentResults;
 using Microsoft.Extensions.Logging;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.AuthService.Contracts.Enums;
-using SneakerCollector.Services.AuthService.Domain.Users;
-using SneakerCollector.Services.AuthService.Domain.Users.ValueObjects;
-using SneakerCollector.Services.AuthService.Infrastructure.Dtos;
-using SneakerCollector.SharedDefinitions.Application.Common.Errors;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
-using SneakerCollector.SharedDefinitions.Infrastructure.Abstractions;
+using SharedDefinitions.Application.Common.Errors;
+using SharedDefinitions.Domain.Common.Abstractions;
+using SharedDefinitions.Infrastructure.Abstractions;
 
-namespace SneakerCollector.Services.AuthService.Infrastructure.Repositories;
+namespace AuthService.Infrastructure.Repositories;
 
 /// <summary>
 /// The User Repository.
 /// </summary>
-public class UserRepository : IUserRepository
+/// <param name="dapperUtility">IDapperUtility to inject.</param>
+/// <param name="passwordHasher">IPasswordHashingService to inject.</param>
+/// <param name="logger">ILogger to inject.</param>
+public class UserRepository(IDapperUtility dapperUtility, ILogger<UserRepository> logger, IPasswordHashingService passwordHasher) : IUserRepository
 {
-    private readonly ILogger _logger;
-    private readonly IPasswordHashingService _passwordHasher;
-    private readonly IDapperUtility _db;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UserRepository"/> class.
-    /// </summary>
-    /// <param name="dapperUtility">IDapperUtility to inject.</param>
-    /// <param name="passwordHasher">IPasswordHashingService to inject.</param>
-    /// <param name="logger">ILogger to inject.</param>
-    public UserRepository(IDapperUtility dapperUtility, ILogger<UserRepository> logger, IPasswordHashingService passwordHasher)
-    {
-        _logger = logger;
-        _passwordHasher = passwordHasher;
-        _db = dapperUtility;
-    }
+    private readonly ILogger _logger = logger;
+    private readonly IPasswordHashingService _passwordHasher = passwordHasher;
+    private readonly IDapperUtility _db = dapperUtility;
 
     /// <inheritdoc/>
     public async Task<Result<User>> GetByIdAsync(long id)
     {
         var sql = "SELECT * FROM users WHERE id = @id";
 
-        var UserDB = await _db.QueryFirstOrDefaultAsync<UserDb>(sql, new { id });
+        var user = await _db.QueryFirstOrDefaultAsync<UserDb>(sql, new { id });
 
-        return CreateUserResultFromUserDB(UserDB);
+        return CreateUserResultFromUserDB(user);
     }
 
     /// <inheritdoc/>
     public async Task<List<User>> GetByIdsAsync(long[] ids)
     {
-        _logger.LogInformation("UserRepository.GetByIdsAsync({email})", string.Join(',', ids));
+        _logger.LogInformation("UserRepository.GetByIdsAsync({Email})", string.Join(',', ids));
 
         var sql = "SELECT * FROM users WHERE id = ANY(@ids)";
 
@@ -61,9 +50,9 @@ public class UserRepository : IUserRepository
             ids,
         };
 
-        var UserDBs = await _db.QueryAsync<UserDb>(sql, new { ids });
+        var users = await _db.QueryAsync<UserDb>(sql, parameters);
 
-        return UserDBs
+        return users
             .Select(CreateUserResultFromUserDB)
             .Where(x => x.IsSuccess)
             .Select(x => x.Value)
@@ -75,9 +64,9 @@ public class UserRepository : IUserRepository
     {
         var sql = "SELECT * FROM users";
 
-        var UserDBs = await _db.QueryAsync<UserDb>(sql, null);
+        var users = await _db.QueryAsync<UserDb>(sql, null);
 
-        return UserDBs
+        return users
             .Select(CreateUserResultFromUserDB)
             .Where(x => x.IsSuccess)
             .Select(x => x.Value)
@@ -87,13 +76,13 @@ public class UserRepository : IUserRepository
     /// <inheritdoc/>
     public async Task<Result<User>> GetByEmailAsync(string email)
     {
-        _logger.LogInformation("UserRepository.GetByEmailAsync({email})", email);
+        _logger.LogInformation("UserRepository.GetByEmailAsync({Email})", email);
 
         var sql = "SELECT * FROM users WHERE email = @email";
 
-        var UserDB = await _db.QueryFirstOrDefaultAsync<UserDb>(sql, new { email });
+        var user = await _db.QueryFirstOrDefaultAsync<UserDb>(sql, new { email });
 
-        return CreateUserResultFromUserDB(UserDB);
+        return CreateUserResultFromUserDB(user);
     }
 
     /// <inheritdoc/>

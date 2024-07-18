@@ -1,16 +1,16 @@
 ﻿// <copyright file="IPostgresSqlConnectionFactory.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using Npgsql;
 using System.Data.Common;
 
-namespace SneakerCollector.SharedDefinitions.Infrastructure.Abstractions;
+namespace SharedDefinitions.Infrastructure.Abstractions;
 
 /// <summary>
 /// Defines the Factory method for Creating a Connection to a RDBMS.
 /// </summary>
-public interface ISqlConnectionFactory<T>
+/// <typeparam name="T">The Type of the connection.</typeparam>
+public interface ISqlConnectionFactory<out T>
     where T : DbConnection
 {
     /// <summary>

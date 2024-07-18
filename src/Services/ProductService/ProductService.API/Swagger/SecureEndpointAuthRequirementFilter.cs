@@ -1,12 +1,12 @@
 ﻿// <copyright file="SecureEndpointAuthRequirementFilter.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace SneakerCollector.Services.ProductService.API.Swagger;
+namespace ProductService.API.Swagger;
 
 /// <summary>
 /// Requirement Filter for the Swagger UI to add Authorization.
@@ -30,9 +30,10 @@ internal class SecureEndpointAuthRequirementFilter : IOperationFilter
             return;
         }
 
-        operation.Security = new List<OpenApiSecurityRequirement>
-        {
-            new() {
+        operation.Security =
+        [
+            new()
+            {
                 [
                     new OpenApiSecurityScheme
                     {
@@ -42,8 +43,9 @@ internal class SecureEndpointAuthRequirementFilter : IOperationFilter
                             Id = "Token",
                         },
                     }
-                ] = new List<string>(),
+
+                ] = [],
             },
-        };
+        ];
     }
 }

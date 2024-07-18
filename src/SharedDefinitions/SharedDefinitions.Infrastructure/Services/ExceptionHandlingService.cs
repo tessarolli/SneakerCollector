@@ -1,15 +1,15 @@
 ﻿// <copyright file="ExceptionHandlingService.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using System.Net.Sockets;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
-using SneakerCollector.SharedDefinitions.Application.Common.Errors;
 using FluentResults;
 using Microsoft.Extensions.Logging;
 using Npgsql;
+using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Application.Common.Errors;
 
-namespace SneakerCollector.SharedDefinitions.Infrastructure.Services;
+namespace SharedDefinitions.Infrastructure.Services;
 
 /// <summary>
 /// Exception Handling Service.
@@ -19,15 +19,9 @@ public class ExceptionHandlingService : IExceptionHandlingService
     /// <inheritdoc/>
     public Result HandleException(Exception exception, ILogger? logger = null)
     {
-        Error msg;
-
-        if (exception.InnerException != null && exception.InnerException is SocketException)
-        {
-            msg = new Error("A network connectivity problem occurred while trying to contact an external service required to handle this request.");
-        }
-        else
-        {
-            msg = exception switch
+        Error msg = exception?.InnerException is SocketException
+            ? new Error("A network connectivity problem occurred while trying to contact an external service required to handle this request.")
+            : exception switch
             {
                 NpgsqlException npgsqlException when npgsqlException.SqlState == "23505" => new ConflictError("A record with the same key already exists."),
                 NpgsqlException npgsqlException when npgsqlException.SqlState == "23503" => new NotFoundError("The required relation does not exist."),
@@ -47,9 +41,8 @@ public class ExceptionHandlingService : IExceptionHandlingService
                 KeyNotFoundException => new NotFoundError("The provided key was not found."),
                 _ => new Error("An unexpected error occurred on our end. We are looking into it. In the mean time, try the request again.")
             };
-        }
 
-        logger?.LogError(exception, "{ex}", msg);
+        logger?.LogError(exception, "{Ex}", msg);
 
         return Result.Fail(msg);
     }

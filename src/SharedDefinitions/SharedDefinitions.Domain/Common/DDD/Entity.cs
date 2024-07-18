@@ -1,61 +1,26 @@
 ﻿// <copyright file="Entity.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using System.Diagnostics.CodeAnalysis;
 using FluentResults;
 using FluentValidation;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
+using SharedDefinitions.Domain.Common.Abstractions;
 
-namespace SneakerCollector.SharedDefinitions.Domain.Common.DDD;
+namespace SharedDefinitions.Domain.Common.DDD;
 
 /// <summary>
 /// An abstract class that should be implemented to represent an Entity of the Domain.
 /// </summary>
 /// <typeparam name="TId">The Type of the Id value object.</typeparam>
-public abstract class Entity<TId> : IEntity, IEquatable<Entity<TId>>
+/// <param name="id">Entity Id.</param>
+public abstract class Entity<TId>(TId id) : IEntity, IEqualityComparer<Entity<TId>>
     where TId : notnull
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="Entity{TId}"/> class.
-    /// </summary>
-    /// <param name="id">Entity Id.</param>
-    protected Entity(TId id)
-    {
-        Id = id;
-    }
-
-    /// <summary>
     /// Gets or sets the Identificator of this entity.
     /// </summary>
-    public TId Id { get; protected set; }
-
-    /// <summary>
-    /// Equality operator.
-    /// </summary>
-    /// <param name="left">Left entity.</param>
-    /// <param name="right">Right entity.</param>
-    /// <returns>True if both entities have the same Ids.</returns>
-    public static bool operator ==(Entity<TId> left, Entity<TId> right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    /// Not Equal operator.
-    /// </summary>
-    /// <param name="left">Left entity.</param>
-    /// <param name="right">Right entity.</param>
-    /// <returns>True if both entities have different Ids.</returns>
-    public static bool operator !=(Entity<TId> left, Entity<TId> right)
-    {
-        return !Equals(left, right);
-    }
-
-    /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        return Id.GetHashCode();
-    }
+    public TId Id { get; protected set; } = id;
 
     /// <inheritdoc/>
     public override bool Equals(object? obj)
@@ -64,9 +29,26 @@ public abstract class Entity<TId> : IEntity, IEquatable<Entity<TId>>
     }
 
     /// <inheritdoc/>
-    public bool Equals(Entity<TId>? other)
+    public bool Equals(Entity<TId>? x, Entity<TId>? y)
     {
-        return Equals((object?)other);
+        if (x is null || y is null)
+        {
+            return false;
+        }
+
+        return x.Id.Equals(y.Id);
+    }
+
+    /// <inheritdoc/>
+    public int GetHashCode([DisallowNull] Entity<TId> obj)
+    {
+        return Id.GetHashCode();
+    }
+
+    /// <inheritdoc/>
+    public override int GetHashCode()
+    {
+        return Id.GetHashCode();
     }
 
     /// <inheritdoc/>

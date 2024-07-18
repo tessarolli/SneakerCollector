@@ -1,36 +1,21 @@
 ﻿// <copyright file="UserId.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.SharedDefinitions.Domain.Common.DDD;
+using SharedDefinitions.Domain.Common.DDD;
 
-namespace SneakerCollector.Services.AuthService.Domain.Users.ValueObjects;
+namespace AuthService.Domain.Users.ValueObjects;
 
 /// <summary>
 /// User Id Value Object.
 /// </summary>
-public sealed class UserId : ValueObject
+/// <param name="id">Id value if exists.</param>
+public sealed class UserId(long? id = null) : ValueObject
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UserId"/> class.
-    /// </summary>
-    /// <param name="id">Id value if exists.</param>
-    public UserId(long? id = null)
-    {
-        if (id is null)
-        {
-            Value = 0;
-        }
-        else
-        {
-            Value = id.Value;
-        }
-    }
-
     /// <summary>
     /// Gets the User ID.
     /// </summary>
-    public long Value { get; }
+    public long Value { get; } = id ?? 0;
 
     /// <summary>
     /// Method required for comparing value objects.

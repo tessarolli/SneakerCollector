@@ -1,19 +1,12 @@
 ﻿// <copyright file="DependencyInjection.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
+using AuthService.Application.Abstractions.Authentication;
+using AuthService.Infrastructure.Authentication;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Authentication;
-using SneakerCollector.Services.AuthService.Infrastructure.Authentication;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
 
-namespace SneakerCollector.AuthService.Infrastructure;
+namespace AuthService.Infrastructure;
 
 /// <summary>
 /// Dependency Injection.

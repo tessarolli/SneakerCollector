@@ -1,11 +1,11 @@
 ﻿// <copyright file="LoginQuery.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.Services.AuthService.Application.Authentication.Results;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Messaging;
+using AuthService.Application.Authentication.Results;
+using SharedDefinitions.Application.Abstractions.Messaging;
 
-namespace SneakerCollector.Services.AuthService.Application.Authentication.Queries.Login;
+namespace AuthService.Application.Authentication.Queries.Login;
 
 /// <summary>
 /// Contract for the Login Query.

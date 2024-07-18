@@ -1,40 +1,37 @@
-﻿using SneakerCollector.Services.ProductService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.ProductService.Application.Products.Commands.AddProduct;
-using SneakerCollector.Services.ProductService.Application.Products.Commands.DeleteProduct;
-using SneakerCollector.Services.ProductService.Application.Products.Commands.UpdateProduct;
-using SneakerCollector.Services.ProductService.Application.Products.Dtos;
-using SneakerCollector.Services.ProductService.Application.Products.Queries.GetProductById;
-using SneakerCollector.Services.ProductService.Application.Products.Queries.GetProductsList;
-using SneakerCollector.Services.ProductService.Domain.Dtos;
-using SneakerCollector.Services.ProductService.Domain.Products;
-using SneakerCollector.Services.ProductService.Domain.Products.ValueObjects;
+﻿using ProductService.Application.Abstractions.Repositories;
+using ProductService.Application.Shoes.Commands.AddShoe;
+using ProductService.Application.Shoes.Commands.DeleteShoe;
+using ProductService.Application.Shoes.Commands.UpdateShoe;
+using ProductService.Application.Shoes.Dtos;
+using ProductService.Application.Shoes.Queries.GetShoeById;
+using ProductService.Domain.Shoes;
+using ProductService.Domain.Shoes.ValueObjects;
 
-namespace SneakerCollector.Tests.Services.ProductService;
+namespace ShoeService.UnitTests.Application;
 
-public class ProductsCommandAndQueriesTests
+public class ShoesCommandAndQueriesTests
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IShoeRepository _productRepository;
 
-    public ProductsCommandAndQueriesTests()
+    public ShoesCommandAndQueriesTests()
     {
-        _productRepository = Substitute.For<IProductRepository>();
+        _productRepository = Substitute.For<IShoeRepository>();
     }
 
     [Fact]
-    public async Task Handle_ValidRequest_ReturnProductDto()
+    public async Task Handle_ValidRequest_ReturnShoeDto()
     {
         // Arrange
         var utcNow = DateTime.UtcNow;
-        var productDto = new ProductDto(1, 1, "Product", "Description", 0, 0, 0, 0, 0, utcNow);
-        var addProductCommand = new AddProductCommand(1, "Product", "Description", 0);
-        var lazyLoader = new Lazy<Task<DiscountDto>>(() => Task.FromResult(new DiscountDto(0, 0)));
-        var productDomainModel = Product.Create(new ProductId(1), "Product", "Description", 0, 0, ownerId: 1, discountLazyLoader: lazyLoader!, createdAtUtc: utcNow);
-        _productRepository.AddAsync(Arg.Any<Product>()).Returns(Result.Ok(productDomainModel.Value));
+        var productDto = new ShoeDto(1, 1, "Shoe", "Description", 0, 0, 0, 0, 0, utcNow);
+        var addShoeCommand = new AddShoeCommand(1, "Shoe", "Description", 0);
+        var productDomainModel = Shoe.Create(new ShoeId(1), "Shoe", "Description", 0, 0, ownerId: 1, createdAtUtc: utcNow);
+        _productRepository.AddAsync(Arg.Any<Shoe>()).Returns(Result.Ok(productDomainModel.Value));
 
-        var handler = new AddProductCommandHandler(_productRepository);
+        var handler = new AddShoeCommandHandler(_productRepository);
 
         // Act
-        var result = await handler.Handle(addProductCommand, CancellationToken.None);
+        var result = await handler.Handle(addShoeCommand, CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -45,14 +42,14 @@ public class ProductsCommandAndQueriesTests
     public async Task Handle_InvalidRequest_ReturnError()
     {
         // Arrange
-        var addProductCommand = new AddProductCommand(1, "Product", "Description", 0);
-        var error = new Error("Invalid Product Data");
-        _ = Product.Create(null, "Product", "Description", 0, 0);
-        _productRepository.AddAsync(Arg.Any<Product>()).Returns(Result.Fail(error));
-        var handler = new AddProductCommandHandler(_productRepository);
+        var addShoeCommand = new AddShoeCommand(1, "Shoe", "Description", 0);
+        var error = new Error("Invalid Shoe Data");
+        _ = Shoe.Create(null, "Shoe", "Description", 0, 0);
+        _productRepository.AddAsync(Arg.Any<Shoe>()).Returns(Result.Fail(error));
+        var handler = new AddShoeCommandHandler(_productRepository);
 
         // Act
-        var result = await handler.Handle(addProductCommand, CancellationToken.None);
+        var result = await handler.Handle(addShoeCommand, CancellationToken.None);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -64,9 +61,9 @@ public class ProductsCommandAndQueriesTests
     {
         // Arrange
         long productId = 1;
-        var deleteCommand = new DeleteProductCommand(productId);
-        var handler = new DeleteProductCommandHandler(_productRepository);
-        _productRepository.RemoveAsync(Arg.Any<ProductId>()).Returns(Result.Ok());
+        var deleteCommand = new DeleteShoeCommand(productId);
+        var handler = new DeleteShoeCommandHandler(_productRepository);
+        _productRepository.RemoveAsync(Arg.Any<ShoeId>()).Returns(Result.Ok());
 
         // Act
         var result = await handler.Handle(deleteCommand, CancellationToken.None);
@@ -80,10 +77,10 @@ public class ProductsCommandAndQueriesTests
     {
         // Arrange
         long productId = 0;
-        var deleteCommand = new DeleteProductCommand(productId);
-        var handler = new DeleteProductCommandHandler(_productRepository);
-        var error = new Error("Product not found");
-        _productRepository.RemoveAsync(Arg.Any<ProductId>()).Returns(Result.Fail("Product not found"));
+        var deleteCommand = new DeleteShoeCommand(productId);
+        var handler = new DeleteShoeCommandHandler(_productRepository);
+        var error = new Error("Shoe not found");
+        _productRepository.RemoveAsync(Arg.Any<ShoeId>()).Returns(Result.Fail("Shoe not found"));
 
         // Act
         var result = await handler.Handle(deleteCommand, CancellationToken.None);
@@ -98,10 +95,10 @@ public class ProductsCommandAndQueriesTests
     {
         // Arrange
         long productId = 2;
-        var deleteCommand = new DeleteProductCommand(productId);
-        var handler = new DeleteProductCommandHandler(_productRepository);
+        var deleteCommand = new DeleteShoeCommand(productId);
+        var handler = new DeleteShoeCommandHandler(_productRepository);
         var error = new Error("Repository exception");
-        _productRepository.RemoveAsync(Arg.Any<ProductId>()).Returns(Result.Fail("Repository exception"));
+        _productRepository.RemoveAsync(Arg.Any<ShoeId>()).Returns(Result.Fail("Repository exception"));
 
         // Act
         var result = await handler.Handle(deleteCommand, CancellationToken.None);
@@ -112,15 +109,14 @@ public class ProductsCommandAndQueriesTests
     }
 
     [Fact]
-    public async Task Handle_ValidRequest_ReturnsProductDto()
+    public async Task Handle_ValidRequest_ReturnsShoeDto()
     {
         // Arrange
-        var handler = new UpdateProductCommandHandler(_productRepository);
-        var request = new UpdateProductCommand(1, 1, "Product", "Description", 100, 5);
-        var lazyLoader = new Lazy<Task<DiscountDto>>(() => Task.FromResult(new DiscountDto(0,0)));
-        var productDomainModel = Product.Create(new ProductId(1), "Product", "Description", 5, 100, ownerId: 1, discountLazyLoader: lazyLoader!);
+        var handler = new UpdateShoeCommandHandler(_productRepository);
+        var request = new UpdateShoeCommand(1, 1, "Shoe", "Description", 100, 5);
+        var productDomainModel = Shoe.Create(new ShoeId(1), "Shoe", "Description", 5, 100, ownerId: 1);
 
-        _productRepository.UpdateAsync(Arg.Any<Product>()).Returns(productDomainModel);
+        _productRepository.UpdateAsync(Arg.Any<Shoe>()).Returns(productDomainModel);
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
@@ -131,7 +127,7 @@ public class ProductsCommandAndQueriesTests
         result.Value.Should().NotBeNull();
         result.Value.Id.Should().Be(1);
         result.Value.OwnerId.Should().Be(1);
-        result.Value.Name.Should().Be("Product");
+        result.Value.Name.Should().Be("Shoe");
         result.Value.Description.Should().Be("Description");
         result.Value.Stock.Should().Be(5);
         result.Value.Price.Should().Be(100);
@@ -141,11 +137,11 @@ public class ProductsCommandAndQueriesTests
     public async Task Handle_InvalidRequest_ReturnsFailureResult()
     {
         // Arrange
-        var handler = new UpdateProductCommandHandler(_productRepository);
-        var request = new UpdateProductCommand(1, 1, "Product", "Description", 100, 5);
-        var productDomainModel = Result.Fail<Product>("Invalid data.");
+        var handler = new UpdateShoeCommandHandler(_productRepository);
+        var request = new UpdateShoeCommand(1, 1, "Shoe", "Description", 100, 5);
+        var productDomainModel = Result.Fail<Shoe>("Invalid data.");
 
-        _productRepository.UpdateAsync(Arg.Any<Product>()).Returns(productDomainModel);
+        _productRepository.UpdateAsync(Arg.Any<Shoe>()).Returns(productDomainModel);
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
@@ -157,19 +153,18 @@ public class ProductsCommandAndQueriesTests
     }
 
     [Fact]
-    public async Task Handle_ValidId_ReturnsProductDto()
+    public async Task Handle_ValidId_ReturnsShoeDto()
     {
         // Arrange
         var productId = 1;
         var utcNow = DateTime.UtcNow;
-        var getProductByIdQuery = new GetProductByIdQuery(productId);
-        var lazyLoader = new Lazy<Task<DiscountDto>>(() => Task.FromResult(new DiscountDto(0,0)));
-        var productDto = new ProductDto(productId, productId, "Product", "Description", 0, 0, 0, 0, 0, utcNow);
-        _productRepository.GetByIdAsync(new ProductId(productId)).Returns(Result.Ok(Product.Create(new ProductId(productId), "Product", "Description", 0, 0, createdAtUtc: utcNow, ownerId: 1, discountLazyLoader: lazyLoader!).Value));
-        var handler = new GetProductByIdQueryHandler(_productRepository);
+        var getShoeByIdQuery = new GetShoeByIdQuery(productId);
+        var productDto = new ShoeDto(productId, productId, "Shoe", "Description", 0, 0, 0, 0, 0, utcNow);
+        _productRepository.GetByIdAsync(new ShoeId(productId)).Returns(Result.Ok(Shoe.Create(new ShoeId(productId), "Shoe", "Description", 0, 0, createdAtUtc: utcNow, ownerId: 1));
+        var handler = new GetShoeByIdQueryHandler(_productRepository);
 
         // Act
-        var result = await handler.Handle(getProductByIdQuery, CancellationToken.None);
+        var result = await handler.Handle(getShoeByIdQuery, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
@@ -182,48 +177,48 @@ public class ProductsCommandAndQueriesTests
     {
         // Arrange
         var productId = 0;
-        var getProductByIdQuery = new GetProductByIdQuery(productId);
-        _productRepository.GetByIdAsync(new ProductId(productId)).Returns(Result.Fail(new Error("Product not found")));
-        var handler = new GetProductByIdQueryHandler(_productRepository);
+        var getShoeByIdQuery = new GetShoeByIdQuery(productId);
+        _productRepository.GetByIdAsync(new ShoeId(productId)).Returns(Result.Fail(new Error("Shoe not found")));
+        var handler = new GetShoeByIdQueryHandler(_productRepository);
 
         // Act
-        var result = await handler.Handle(getProductByIdQuery, CancellationToken.None);
+        var result = await handler.Handle(getShoeByIdQuery, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
         result.IsFailed.Should().BeTrue();
-        result.Errors.Should().ContainSingle().Which.Message.Should().Be("Product not found");
+        result.Errors.Should().ContainSingle().Which.Message.Should().Be("Shoe not found");
     }
 
     [Fact]
     public void Validate_ValidId_NoValidationErrors()
     {
         // Arrange
-        var getProductByIdQueryValidator = new GetProductByIdQueryValidator();
-        var getProductByIdQuery = new GetProductByIdQuery(1);
+        var getShoeByIdQueryValidator = new GetShoeByIdQueryValidator();
+        var getShoeByIdQuery = new GetShoeByIdQuery(1);
 
         // Act
-        var result = getProductByIdQueryValidator.Validate(getProductByIdQuery);
+        var result = getShoeByIdQueryValidator.Validate(getShoeByIdQuery);
 
         // Assert
         result.IsValid.Should().BeTrue();
     }
 
     [Fact]
-    public async Task Handle_WithValidData_ShouldReturnListOfProductDtos()
+    public async Task Handle_WithValidData_ShouldReturnListOfShoeDtos()
     {
         // Arrange
-        var userRepository = Substitute.For<IProductRepository>();
-        var productsListQuery = new GetProductsListQuery();
-        var productsListQueryHandler = new GetProductsListQueryHandler(userRepository);
+        var userRepository = Substitute.For<IShoeRepository>();
+        var productsListQuery = new GetShoesListQuery();
+        var productsListQueryHandler = new GetShoesListQueryHandler(userRepository);
         var lazyLoader = new Lazy<Task<DiscountDto>>(() => Task.FromResult(new DiscountDto(0, 0)));
 
-        var mockedProducts = new List<Product>
+        var mockedShoes = new List<Shoe>
         {
-            Product.Create(new ProductId(1), "Product", "Description", 0, 100, ownerId: 1, discountLazyLoader : lazyLoader !).Value,
+            Shoe.Create(new ShoeId(1), "Shoe", "Description", 0, 100, ownerId: 1, discountLazyLoader : lazyLoader !).Value,
         };
 
-        userRepository.GetAllAsync().Returns(Result.Ok(mockedProducts));
+        userRepository.GetAllAsync().Returns(Result.Ok(mockedShoes));
 
         // Act
         var result = await productsListQueryHandler.Handle(productsListQuery, CancellationToken.None);
@@ -232,21 +227,21 @@ public class ProductsCommandAndQueriesTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
         result.Value.Should().HaveCount(1);
-        result.Value.First().Name.Should().Be("Product");
+        result.Value.First().Name.Should().Be("Shoe");
         result.Value.First().Description.Should().Be("Description");
         result.Value.First().OwnerId.Should().Be(1);
         result.Value.First().Price.Should().Be(100);
     }
 
     [Fact]
-    public async Task Handle_WithNoProducts_ShouldReturnEmptyList()
+    public async Task Handle_WithNoShoes_ShouldReturnEmptyList()
     {
         // Arrange
-        var userRepository = Substitute.For<IProductRepository>();
-        var productsListQuery = new GetProductsListQuery();
-        var productsListQueryHandler = new GetProductsListQueryHandler(userRepository);
+        var userRepository = Substitute.For<IShoeRepository>();
+        var productsListQuery = new GetShoesListQuery();
+        var productsListQueryHandler = new GetShoesListQueryHandler(userRepository);
 
-        userRepository.GetAllAsync().Returns(Result.Ok(new List<Product>()));
+        userRepository.GetAllAsync().Returns(Result.Ok(new List<Shoe>()));
 
         // Act
         var result = await productsListQueryHandler.Handle(productsListQuery, CancellationToken.None);

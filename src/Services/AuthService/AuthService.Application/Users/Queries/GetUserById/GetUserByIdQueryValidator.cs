@@ -1,10 +1,10 @@
 ﻿// <copyright file="GetUserByIdQueryValidator.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentValidation;
 
-namespace SneakerCollector.Services.AuthService.Application.Users.Queries.GetUserById;
+namespace AuthService.Application.Users.Queries.GetUserById;
 
 /// <summary>
 /// Validator for the <see cref="GetUserByIdQuery"/>.

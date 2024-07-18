@@ -1,10 +1,10 @@
 ﻿// <copyright file="UnauthorizedError.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentResults;
 
-namespace SneakerCollector.SharedDefinitions.Application.Common.Errors;
+namespace SharedDefinitions.Application.Common.Errors;
 
 /// <summary>
 /// Unauthorized Error.

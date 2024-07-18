@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SneakerCollector.SharedDefinitions.Domain.Common.DDD;
+using SharedDefinitions.Domain.Common.DDD;
 
-namespace SneakerCollector.Tests.SharedDefinitions.Domain;
+namespace SharedDefinitions.UnitTests.Domain;
 
 public class ValueObjectTests
 {

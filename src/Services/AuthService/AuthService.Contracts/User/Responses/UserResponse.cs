@@ -1,8 +1,8 @@
 ﻿// <copyright file="UserResponse.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.Services.AuthService.Contracts.User.Responses;
+namespace AuthService.Contracts.User.Responses;
 
 /// <summary>
 /// The Contract for User Response.

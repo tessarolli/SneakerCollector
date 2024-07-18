@@ -1,11 +1,11 @@
 ﻿// <copyright file="PasswordHashingService.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
 using Microsoft.AspNetCore.Identity;
+using SharedDefinitions.Domain.Common.Abstractions;
 
-namespace SneakerCollector.SharedDefinitions.Infrastructure.Services;
+namespace SharedDefinitions.Infrastructure.Services;
 
 /// <summary>
 /// Password hashing service.

@@ -1,8 +1,8 @@
 ﻿// <copyright file="UserDb.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.Services.AuthService.Infrastructure.Dtos;
+namespace AuthService.Infrastructure.Dtos;
 
 /// <summary>
 /// User model as a representation of the database schema.

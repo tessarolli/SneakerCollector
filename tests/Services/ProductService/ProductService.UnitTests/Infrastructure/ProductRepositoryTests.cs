@@ -1,39 +1,39 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Data;
-using SneakerCollector.SharedDefinitions.Infrastructure.Abstractions;
 using System.Data.Common;
-using SneakerCollector.Services.ProductService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.ProductService.Infrastructure.Repositories;
 using Dapr.Client;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
 using NSubstitute;
 using SneakerCollector.Services.ProductService.Domain.Products.ValueObjects;
-using SneakerCollector.Services.ProductService.Domain.Products;
-using SneakerCollector.Services.ProductService.Infrastructure.DataTransferObjects;
+using ProductService.Application.Abstractions.Repositories;
+using ProductService.Domain.Shoes;
+using ProductService.Infrastructure.Dtos;
+using ProductService.Infrastructure.Repositories;
+using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Infrastructure.Abstractions;
 
-namespace SneakerCollector.Tests.Services.ProductService.Infrastructure;
+namespace ProductService.UnitTests.Infrastructure;
 
 public class ProductRepositoryTests
 {
-    private readonly IProductRepository _userRepository;
+    private readonly IShoeRepository _userRepository;
     private readonly IDapperUtility _dapper;
 
     public ProductRepositoryTests()
     {
         _dapper = Substitute.For<IDapperUtility>();
-        var logger = Substitute.For<ILogger<ProductRepository>>();
+        var logger = Substitute.For<ILogger<ShoeRepository>>();
         var daprClient = Substitute.For<DaprClient>();
         var cacheService = Substitute.For<ICacheService>();
-        _userRepository = new ProductRepository(_dapper, logger, daprClient, cacheService);
+        _userRepository = new ShoeRepository(_dapper, logger, daprClient, cacheService);
     }
 
     [Fact]
     public async Task GetByIdAsync_ExistingProduct_ReturnsProduct()
     {
         // Arrange
-        var productId = new ProductId(1);
-        var dbProduct = new ProductDb(1, 1, "Test Product", "Test Description", 0, 0, 0, DateTime.UtcNow);
-        _dapper.QueryFirstOrDefaultAsync<ProductDb>(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>()).Returns(Task.FromResult<ProductDb?>(dbProduct));
+        var productId = new ShoeId(1);
+        var dbProduct = new ShoeDb(1, 1, "Test Shoe", "Test Description", 0, 0, 0, DateTime.UtcNow);
+        _dapper.QueryFirstOrDefaultAsync<ShoeDb>(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>()).Returns(Task.FromResult<ShoeDb?>(dbProduct));
 
         // Act
         var result = await _userRepository.GetByIdAsync(productId);
@@ -41,7 +41,7 @@ public class ProductRepositoryTests
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.Value.Id.Should().Be(productId);
-        result.Value.Name.Should().Be("Test Product");
+        result.Value.Name.Should().Be("Test Shoe");
         result.Value.Description.Should().Be("Test Description");
     }
 
@@ -49,12 +49,12 @@ public class ProductRepositoryTests
     public async Task GetAllAsync_ReturnsAllProducts()
     {
         // Arrange
-        var products = new List<ProductDb>
+        var products = new List<ShoeDb>
         {
-            new(1, 1, "Test Product 1", "Test Description", 0, 0, 0, DateTime.UtcNow),
-            new(2, 1, "Test Product 2", "Test Description", 0, 0, 0, DateTime.UtcNow),
+            new(1, 1, "Test Shoe 1", "Test Description", 0, 0, 0, DateTime.UtcNow),
+            new(2, 1, "Test Shoe 2", "Test Description", 0, 0, 0, DateTime.UtcNow),
         };
-        _dapper.QueryAsync<ProductDb>(Arg.Any<string>()).Returns(Task.FromResult<IEnumerable<ProductDb>>(products));
+        _dapper.QueryAsync<ShoeDb>(Arg.Any<string>()).Returns(Task.FromResult<IEnumerable<ShoeDb>>(products));
 
         // Act
         var result = await _userRepository.GetAllAsync();
@@ -68,13 +68,13 @@ public class ProductRepositoryTests
     public async Task AddAsync_ValidProduct_ReturnsAddedProduct()
     {
         // Arrange
-        var newProduct = Product.Create(null, "New Product");
+        var newProduct = Shoe.Create(null, "New Shoe");
         _dapper
             .ExecuteScalarAsync(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>())
             .Returns(Task.FromResult<long>(1));
         _dapper
-            .QueryFirstOrDefaultAsync<ProductDb>(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>())
-            .Returns(Task.FromResult<ProductDb?>(new ProductDb(1, 1, "New Product", "", 0, 0, 0, DateTime.UtcNow)));
+            .QueryFirstOrDefaultAsync<ShoeDb>(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>())
+            .Returns(Task.FromResult<ShoeDb?>(new ShoeDb(1, 1, "New Shoe", "", 0, 0, 0, DateTime.UtcNow)));
 
         // Act
         var result = await _userRepository.AddAsync(newProduct.Value);
@@ -82,38 +82,38 @@ public class ProductRepositoryTests
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.Value.Id.Value.Should().Be(1);
-        result.Value.Name.Should().Be("New Product");
+        result.Value.Name.Should().Be("New Shoe");
     }
 
     [Fact]
     public async Task UpdateAsync_ExistingProduct_ReturnsUpdatedProduct()
     {
         // Arrange
-        var existingProduct = Product.Create(new ProductId(1), "Existing Product");
-        var dbProduct = new ProductDb(1, 1, "Existing Product", "", 0, 0, 0, DateTime.UtcNow);
+        var existingProduct = Shoe.Create(new ShoeId(1), "Existing Shoe");
+        var dbProduct = new ShoeDb(1, 1, "Existing Shoe", "", 0, 0, 0, DateTime.UtcNow);
         _dapper
             .BeginTransaction()
             .Returns(Substitute.For<DbTransaction>());
         _dapper
-            .QueryFirstOrDefaultAsync<ProductDb>(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>())
-            .Returns(Task.FromResult<ProductDb?>(dbProduct));
-         _dapper
-            .ExecuteAsync(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>())
-            .Returns(Task.FromResult<long>(1));
+            .QueryFirstOrDefaultAsync<ShoeDb>(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>())
+            .Returns(Task.FromResult<ShoeDb?>(dbProduct));
+        _dapper
+           .ExecuteAsync(Arg.Any<string>(), Arg.Any<object>(), Arg.Any<CommandType>(), Arg.Any<DbTransaction?>())
+           .Returns(Task.FromResult<long>(1));
 
         // Act
         var result = await _userRepository.UpdateAsync(existingProduct.Value);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        result.Value.Name.Should().Be("Existing Product");
+        result.Value.Name.Should().Be("Existing Shoe");
     }
 
     [Fact]
     public async Task RemoveAsync_ExistingProductId_RemovesProduct()
     {
         // Arrange
-        var productId = new ProductId(1);
+        var productId = new ShoeId(1);
         _dapper
              .BeginTransaction()
              .Returns(Substitute.For<DbTransaction>());

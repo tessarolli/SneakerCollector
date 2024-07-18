@@ -1,19 +1,19 @@
 ﻿// <copyright file="AuthenticationController.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Application.Authentication.Commands.Register;
+using AuthService.Application.Authentication.Queries.Login;
+using AuthService.Application.Authentication.Results;
+using AuthService.Contracts.Authentication;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SneakerCollector.Services.AuthService.Application.Authentication.Commands.Register;
-using SneakerCollector.Services.AuthService.Application.Authentication.Queries.Login;
-using SneakerCollector.Services.AuthService.Application.Authentication.Results;
-using SneakerCollector.Services.AuthService.Contracts.Authentication;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
-using SneakerCollector.SharedDefinitions.Presentation.Controllers;
+using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Presentation.Controllers;
 
-namespace SneakerCollector.Services.AuthService.API.Controllers;
+namespace AuthService.API.Controllers;
 
 /// <summary>
 /// Authentication Controller.
@@ -26,7 +26,7 @@ public class AuthenticationController : ResultControllerBase<AuthenticationContr
     /// </summary>
     /// <param name="mediator">Injected _mediator.</param>
     /// <param name="mapper">Injected _mapper.</param>
-    /// <param name="logger">Injected _logger.</param>
+    /// <param name="logger">Injected Logger.</param>
     /// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
     public AuthenticationController(IMediator mediator, IMapper mapper, ILogger<AuthenticationController> logger, IExceptionHandlingService exceptionHandlingService)
         : base(mediator, mapper, logger, exceptionHandlingService)

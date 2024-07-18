@@ -1,16 +1,16 @@
 ﻿// <copyright file="UpdateUserCommandHandler.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Application.Abstractions.Repositories;
+using AuthService.Application.Users.Dtos;
+using AuthService.Contracts.Enums;
+using AuthService.Domain.Users;
 using FluentResults;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.AuthService.Application.Users.Dtos;
-using SneakerCollector.Services.AuthService.Contracts.Enums;
-using SneakerCollector.Services.AuthService.Domain.Users;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Messaging;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
+using SharedDefinitions.Application.Abstractions.Messaging;
+using SharedDefinitions.Domain.Common.Abstractions;
 
-namespace SneakerCollector.Services.AuthService.Application.Users.Commands.UpdateUser;
+namespace AuthService.Application.Users.Commands.UpdateUser;
 
 /// <summary>
 /// Mediator Handler for the <see cref="UpdateUserCommand"/>.

@@ -1,10 +1,10 @@
 ﻿// <copyright file="IJwtTokenGenerator.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.Services.AuthService.Domain.Users;
+using AuthService.Domain.Users;
 
-namespace SneakerCollector.Services.AuthService.Application.Abstractions.Authentication;
+namespace AuthService.Application.Abstractions.Authentication;
 
 /// <summary>
 /// Interface for Json Web Tokens Generator.

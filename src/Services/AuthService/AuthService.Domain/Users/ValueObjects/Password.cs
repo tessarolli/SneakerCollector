@@ -1,12 +1,11 @@
 ﻿// <copyright file="Password.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using SharedDefinitions.Domain.Common.Abstractions;
+using SharedDefinitions.Domain.Common.DDD;
 
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
-using SneakerCollector.SharedDefinitions.Domain.Common.DDD;
-
-namespace SneakerCollector.Services.AuthService.Domain.Users.ValueObjects;
+namespace AuthService.Domain.Users.ValueObjects;
 
 /// <summary>
 /// Password Value Object.

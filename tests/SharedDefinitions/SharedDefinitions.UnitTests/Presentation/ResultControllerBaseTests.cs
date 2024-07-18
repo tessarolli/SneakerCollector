@@ -3,10 +3,10 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
-using SneakerCollector.SharedDefinitions.Presentation.Controllers;
+using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Presentation.Controllers;
 
-namespace SneakerCollector.Tests.SharedDefinitions.Presentation;
+namespace SharedDefinitions.UnitTests.Presentation;
 
 public class ResultControllerBaseTests
 {
@@ -30,7 +30,10 @@ public class ResultControllerBaseTests
         var controller = new ResultControllerBase<TestController>(_mediator, _mapper, _logger, _exceptionHandlingService);
         var result = Result.Ok(true);
         static ActionResult successAction() => new OkResult();
-        static void failureAction() { }
+        static void failureAction()
+        {
+            // empty method.
+        }
 
         // Act
         var actionResult = controller.ValidateResult(result, successAction, failureAction);
@@ -56,4 +59,9 @@ public class ResultControllerBaseTests
     }
 }
 
-public class TestController { }
+public class TestController
+{
+    public TestController()
+    {
+    }
+}

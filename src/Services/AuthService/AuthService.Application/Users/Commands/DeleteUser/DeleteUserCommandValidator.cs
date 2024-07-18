@@ -1,10 +1,10 @@
 ﻿// <copyright file="DeleteUserCommandValidator.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentValidation;
 
-namespace SneakerCollector.Services.AuthService.Application.Users.Commands.DeleteUser;
+namespace AuthService.Application.Users.Commands.DeleteUser;
 
 /// <summary>
 /// Validator for the <see cref="DeleteUserCommand"/>.

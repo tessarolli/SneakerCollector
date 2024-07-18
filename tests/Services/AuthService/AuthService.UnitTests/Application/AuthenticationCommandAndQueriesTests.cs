@@ -1,13 +1,13 @@
-﻿using SneakerCollector.Services.AuthService.Application.Abstractions.Authentication;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.AuthService.Application.Authentication.Commands.Register;
-using SneakerCollector.Services.AuthService.Application.Authentication.Errors;
-using SneakerCollector.Services.AuthService.Application.Authentication.Queries.Login;
-using SneakerCollector.Services.AuthService.Domain.Users;
-using SneakerCollector.SharedDefinitions.Application.Common.Errors;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
+﻿using AuthService.Application.Abstractions.Authentication;
+using AuthService.Application.Abstractions.Repositories;
+using AuthService.Application.Authentication.Commands.Register;
+using AuthService.Application.Authentication.Errors;
+using AuthService.Application.Authentication.Queries.Login;
+using AuthService.Domain.Users;
+using SharedDefinitions.Application.Common.Errors;
+using SharedDefinitions.Domain.Common.Abstractions;
 
-namespace SneakerCollector.Tests.Services.AuthService.Application;
+namespace AuthService.UnitTests.Application;
 
 public class AuthenticationCommandAndQueriesTests
 {

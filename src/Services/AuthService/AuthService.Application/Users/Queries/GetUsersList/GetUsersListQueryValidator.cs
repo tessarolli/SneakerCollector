@@ -1,10 +1,10 @@
 ﻿// <copyright file="GetUsersListQueryValidator.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentValidation;
 
-namespace SneakerCollector.Services.AuthService.Application.Users.Queries.GetUsersList;
+namespace AuthService.Application.Users.Queries.GetUsersList;
 
 /// <summary>
 /// Validator.

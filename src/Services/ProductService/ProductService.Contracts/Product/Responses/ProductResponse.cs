@@ -1,8 +1,8 @@
 ﻿// <copyright file="ProductResponse.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.Services.ProductService.Contracts.Product.Responses;
+namespace ProductService.Contracts.Product.Responses;
 
 /// <summary>
 /// The Contract for Product Response.

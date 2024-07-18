@@ -4,7 +4,7 @@ services:
 
   # Envoy API Gateway
   envoy-api-gateway:
-    image: sneaker-collector.azurecr.io/envoy-api-gateway:1
+    image: vmi1859920.contaboserver.net:5000/envoy-api-gateway:1
     build:
       context: .
       dockerfile: src/Gateway/Dockerfile
@@ -18,7 +18,7 @@ services:
   
   # Auth Service API
   auth-service-api:
-    image: sneaker-collector.azurecr.io/auth-service-api:1
+    image: vmi1859920.contaboserver.net:5000/auth-service-api:1
     build:
       context: .
       dockerfile: src/Services/AuthService/AuthService.API/Dockerfile
@@ -33,26 +33,9 @@ services:
       - auth-service-api
       - dapr-placement
 
-  # Discount Service API
-  discount-service-api:
-    image: sneaker-collector.azurecr.io/discount-service-api:1
-    build:
-      context: .
-      dockerfile: src/Services/DiscountService/DiscountService.API/Dockerfile
-    depends_on:
-      - redis 
-    networks:
-      - sneaker-collector-network 
-  discount-service-api-dapr:
-    image: "daprio/daprd:latest"
-    network_mode: "service:discount-service-api"
-    depends_on:
-      - discount-service-api
-      - dapr-placement
-
   # Product Service API
   product-service-api:
-    image: sneaker-collector.azurecr.io/product-service-api:1
+    image: vmi1859920.contaboserver.net:5000/product-service-api:1
     build:
       context: .
       dockerfile: src/Services/ProductService/ProductService.API/Dockerfile

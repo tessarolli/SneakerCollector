@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Data;
-using SneakerCollector.Services.AuthService.Contracts.Enums;
-using SneakerCollector.Services.AuthService.Domain.Users.ValueObjects;
-using SneakerCollector.Services.AuthService.Domain.Users;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.SharedDefinitions.Infrastructure.Abstractions;
-using SneakerCollector.Services.AuthService.Infrastructure.Repositories;
-using SneakerCollector.Services.AuthService.Infrastructure.Dtos;
 using System.Data.Common;
+using AuthService.Application.Abstractions.Repositories;
+using SharedDefinitions.Domain.Common.Abstractions;
+using AuthService.Contracts.Enums;
+using AuthService.Domain.Users;
+using AuthService.Infrastructure.Dtos;
+using AuthService.Infrastructure.Repositories;
+using SharedDefinitions.Infrastructure.Abstractions;
+using AuthService.Domain.Users.ValueObjects;
 
-namespace SneakerCollector.Tests.Services.AuthService.Infrastructure;
+namespace AuthService.UnitTests.Infrastructure;
 
 public class UserRepositoryTests
 {
@@ -45,7 +45,7 @@ public class UserRepositoryTests
         result.Value.Role.Should().Be(Roles.Admin);
     }
 
-    
+
     [Fact]
     public async Task GetByIdsAsync_ValidIds_ReturnsListOfUsers()
     {

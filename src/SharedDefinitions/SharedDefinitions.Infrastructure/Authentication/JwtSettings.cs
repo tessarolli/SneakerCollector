@@ -1,8 +1,8 @@
 ﻿// <copyright file="JwtSettings.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.SharedDefinitions.Infrastructure.Authentication;
+namespace SharedDefinitions.Infrastructure.Authentication;
 
 /// <summary>
 /// Helper class to setup configurations options for Json Web Tokens.

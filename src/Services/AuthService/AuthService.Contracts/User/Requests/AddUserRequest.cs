@@ -1,8 +1,8 @@
 ﻿// <copyright file="AddUserRequest.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.Services.AuthService.Contracts.User.Requests;
+namespace AuthService.Contracts.User.Requests;
 
 /// <summary>
 /// Contract for Adding a User to the repository's request.

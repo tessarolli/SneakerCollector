@@ -1,18 +1,17 @@
 ﻿// <copyright file="UserValidator.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Domain.Users.ValueObjects;
 using FluentValidation;
-using SneakerCollector.Services.AuthService.Domain.Users;
-using SneakerCollector.Services.AuthService.Domain.Users.ValueObjects;
-using SneakerCollector.SharedDefinitions.Domain.Common;
+using SharedDefinitions.Domain.Common;
 
-namespace SneakerCollector.Services.AuthService.Domain.Users.Validators;
+namespace AuthService.Domain.Users.Validators;
 
 /// <summary>
 /// User Entity Validation Rules.
 /// </summary>
-public sealed class UserValidator : EntityValidator<User, UserId>
+public sealed class UserValidator : EntityValidator<UserId>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UserValidator"/> class.
@@ -21,18 +20,13 @@ public sealed class UserValidator : EntityValidator<User, UserId>
     {
         RuleFor(g => ((User)g).FirstName)
             .NotEmpty()
-            .WithMessage("The First Name is required.")
-            .MaximumLength(50)
-            .WithMessage("The First Name must be at most 50 characters long.");
+            .MaximumLength(50);
 
         RuleFor(g => ((User)g).LastName)
             .NotEmpty()
-            .WithMessage("The Last Name is required.")
-            .MaximumLength(50)
-            .WithMessage("The Last Name must be at most 50 characters long.");
+            .MaximumLength(50);
 
         RuleFor(g => ((User)g).Email)
-            .EmailAddress()
-            .WithMessage("Is not a valid e-mail address.");
+            .EmailAddress();
     }
 }

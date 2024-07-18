@@ -1,39 +1,32 @@
 ﻿// <copyright file="LoginQueryHandler.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.Services.AuthService.Application.Abstractions.Authentication;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.AuthService.Application.Authentication.Errors;
-using SneakerCollector.Services.AuthService.Application.Authentication.Results;
+using AuthService.Application.Abstractions.Authentication;
+using AuthService.Application.Abstractions.Repositories;
+using AuthService.Application.Authentication.Errors;
+using AuthService.Application.Authentication.Results;
+using AuthService.Domain.Users;
 using FluentResults;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Messaging;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
-using SneakerCollector.Services.AuthService.Domain.Users;
+using SharedDefinitions.Application.Abstractions.Messaging;
+using SharedDefinitions.Domain.Common.Abstractions;
 
-namespace SneakerCollector.Services.AuthService.Application.Authentication.Queries.Login;
+namespace AuthService.Application.Authentication.Queries.Login;
 
 /// <summary>
 /// Implementation for the Login Query.
 /// </summary>
-public class LoginQueryHandler : IQueryHandler<LoginQuery, AuthenticationResult>
+/// <param name="userRepository">Injected UserRepository.</param>
+/// <param name="jwtTokenGenerator">Injected JwtTokenGenerator.</param>
+/// <param name="passwordHasher">Injected PasswordHasher.</param>
+public class LoginQueryHandler(
+    IUserRepository userRepository,
+    IJwtTokenGenerator jwtTokenGenerator,
+    IPasswordHashingService passwordHasher) : IQueryHandler<LoginQuery, AuthenticationResult>
 {
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
-    private readonly IUserRepository _userRepository;
-    private readonly IPasswordHashingService _passwordHasher;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LoginQueryHandler"/> class.
-    /// </summary>
-    /// <param name="userRepository">Injected UserRepository.</param>
-    /// <param name="jwtTokenGenerator">Injected JwtTokenGenerator.</param>
-    /// <param name="passwordHasher">Injected PasswordHasher.</param>
-    public LoginQueryHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator, IPasswordHashingService passwordHasher)
-    {
-        _userRepository = userRepository;
-        _jwtTokenGenerator = jwtTokenGenerator;
-        _passwordHasher = passwordHasher;
-    }
+    private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly IPasswordHashingService _passwordHasher = passwordHasher;
 
     /// <inheritdoc/>
     public async Task<Result<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)

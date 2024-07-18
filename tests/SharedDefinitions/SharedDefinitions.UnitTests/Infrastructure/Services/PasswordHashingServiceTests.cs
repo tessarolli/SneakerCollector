@@ -1,6 +1,6 @@
-﻿using SneakerCollector.SharedDefinitions.Infrastructure.Services;
+﻿using SharedDefinitions.Infrastructure.Services;
 
-namespace SneakerCollector.Tests.SharedDefinitions.Infrastructure.Services;
+namespace SharedDefinitions.UnitTests.Infrastructure.Services;
 
 public class PasswordHashingServiceTests
 {

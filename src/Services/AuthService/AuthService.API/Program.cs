@@ -1,15 +1,13 @@
 // <copyright file="Program.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using Google.Api;
+using AuthService.API;
+using AuthService.Application;
 using Microsoft.AspNetCore.Diagnostics;
 using Serilog;
-using System.Reflection;
-using SneakerCollector.Services.AuthService.API;
-using SneakerCollector.Services.AuthService.Application;
-using SneakerCollector.SharedDefinitions.Application;
-using SneakerCollector.SharedDefinitions.Infrastructure;
+using SharedDefinitions.Application;
+using SharedDefinitions.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {

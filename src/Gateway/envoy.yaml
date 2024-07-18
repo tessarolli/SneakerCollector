@@ -40,12 +40,6 @@ static_resources:
                   cluster: dapr
                   auto_host_rewrite: true
                   prefix_rewrite: "/v1.0/invoke/product-service-api/method/products"
-              - match: 
-                  prefix: "/discount" 
-                route:
-                  cluster: dapr
-                  auto_host_rewrite: true
-                  prefix_rewrite: "/v1.0/invoke/discount-service-api/method/discount"
           http_filters:
            - name: envoy.filters.http.router
              typed_config:

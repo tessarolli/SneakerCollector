@@ -1,11 +1,10 @@
 ﻿// <copyright file="LoginQueryValidator.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.Services.AuthService.Application.Authentication.Queries.Login;
 using FluentValidation;
 
-namespace SneakerCollector.Services.AuthService.Application.Authentication.Commands.Register
+namespace AuthService.Application.Authentication.Queries.Login
 {
     /// <summary>
     /// Validation Rules for the Login Query.

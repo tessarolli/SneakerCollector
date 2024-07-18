@@ -1,8 +1,7 @@
-﻿using System.Net.Sockets;
+﻿using SharedDefinitions.Infrastructure.Services;
+using System.Net.Sockets;
 
-using SneakerCollector.SharedDefinitions.Infrastructure.Services;
-
-namespace SneakerCollector.Tests.SharedDefinitions.Infrastructure.Services;
+namespace SharedDefinitions.UnitTests.Infrastructure.Services;
 
 public class ExceptionHandlingServiceTests
 {
@@ -21,7 +20,7 @@ public class ExceptionHandlingServiceTests
         .Which.Message.Should().Be("An unexpected error occurred on our end. We are looking into it. In the mean time, try the request again.");
     }
 
-    
+
     [Fact]
     public void HandleException_WithInvalidOperationException_ReturnsGenericError()
     {

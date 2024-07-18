@@ -1,16 +1,16 @@
 ﻿// <copyright file="User.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Contracts.Enums;
+using AuthService.Domain.Users.Validators;
+using AuthService.Domain.Users.ValueObjects;
 using FluentResults;
 using FluentValidation;
-using SneakerCollector.Services.AuthService.Contracts.Enums;
-using SneakerCollector.Services.AuthService.Domain.Users.Validators;
-using SneakerCollector.Services.AuthService.Domain.Users.ValueObjects;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
-using SneakerCollector.SharedDefinitions.Domain.Common.DDD;
+using SharedDefinitions.Domain.Common.Abstractions;
+using SharedDefinitions.Domain.Common.DDD;
 
-namespace SneakerCollector.Services.AuthService.Domain.Users;
+namespace AuthService.Domain.Users;
 
 /// <summary>
 /// User Entity.
@@ -20,7 +20,7 @@ public sealed class User : AggregateRoot<UserId>
     /// <summary>
     /// Gets a Empty User instance.
     /// </summary>
-    public static readonly User Empty = new (new UserId(null));
+    public static readonly User Empty = new(new UserId(null));
 
     private User(UserId id)
         : base(id)

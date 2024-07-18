@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SneakerCollector.SharedDefinitions.Domain.Common.DDD;
+using SharedDefinitions.Domain.Common.DDD;
 
-namespace SneakerCollector.Tests.SharedDefinitions.Domain;
+namespace SharedDefinitions.UnitTests.Domain;
 
 public class EntityTests
 {
@@ -36,7 +36,7 @@ public class EntityTests
         var entity2 = new TestEntity(1);
 
         // Act
-        bool result = entity1 == entity2;
+        var result = entity1 == entity2;
 
         // Assert
         result.Should().BeTrue();
@@ -50,7 +50,7 @@ public class EntityTests
         var entity2 = new TestEntity(2);
 
         // Act
-        bool result = entity1 == entity2;
+        var result = entity1 == entity2;
 
         // Assert
         result.Should().BeFalse();
@@ -61,10 +61,10 @@ public class EntityTests
     {
         // Arrange
         var entity = new TestEntity(1);
-        int expectedHashCode = 1.GetHashCode();
+        var expectedHashCode = 1.GetHashCode();
 
         // Act
-        int hashCode = entity.GetHashCode();
+        var hashCode = entity.GetHashCode();
 
         // Assert
         hashCode.Should().Be(expectedHashCode);
@@ -78,7 +78,7 @@ public class EntityTests
         var entity2 = entity1;
 
         // Act
-        bool result = entity1.Equals(entity2);
+        var result = entity1.Equals(entity2);
 
         // Assert
         result.Should().BeTrue();
@@ -92,7 +92,7 @@ public class EntityTests
         var entity2 = new TestEntity(2);
 
         // Act
-        bool result = entity1.Equals(entity2);
+        var result = entity1.Equals(entity2);
 
         // Assert
         result.Should().BeFalse();
@@ -105,7 +105,7 @@ public class EntityTests
         var entity = new TestEntity(1);
 
         // Act
-        object id = entity.GetId();
+        var id = entity.GetId();
 
         // Assert
         id.Should().Be(1);

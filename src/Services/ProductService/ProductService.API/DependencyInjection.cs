@@ -1,18 +1,18 @@
 ﻿// <copyright file="DependencyInjection.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using System.Reflection;
-using SneakerCollector.Services.ProductService.API.Swagger;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using Mapster;
-using MapsterMapper;
-using SneakerCollector.Services.ProductService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.ProductService.Infrastructure.Repositories;
+using ProductService.API.Swagger;
+using ProductService.Application.Abstractions.Repositories;
+using ProductService.Infrastructure.Repositories;
 
-namespace SneakerCollector.Services.ProductService.API;
+namespace ProductService.API;
 
 /// <summary>
 /// Dependency Injection.
@@ -26,7 +26,7 @@ public static class DependencyInjection
     /// <returns>IServiceCollection with dependencies injected.</returns>
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IShoeRepository, ShoeRepository>();
 
         return services;
     }
@@ -59,8 +59,8 @@ public static class DependencyInjection
              options.SwaggerDoc("v1", new OpenApiInfo
              {
                  Version = "v1",
-                 Title = "SneakerCollector - Product Service Api",
-                 Description = "The Product Service Api is part of the SneakerCollector Distributed Application backend, and it provides functionalities for Managing Products in a catalog.",
+                 Title = "SneakerCollector - Shoe Service Api",
+                 Description = "The Shoe Service Api is part of the SneakerCollector Distributed Application backend, and it provides functionalities for Managing Products in a catalog.",
              });
 
              var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

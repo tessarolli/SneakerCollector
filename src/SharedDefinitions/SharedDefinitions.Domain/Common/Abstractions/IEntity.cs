@@ -1,8 +1,8 @@
 ﻿// <copyright file="IEntity.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
+namespace SharedDefinitions.Domain.Common.Abstractions;
 
 /// <summary>
 /// IEntity interface.

@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Products\DomainEventHandlers\**" />
-    <EmbeddedResource Remove="Products\DomainEventHandlers\**" />
-    <None Remove="Products\DomainEventHandlers\**" />
+    <Compile Remove="Shoes\DomainEventHandlers\**" />
+    <EmbeddedResource Remove="Shoes\DomainEventHandlers\**" />
+    <None Remove="Shoes\DomainEventHandlers\**" />
   </ItemGroup>
 
   <ItemGroup>

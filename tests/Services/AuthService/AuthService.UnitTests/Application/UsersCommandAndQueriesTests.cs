@@ -1,18 +1,17 @@
 ﻿
-using FluentValidation.Results;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.AuthService.Application.Users.Commands.AddUser;
-using SneakerCollector.Services.AuthService.Application.Users.Commands.DeleteUser;
-using SneakerCollector.Services.AuthService.Application.Users.Commands.UpdateUser;
-using SneakerCollector.Services.AuthService.Application.Users.Dtos;
-using SneakerCollector.Services.AuthService.Application.Users.Queries.GetUserById;
-using SneakerCollector.Services.AuthService.Application.Users.Queries.GetUsersList;
-using SneakerCollector.Services.AuthService.Contracts.Enums;
-using SneakerCollector.Services.AuthService.Domain.Users;
-using SneakerCollector.Services.AuthService.Domain.Users.ValueObjects;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
+using AuthService.Application.Abstractions.Repositories;
+using AuthService.Application.Users.Commands.AddUser;
+using AuthService.Application.Users.Commands.DeleteUser;
+using AuthService.Application.Users.Commands.UpdateUser;
+using AuthService.Application.Users.Dtos;
+using AuthService.Application.Users.Queries.GetUserById;
+using AuthService.Application.Users.Queries.GetUsersList;
+using AuthService.Contracts.Enums;
+using AuthService.Domain.Users;
+using AuthService.Domain.Users.ValueObjects;
+using SharedDefinitions.Domain.Common.Abstractions;
 
-namespace SneakerCollector.Tests.Services.AuthService.Application;
+namespace AuthService.UnitTests.Application;
 
 public class UsersCommandAndQueriesTests
 {

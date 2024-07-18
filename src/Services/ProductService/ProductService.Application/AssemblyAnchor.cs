@@ -1,10 +1,10 @@
-﻿// <copyright file="AssemblyHook.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+﻿// <copyright file="AssemblyAnchor.cs" company="SneakerCollector">
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.Services.ProductService.Application;
+namespace ProductService.Application;
 
 /// <summary>
-/// The sole purpose of this class to act as an Anchor for Auto Registering Mediators handlers. 
+/// The sole purpose of this class to act as an Anchor for Auto Registering Mediators handlers.
 /// </summary>
-public record AssemblyAnchor();
+public record AssemblyAnchor(int I);

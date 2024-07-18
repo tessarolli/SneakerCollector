@@ -1,10 +1,8 @@
-﻿// <copyright file="UserResult.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+﻿// <copyright file="UserDto.cs" company="SneakerCollector">
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.Services.AuthService.Contracts.Enums;
-
-namespace SneakerCollector.Services.AuthService.Application.Users.Dtos;
+namespace AuthService.Application.Users.Dtos;
 
 /// <summary>
 /// The Data Transfer Object for User.

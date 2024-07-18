@@ -1,20 +1,20 @@
 // <copyright file="Program.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using Microsoft.AspNetCore.Diagnostics;
-using SneakerCollector.Services.ProductService.API;
-using SneakerCollector.Services.ProductService.Application;
-using SneakerCollector.Services.ProductService.Infrastructure;
-using SneakerCollector.SharedDefinitions.Application;
-using SneakerCollector.SharedDefinitions.Infrastructure;
+using ProductService.API;
+using ProductService.Application;
+using ProductService.Infrastructure;
+using SharedDefinitions.Application;
+using SharedDefinitions.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder
         .AddSharedDefinitionsInfrastructure("ProductService")
         .AddProductServicePersistance()
-        .AddSharedDefinitionsApplication(typeof(SneakerCollector.Services.ProductService.Application.AssemblyAnchor).Assembly)
+        .AddSharedDefinitionsApplication(typeof(AssemblyAnchor).Assembly)
         .AddPresentation();
 }
 

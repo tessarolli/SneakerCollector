@@ -1,5 +1,5 @@
 ﻿// <copyright file="UnreachableExternalServiceException.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 namespace SharedDefinitions.Domain.Common.Exceptions;
@@ -7,13 +7,8 @@ namespace SharedDefinitions.Domain.Common.Exceptions;
 /// <summary>
 /// Exception thrown when an external service cant be accessed.
 /// </summary>
-public class UnreachableExternalServiceException : Exception
+/// <param name="serviceName">The external service Name.</param>
+public class UnreachableExternalServiceException(string serviceName = "")
+    : Exception(serviceName)
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UnreachableExternalServiceException"/> class.
-    /// </summary>
-    /// <param name="serviceName">The external service Name.</param>
-    public UnreachableExternalServiceException(string serviceName = "") : base(serviceName)
-    {
-    }
 }

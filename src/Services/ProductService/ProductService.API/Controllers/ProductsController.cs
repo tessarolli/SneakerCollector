@@ -1,49 +1,41 @@
 ﻿// <copyright file="ProductsController.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using AuthService.Contracts.Enums;
 using FluentResults;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SneakerCollector.Services.ProductService.Application.Products.Commands.AddProduct;
-using SneakerCollector.Services.ProductService.Application.Products.Commands.DeleteProduct;
-using SneakerCollector.Services.ProductService.Application.Products.Commands.UpdateProduct;
-using SneakerCollector.Services.ProductService.Application.Products.Queries.GetProductById;
-using SneakerCollector.Services.ProductService.Application.Products.Queries.GetProductsList;
-using SneakerCollector.Services.ProductService.Application.Products.Dtos;
-using SneakerCollector.Services.ProductService.Contracts.Product.Requests;
-using SneakerCollector.Services.ProductService.Contracts.Product.Responses;
-using SneakerCollector.SharedDefinitions.Presentation.Controllers;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
-using SneakerCollector.SharedDefinitions.Presentation.Attributes;
-using SneakerCollector.Services.AuthService.Contracts.Enums;
+using ProductService.Application.Shoes.Commands.AddShoe;
+using ProductService.Application.Shoes.Commands.DeleteShoe;
+using ProductService.Application.Shoes.Commands.UpdateShoe;
+using ProductService.Application.Shoes.Dtos;
+using ProductService.Application.Shoes.Queries.GetShoeById;
+using ProductService.Application.Shoes.Queries.GetShoesList;
+using ProductService.Contracts.Product.Requests;
+using ProductService.Contracts.Product.Responses;
+using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Presentation.Attributes;
+using SharedDefinitions.Presentation.Controllers;
 
-namespace SneakerCollector.Services.ProductService.API.Controllers;
+namespace ProductService.API.Controllers;
 
 /// <summary>
 /// Products Controller.
 /// </summary>
+/// <param name="mediator">Injected _mediator.</param>
+/// <param name="mapper">Injected _mapper.</param>
+/// <param name="logger">Injected Logger.</param>
+/// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
 [Route("[controller]")]
-public class ProductsController : ResultControllerBase<ProductsController>
+public class ProductsController(
+    IMediator mediator,
+    IMapper mapper,
+    ILogger<ProductsController> logger,
+    IExceptionHandlingService exceptionHandlingService)
+    : ResultControllerBase<ProductsController>(mediator, mapper, logger, exceptionHandlingService)
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ProductsController"/> class.
-    /// </summary>
-    /// <param name="mediator">Injected _mediator.</param>
-    /// <param name="mapper">Injected _mapper.</param>
-    /// <param name="logger">Injected _logger.</param>
-    /// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
-    public ProductsController(IMediator mediator, IMapper mapper, ILogger<ProductsController> logger, IExceptionHandlingService exceptionHandlingService)
-        : base(mediator, mapper, logger, exceptionHandlingService)
-    {
-        _mediator = mediator;
-        _mapper = mapper;
-    }
-
     /// <summary>
     /// Gets a list of Products.
     /// </summary>
@@ -51,45 +43,45 @@ public class ProductsController : ResultControllerBase<ProductsController>
     [HttpGet]
     [RoleAuthorize]
     public async Task<IActionResult> GetProducts() =>
-        await HandleRequestAsync<GetProductsListQuery, List<ProductDto>, List<ProductResponse>>();
+        await HandleRequestAsync<GetProductsListQuery, List<ShoeDto>, List<ProductResponse>>();
 
     /// <summary>
-    /// Gets a Product by its Id.
+    /// Gets a Shoe by its Id.
     /// </summary>
-    /// <param name="id">Product Id.</param>
-    /// <returns>The Product Aggregate.</returns>
+    /// <param name="id">Shoe Id.</param>
+    /// <returns>The Shoe Aggregate.</returns>
     [HttpGet("{id:long}")]
     [RoleAuthorize]
     public async Task<IActionResult> GetProductById(long id) =>
-        await HandleRequestAsync<GetProductByIdQuery, ProductDto, ProductResponse>(id);
+        await HandleRequestAsync<GetShoeByIdQuery, ShoeDto, ProductResponse>(id);
 
     /// <summary>
-    /// Add a Product to the Product Repository.
+    /// Add a Shoe to the Shoe Repository.
     /// </summary>
-    /// <param name="request">Product data.</param>
-    /// <returns>The Product instance created with Id.</returns>
+    /// <param name="request">Shoe data.</param>
+    /// <returns>The Shoe instance created with Id.</returns>
     [HttpPost]
     [RoleAuthorize(Roles.Admin)]
     public async Task<IActionResult> AddProduct(AddProductRequest request) =>
-        await HandleRequestAsync<AddProductCommand, ProductDto, ProductResponse>(request);
+        await HandleRequestAsync<AddShoeCommand, ShoeDto, ProductResponse>(request);
 
     /// <summary>
-    /// Updates a Product in the Product Repository.
+    /// Updates a Shoe in the Shoe Repository.
     /// </summary>
-    /// <param name="request">Product data.</param>
-    /// <returns>The Product instance created with Id.</returns>
+    /// <param name="request">Shoe data.</param>
+    /// <returns>The Shoe instance created with Id.</returns>
     [HttpPut]
     [RoleAuthorize(Roles.Admin)]
     public async Task<IActionResult> UpdateProduct(UpdateProductRequest request) =>
-        await HandleRequestAsync<UpdateProductCommand, ProductDto, ProductResponse>(request);
+        await HandleRequestAsync<UpdateShoeCommand, ShoeDto, ProductResponse>(request);
 
     /// <summary>
-    /// Deletes a Product from the Product Repository.
+    /// Deletes a Shoe from the Shoe Repository.
     /// </summary>
-    /// <param name="id">Product Id.</param>
+    /// <param name="id">Shoe Id.</param>
     /// <returns>The Action Result of the delete operation.</returns>
     [HttpDelete("{id:long}")]
     [RoleAuthorize(Roles.Admin)]
     public async Task<IActionResult> DeleteProduct(long id) =>
-        await HandleRequestAsync<DeleteProductCommand, Result, object>(id);
+        await HandleRequestAsync<DeleteShoeCommand, Result, object>(id);
 }

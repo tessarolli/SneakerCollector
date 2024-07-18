@@ -1,9 +1,8 @@
 ﻿// <copyright file="Roles.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-
-namespace SneakerCollector.Services.AuthService.Contracts.Enums;
+namespace AuthService.Contracts.Enums;
 
 /// <summary>
 /// The Roles Enumeration.
@@ -23,5 +22,5 @@ public enum Roles
     /// <summary>
     /// Identifies the Admin Role.
     /// </summary>
-    Admin
+    Admin,
 }

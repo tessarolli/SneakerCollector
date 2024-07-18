@@ -1,29 +1,24 @@
 ﻿// <copyright file="DapperUtility.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using System.Data;
 using System.Data.Common;
 using Dapper;
-using SneakerCollector.SharedDefinitions.Infrastructure.Abstractions;
+using SharedDefinitions.Infrastructure.Abstractions;
 
-namespace SneakerCollector.SharedDefinitions.Infrastructure.Utilities;
+namespace SharedDefinitions.Infrastructure.Utilities;
 
 /// <summary>
 /// Provides Dapper Accessibility Helpers Functunalities.
 /// </summary>
-public sealed class DapperUtility : IDapperUtility
+/// <remarks>
+/// Initializes a new instance of the <see cref="DapperUtility"/> class.
+/// </remarks>
+/// <param name="connectionFactory">ISqlConnectionFactory injected.</param>
+public sealed class DapperUtility(ISqlConnectionFactory<DbConnection> connectionFactory) : IDapperUtility
 {
-    private readonly ISqlConnectionFactory<DbConnection> _connectionFactory;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DapperUtility"/> class.
-    /// </summary>
-    /// <param name="connectionFactory">ISqlConnectionFactory injected.</param>
-    public DapperUtility(ISqlConnectionFactory<DbConnection> connectionFactory)
-    {
-        _connectionFactory = connectionFactory;
-    }
+    private readonly ISqlConnectionFactory<DbConnection> _connectionFactory = connectionFactory;
 
     /// <inheritdoc/>
     public async Task<IEnumerable<T>> QueryAsync<T>(
@@ -35,6 +30,24 @@ public sealed class DapperUtility : IDapperUtility
         var connection = transaction?.Connection ?? _connectionFactory.CreateConnection();
 
         var result = await connection.QueryAsync<T>(sql, parameters, commandType: commandType, transaction: transaction);
+
+        ProperlyDisposeConnection(connection, transaction);
+
+        return result;
+    }
+
+    /// <inheritdoc/>
+    public async Task<IEnumerable<Tres>> QueryAsync<T1, T2, Tres>(
+        string sql,
+        Func<T1, T2, Tres> mapperFunction,
+        object? parameters = null,
+        string splitOn = "Id",
+        CommandType commandType = CommandType.Text,
+        DbTransaction? transaction = null)
+    {
+        var connection = transaction?.Connection ?? _connectionFactory.CreateConnection();
+
+        var result = await connection.QueryAsync(sql, mapperFunction, parameters, splitOn: splitOn, commandType: commandType, transaction: transaction);
 
         ProperlyDisposeConnection(connection, transaction);
 

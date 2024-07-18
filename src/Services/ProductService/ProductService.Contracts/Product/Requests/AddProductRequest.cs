@@ -1,8 +1,8 @@
 ﻿// <copyright file="AddProductRequest.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.Services.ProductService.Contracts.Product.Requests;
+namespace ProductService.Contracts.Product.Requests;
 
 /// <summary>
 /// A request to Add a Product to the repository.

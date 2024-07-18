@@ -1,8 +1,8 @@
 ﻿// <copyright file="UpdateUserRequest.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.Services.AuthService.Contracts.User.Requests;
+namespace AuthService.Contracts.User.Requests;
 
 /// <summary>
 /// A request to update the User in the repository.

@@ -1,10 +1,10 @@
 ﻿// <copyright file="ValidationError.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentResults;
 
-namespace SneakerCollector.SharedDefinitions.Domain.Common;
+namespace SharedDefinitions.Domain.Common;
 
 /// <summary>
 /// Base class to identify that an Validation Error ocurred.

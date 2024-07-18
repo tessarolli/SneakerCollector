@@ -1,12 +1,12 @@
 ﻿// <copyright file="ExceptionExtensions.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.SharedDefinitions. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using System.Net.Sockets;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 
-namespace SneakerCollector.SharedDefinitions.Infrastructure.Extensions;
+namespace SharedDefinitions.Infrastructure.Extensions;
 
 /// <summary>
 /// Provides Extensions Methods for Exceptions.

@@ -1,12 +1,12 @@
 ﻿// <copyright file="IUserRepository.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.Services.AuthService.Domain.Users;
-using SneakerCollector.Services.AuthService.Domain.Users.ValueObjects;
+using AuthService.Domain.Users;
+using AuthService.Domain.Users.ValueObjects;
 using FluentResults;
 
-namespace SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
+namespace AuthService.Application.Abstractions.Repositories;
 
 /// <summary>
 /// Interface for the User Repository.

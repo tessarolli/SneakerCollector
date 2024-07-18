@@ -1,22 +1,22 @@
 ﻿// <copyright file="DependencyInjection.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using System.Reflection;
+using AuthService.API.Swagger;
+using AuthService.Application.Abstractions.Authentication;
+using AuthService.Application.Abstractions.Repositories;
+using AuthService.Infrastructure.Authentication;
+using AuthService.Infrastructure.Repositories;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using Mapster;
-using MapsterMapper;
-using SneakerCollector.Services.AuthService.API.Swagger;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.AuthService.Infrastructure.Repositories;
-using SneakerCollector.SharedDefinitions.Domain.Common.Abstractions;
-using SneakerCollector.SharedDefinitions.Infrastructure.Services;
-using SneakerCollector.Services.AuthService.Application.Abstractions.Authentication;
-using SneakerCollector.Services.AuthService.Infrastructure.Authentication;
+using SharedDefinitions.Domain.Common.Abstractions;
+using SharedDefinitions.Infrastructure.Services;
 
-namespace SneakerCollector.Services.AuthService.API;
+namespace AuthService.API;
 
 /// <summary>
 /// Dependency Injection.

@@ -1,11 +1,11 @@
 ﻿// <copyright file="GetUserByIdQuery.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using SneakerCollector.Services.AuthService.Application.Users.Dtos;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Messaging;
+using AuthService.Application.Users.Dtos;
+using SharedDefinitions.Application.Abstractions.Messaging;
 
-namespace SneakerCollector.Services.AuthService.Application.Users.Queries.GetUserById;
+namespace AuthService.Application.Users.Queries.GetUserById;
 
 /// <summary>
 /// Gets the User by its Id.

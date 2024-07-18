@@ -1,5 +1,5 @@
 ﻿// <copyright file="ResultControllerBase.cs" company="SneakerCollector">
-// Copyright (c) AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using System.Runtime.CompilerServices;
@@ -9,42 +9,79 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SneakerCollector.SharedDefinitions.Application.Abstractions.Services;
-using SneakerCollector.SharedDefinitions.Application.Common.Errors;
-using SneakerCollector.SharedDefinitions.Domain.Common;
+using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Application.Common.Errors;
+using SharedDefinitions.Domain.Common;
 
-namespace SneakerCollector.SharedDefinitions.Presentation.Controllers;
+namespace SharedDefinitions.Presentation.Controllers;
 
 /// <summary>
 /// Base Class for Api Controller that Handles Validation Results.
 /// </summary>
 /// <typeparam name="TController">Type.</typeparam>
+/// <param name="mediator">Injected _mediator.</param>
+/// <param name="mapper">Injected _mapper.</param>
+/// <param name="logger">ILogger injected.</param>
+/// <param name="exceptionHandlingService">IExceptionHandlingService injected.</param>
 [ApiController]
 [Authorize]
-public class ResultControllerBase<TController> : ControllerBase
+public class ResultControllerBase<TController>(
+    IMediator mediator,
+    IMapper mapper,
+    ILogger<TController> logger,
+    IExceptionHandlingService exceptionHandlingService)
+    : ControllerBase
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
-    private readonly IExceptionHandlingService _exceptionHandlingService;
+    private readonly IMediator _mediator = mediator;
+    private readonly IMapper _mapper = mapper;
+    private readonly IExceptionHandlingService _exceptionHandlingService = exceptionHandlingService;
 
     /// <summary>
-    /// ILogger instance.
+    /// Gets the ILogger instance.
     /// </summary>
-    protected readonly ILogger _logger;
+    protected ILogger Logger { get; init; } = logger;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ResultControllerBase{T}"/> class.
+    /// Handler for received requests.
     /// </summary>
-    /// <param name="mediator">Injected _mediator.</param>
-    /// <param name="mapper">Injected _mapper.</param>
-    /// <param name="logger">ILogger injected.</param>
-    /// <param name="exceptionHandlingService">IExceptionHandlingService injected.</param>
-    public ResultControllerBase(IMediator mediator, IMapper mapper, ILogger<TController> logger, IExceptionHandlingService exceptionHandlingService)
+    /// <typeparam name="TCommandOrQuery">The Type of the Command or Query to execute.</typeparam>
+    /// <typeparam name="TDto">The Type of the Command or Query Result.</typeparam>
+    /// <typeparam name="TResponse">The Type of the Response (contract).</typeparam>
+    /// <param name="request">The input received in the request.</param>
+    /// <param name="caller">The Name of the Method that Invoked this method.</param>
+    /// <returns>An ActionResult for sending to the client.</returns>
+    [NonAction]
+    public async Task<IActionResult> HandleRequestAsync<TCommandOrQuery, TDto, TResponse>(object? request = null, [CallerMemberName] string caller = "")
     {
-        _mediator = mediator;
-        _mapper = mapper;
-        _logger = logger;
-        _exceptionHandlingService = exceptionHandlingService;
+        Logger.LogInformation("{Caller}: {Request}", caller, request);
+
+        Result<TDto> result;
+        TResponse? response = default;
+
+        try
+        {
+            // Create the command object based on the request type
+            object command = CreateCommandFromRequest<TCommandOrQuery>(request);
+
+            // Send command/query to mediator
+            result = await SendCommandToMediator<TDto>(command);
+
+            // Handle successful result
+            if (result.IsSuccess)
+            {
+                // Map the result to the response type
+                response = _mapper.Map<TResponse>(result.Value!);
+            }
+        }
+        catch (Exception ex)
+        {
+            result = _exceptionHandlingService.HandleException(ex, Logger);
+        }
+
+        return ValidateResult(
+               result,
+               () => Ok(response),
+               () => Problem());
     }
 
     /// <summary>
@@ -60,7 +97,7 @@ public class ResultControllerBase<TController> : ControllerBase
     {
         if (result.IsSuccess)
         {
-            _logger.LogInformation("Request Success");
+            Logger.LogInformation("Request Success");
 
             return success.Invoke();
         }
@@ -69,7 +106,7 @@ public class ResultControllerBase<TController> : ControllerBase
 
         var errorMessages = result.Errors.Select(e => e.Message).ToList();
 
-        _logger.LogInformation("Request Failure with message(s):\n{errorMessages}", errorMessages);
+        Logger.LogInformation("Request Failure with message(s):\n{ErrorMessages}", errorMessages);
 
         var status = GetStatusCode(result);
 
@@ -89,65 +126,27 @@ public class ResultControllerBase<TController> : ControllerBase
         };
     }
 
-    /// <summary>
-    /// Handler for received requests.
-    /// </summary>
-    /// <typeparam name="TCommandOrQuery">The Type of the Command or Query to execute.</typeparam>
-    /// <typeparam name="TDto">The Type of the Command or Query Result.</typeparam>
-    /// <typeparam name="TResponse">The Type of the Response (contract).</typeparam>
-    /// <param name="request">The input received in the request.</param>
-    /// <param name="caller">The Name of the Method that Invoked this method.</param>
-    /// <returns>An ActionResult for sending to the client.</returns>
-    [NonAction]
-    public async Task<IActionResult> HandleRequestAsync<TCommandOrQuery, TDto, TResponse>(object? request = null, [CallerMemberName] string caller = "")
+    private object CreateCommandFromRequest<TCommandOrQuery>(object? request)
     {
-        _logger.LogInformation($"{caller}: {request}");
-
-        Result<TDto> result;
-        TResponse? response = default;
-
-        try
+        if (request is null)
         {
-            object command;
-            if (request is null)
-            {
-                command = Activator.CreateInstance(typeof(TCommandOrQuery))!;
-            }
-            else
-            {
-                if (request is long idRequest)
-                {
-                    command = Activator.CreateInstance(typeof(TCommandOrQuery), idRequest)!;
-                }
-                else
-                {
-                    command = _mapper.Map<TCommandOrQuery>(request)!;
-                }
-            }
-
-            if (typeof(TDto) == typeof(Result))
-            {
-                result = await _mediator.Send((IRequest<Result>)command);
-            }
-            else
-            {
-                result = await _mediator.Send((IRequest<Result<TDto>>)command);
-            }
-
-            if (result.IsSuccess)
-            {
-                response = _mapper.Map<TResponse>(result.Value!);
-            }
-        }
-        catch (Exception ex)
-        {
-            result = _exceptionHandlingService.HandleException(ex, _logger);
+            // Create command without parameters
+            return Activator.CreateInstance(typeof(TCommandOrQuery))!;
         }
 
-        return ValidateResult(
-                   result,
-                   () => Ok(response),
-                   () => Problem());
+        // Create command based on request type
+        return request switch
+        {
+            long idRequest => Activator.CreateInstance(typeof(TCommandOrQuery), idRequest)!,
+            _ => _mapper.Map<TCommandOrQuery>(request)!
+        };
+    }
+
+    private async Task<Result<TDto>> SendCommandToMediator<TDto>(object command)
+    {
+        return typeof(TDto) == typeof(Result)
+            ? await _mediator.Send((IRequest<Result>)command)
+            : await _mediator.Send((IRequest<Result<TDto>>)command);
     }
 
     /// <summary>
@@ -156,7 +155,7 @@ public class ResultControllerBase<TController> : ControllerBase
     /// <typeparam name="T">Result Type.</typeparam>
     /// <param name="result">instance.</param>
     /// <returns>Http Status code.</returns>
-    private static (int, string) GetStatusCode<T>(Result<T> result)
+    private (int, string) GetStatusCode<T>(Result<T> result)
     {
         if (result.HasError<ValidationError>())
         {

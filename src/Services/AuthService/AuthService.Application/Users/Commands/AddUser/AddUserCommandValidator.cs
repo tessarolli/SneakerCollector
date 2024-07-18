@@ -1,10 +1,10 @@
 ﻿// <copyright file="AddUserCommandValidator.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentValidation;
 
-namespace SneakerCollector.Services.AuthService.Application.Users.Commands.AddUser;
+namespace AuthService.Application.Users.Commands.AddUser;
 
 /// <summary>
 /// Validator for the <see cref="AddUserCommand"/>.
@@ -18,22 +18,16 @@ public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
     {
         RuleFor(x => x.FirstName)
             .NotEmpty()
-                .WithMessage("First Name cannot be empty")
-            .MaximumLength(50)
-                .WithMessage("First Name cannot be larger than 50 characteres");
+            .MaximumLength(50);
 
         RuleFor(x => x.LastName)
             .NotEmpty()
-                .WithMessage("First Name cannot be empty")
-            .MaximumLength(50)
-                .WithMessage("First Name cannot be larger than 50 characteres");
+            .MaximumLength(50);
 
         RuleFor(x => x.Email)
-            .EmailAddress()
-                .WithMessage("Email is Invalid");
+            .EmailAddress();
 
         RuleFor(x => x.Password)
-            .NotEmpty()
-                .WithMessage("Password is required");
+            .NotEmpty();
     }
 }

@@ -1,19 +1,12 @@
 ﻿// <copyright file="DependencyInjection.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using System.Text;
-using SneakerCollector.Services.ProductService.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using SneakerCollector.Services.ProductService.Application.Abstractions.Repositories;
-using SneakerCollector.Services.ProductService.Infrastructure.Repositories;
+using ProductService.Application.Abstractions.Repositories;
+using ProductService.Infrastructure.Repositories;
 
-namespace SneakerCollector.Services.ProductService.Infrastructure;
+namespace ProductService.Infrastructure;
 
 /// <summary>
 /// Dependency Injection.
@@ -27,7 +20,7 @@ public static class DependencyInjection
     /// <returns>Services with dependencies injected.</returns>
     public static IServiceCollection AddProductServicePersistance(this IServiceCollection services)
     {
-        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IShoeRepository, ShoeRepository>();
 
         return services;
     }

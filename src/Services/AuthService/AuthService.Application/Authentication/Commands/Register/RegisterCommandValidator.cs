@@ -1,10 +1,10 @@
 ﻿// <copyright file="RegisterCommandValidator.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.AuthService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
 using FluentValidation;
 
-namespace SneakerCollector.Services.AuthService.Application.Authentication.Commands.Register;
+namespace AuthService.Application.Authentication.Commands.Register;
 
 /// <summary>
 /// Validation Rules for the Register Command.
@@ -16,9 +16,16 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
     /// </summary>
     public RegisterCommandValidator()
     {
-        RuleFor(x => x.FirstName).NotEmpty();
-        RuleFor(x => x.LastName).NotEmpty();
-        RuleFor(x => x.Email).NotEmpty();
-        RuleFor(x => x.Password).NotEmpty();
+        RuleFor(x => x.FirstName)
+            .NotEmpty();
+
+        RuleFor(x => x.LastName)
+            .NotEmpty();
+
+        RuleFor(x => x.Email)
+            .NotEmpty();
+
+        RuleFor(x => x.Password)
+            .NotEmpty();
     }
 }

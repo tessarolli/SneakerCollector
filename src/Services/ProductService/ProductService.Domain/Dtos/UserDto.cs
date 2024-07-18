@@ -1,8 +1,8 @@
 ﻿// <copyright file="UserDto.cs" company="SneakerCollector">
-// Copyright (c) SneakerCollector.Services.ProductService. All rights reserved.
+// Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace SneakerCollector.Services.ProductService.Domain.Products.Dtos;
+namespace ProductService.Domain.Dtos;
 
 /// <summary>
 /// Data Transfer Object for the User Domain Model.
@@ -23,7 +23,7 @@ public class UserDto
     /// Gets or Sets the User's Last Name.
     /// </summary>
     public string LastName { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets or Sets the User's E-Mail.
     /// </summary>
