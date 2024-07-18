@@ -24,10 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requests", "Requests", "{FC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{A132639A-2F1D-444E-A130-0CD038903765}"
 	ProjectSection(SolutionItems) = preProject
-		Requests\Users\AddUser.http = Requests\Users\AddUser.http
-		Requests\Users\DeleteUser.http = Requests\Users\DeleteUser.http
-		Requests\Users\GetUserById.http = Requests\Users\GetUserById.http
-		Requests\Users\UpdateUser.http = Requests\Users\UpdateUser.http
+		Requests\Users\Add.http = Requests\Users\Add.http
+		Requests\Users\Delete.http = Requests\Users\Delete.http
+		Requests\Users\GetById.http = Requests\Users\GetById.http
+		Requests\Users\Update.http = Requests\Users\Update.http
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{6A85622C-622A-4579-B06E-CE4DC590169D}"
@@ -37,14 +37,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentic
 		Requests\Authentication\UserLogin.http = Requests\Authentication\UserLogin.http
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{A486C5AD-F5B3-4046-8434-39C6BF7CE38C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shoes", "Shoes", "{A486C5AD-F5B3-4046-8434-39C6BF7CE38C}"
 	ProjectSection(SolutionItems) = preProject
-		Requests\Products\AddProduct.http = Requests\Products\AddProduct.http
-		Requests\Products\DeleteProduct.http = Requests\Products\DeleteProduct.http
-		Requests\Products\GetDiscount.http = Requests\Products\GetDiscount.http
-		Requests\Products\GetProductById.http = Requests\Products\GetProductById.http
-		Requests\Products\GetProductsList.http = Requests\Products\GetProductsList.http
-		Requests\Products\UpdateProduct.http = Requests\Products\UpdateProduct.http
+		Requests\Products\Add.http = Requests\Products\Add.http
+		Requests\Products\Delete.http = Requests\Products\Delete.http
+		Requests\Products\GetAll.http = Requests\Products\GetAll.http
+		Requests\Products\Update.http = Requests\Products\Update.http
+		Requests\Products\GetById.http = Requests\Products\GetById.http
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ADE927F6-F592-4CE2-9412-5BA99CEE6A80}"

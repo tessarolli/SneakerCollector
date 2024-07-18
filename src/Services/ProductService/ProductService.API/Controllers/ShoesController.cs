@@ -1,4 +1,4 @@
-﻿// <copyright file="ProductsController.cs" company="SneakerCollector">
+﻿// <copyright file="ShoesController.cs" company="SneakerCollector">
 // Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
@@ -13,8 +13,8 @@ using ProductService.Application.Shoes.Commands.UpdateShoe;
 using ProductService.Application.Shoes.Dtos;
 using ProductService.Application.Shoes.Queries.GetShoeById;
 using ProductService.Application.Shoes.Queries.GetShoesList;
-using ProductService.Contracts.Product.Requests;
-using ProductService.Contracts.Product.Responses;
+using ProductService.Contracts.Shoes.Requests;
+using ProductService.Contracts.Shoes.Responses;
 using SharedDefinitions.Application.Abstractions.Services;
 using SharedDefinitions.Presentation.Attributes;
 using SharedDefinitions.Presentation.Controllers;
@@ -22,27 +22,27 @@ using SharedDefinitions.Presentation.Controllers;
 namespace ProductService.API.Controllers;
 
 /// <summary>
-/// Products Controller.
+/// ShoesController Controller.
 /// </summary>
 /// <param name="mediator">Injected _mediator.</param>
 /// <param name="mapper">Injected _mapper.</param>
 /// <param name="logger">Injected Logger.</param>
 /// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
 [Route("[controller]")]
-public class ProductsController(
+public class ShoesController(
     IMediator mediator,
     IMapper mapper,
-    ILogger<ProductsController> logger,
+    ILogger<ShoesController> logger,
     IExceptionHandlingService exceptionHandlingService)
-    : ResultControllerBase<ProductsController>(mediator, mapper, logger, exceptionHandlingService)
+    : ResultControllerBase<ShoesController>(mediator, mapper, logger, exceptionHandlingService)
 {
     /// <summary>
-    /// Gets a list of Products.
+    /// Gets a list of Shoes.
     /// </summary>
-    /// <returns>The list of Products.</returns>
+    /// <returns>The list of Shoes.</returns>
     [HttpGet]
     [RoleAuthorize]
-    public async Task<IActionResult> GetProducts() =>
+    public async Task<IActionResult> GetAll() =>
         await HandleRequestAsync<GetShoesListQuery, List<ShoeDto>, List<ProductResponse>>();
 
     /// <summary>
@@ -52,7 +52,7 @@ public class ProductsController(
     /// <returns>The Shoe Aggregate.</returns>
     [HttpGet("{id:long}")]
     [RoleAuthorize]
-    public async Task<IActionResult> GetProductById(long id) =>
+    public async Task<IActionResult> GetById(long id) =>
         await HandleRequestAsync<GetShoeByIdQuery, ShoeDto, ProductResponse>(id);
 
     /// <summary>
@@ -62,7 +62,7 @@ public class ProductsController(
     /// <returns>The Shoe instance created with Id.</returns>
     [HttpPost]
     [RoleAuthorize(Roles.Admin)]
-    public async Task<IActionResult> AddProduct(AddProductRequest request) =>
+    public async Task<IActionResult> Add(AddShoeRequest request) =>
         await HandleRequestAsync<AddShoeCommand, ShoeDto, ProductResponse>(request);
 
     /// <summary>
@@ -72,7 +72,7 @@ public class ProductsController(
     /// <returns>The Shoe instance created with Id.</returns>
     [HttpPut]
     [RoleAuthorize(Roles.Admin)]
-    public async Task<IActionResult> UpdateProduct(UpdateProductRequest request) =>
+    public async Task<IActionResult> Update(UpdateShoeRequest request) =>
         await HandleRequestAsync<UpdateShoeCommand, ShoeDto, ProductResponse>(request);
 
     /// <summary>
@@ -82,6 +82,6 @@ public class ProductsController(
     /// <returns>The Action Result of the delete operation.</returns>
     [HttpDelete("{id:long}")]
     [RoleAuthorize(Roles.Admin)]
-    public async Task<IActionResult> DeleteProduct(long id) =>
+    public async Task<IActionResult> Delete(long id) =>
         await HandleRequestAsync<DeleteShoeCommand, Result, object>(id);
 }

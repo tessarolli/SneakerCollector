@@ -1,16 +1,15 @@
-﻿// <copyright file="AddShoeCommand.cs" company="SneakerCollector">
+﻿// <copyright file="ShoeResponse.cs" company="SneakerCollector">
 // Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using ProductService.Application.Shoes.Dtos;
-using ProductService.Domain.Shoes.Enums;
-using SharedDefinitions.Application.Abstractions.Messaging;
-
-namespace ProductService.Application.Shoes.Commands.AddShoe;
+namespace ShoeService.Contracts.Shoes.Responses;
 
 /// <summary>
-/// Command to Add a Shoe to the catalog.
+/// The Contract for Shoe Response.
+/// Contract for a Shoe Aggregate Instance Response.
+/// Can be used in collections.
 /// </summary>
+/// <param name="ShoeId">The Shoe's Id.</param>
 /// <param name="OwnerId">The Shoe's Owner Id.</param>
 /// <param name="BrandId">The Shoe's Brand Id.</param>
 /// <param name="BrandName">The Shoe's Brand Name.</param>
@@ -21,14 +20,17 @@ namespace ProductService.Application.Shoes.Commands.AddShoe;
 /// <param name="Size">The Shoe's Size.</param>
 /// <param name="Year">The Shoe's Launch Year.</param>
 /// <param name="Rating">The Shoe's Rating.</param>
-public record AddShoeCommand(
+/// <param name="CreatedAtUtc">The Shoe's Creation Date in UTC.</param>
+public record ShoeResponse(
+    long ShoeId,
     long OwnerId,
     long BrandId,
     string BrandName,
     string Name,
-    Currency Currency,
+    int Currency,
     decimal Price,
-    ShoeSizeUnit SizeUnit,
+    int SizeUnit,
     decimal Size,
     int Year,
-    int Rating) : ICommand<ShoeDto>;
+    int Rating,
+    DateTime CreatedAtUtc);

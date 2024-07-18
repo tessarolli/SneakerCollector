@@ -12,7 +12,7 @@ using ProductService.Domain.Shoes.Enums;
 using NSubstitute;
 using FluentAssertions;
 
-namespace ShoeService.UnitTests.Infrastructure;
+namespace ProductService.UnitTests.Infrastructure;
 
 public class ShoeRepositoryTests
 {
@@ -36,7 +36,7 @@ public class ShoeRepositoryTests
         var dbShoe = new ShoeDb(1, 1, 1, "Test Shoe", 1, 100, 0, 10, 2022, 5, DateTime.UtcNow);
         var brandDb = new BrandDb(1, "Test Brand");
 
-        _dapper.QueryAsync<ShoeDb, BrandDb, (ShoeDb, BrandDb)>(
+        _dapper.QueryAsync(
             Arg.Any<string>(),
             Arg.Any<Func<ShoeDb, BrandDb, (ShoeDb, BrandDb)>>(),
             Arg.Any<object>(),
@@ -64,7 +64,7 @@ public class ShoeRepositoryTests
             (new ShoeDb(2, 1, 1, "Test Shoe 2", 1, 150, 11, 0, 2023, 4, DateTime.UtcNow), new BrandDb(1, "Brand 1"))
         };
 
-        _dapper.QueryAsync<ShoeDb, BrandDb, (ShoeDb, BrandDb)>(
+        _dapper.QueryAsync(
             Arg.Any<string>(),
             Arg.Any<Func<ShoeDb, BrandDb, (ShoeDb, BrandDb)>>(),
             Arg.Any<object>(),
@@ -96,7 +96,7 @@ public class ShoeRepositoryTests
         var returnedShoeDb = new ShoeDb(1, 1, 1, "New Shoe", 1, 100, 10, 0, 2022, 5, now);
         var returnedBrandDb = new BrandDb(1, "Brand");
 
-        _dapper.QueryAsync<ShoeDb, BrandDb, (ShoeDb, BrandDb)>(
+        _dapper.QueryAsync(
             Arg.Any<string>(),
             Arg.Any<Func<ShoeDb, BrandDb, (ShoeDb, BrandDb)>>(),
             Arg.Any<object>(),
@@ -129,7 +129,7 @@ public class ShoeRepositoryTests
         var updatedShoeDb = new ShoeDb(1, 1, 1, "Existing Shoe", 1, 100, 10, 0, 2022, 5, now);
         var updatedBrandDb = new BrandDb(1, "Brand");
 
-        _dapper.QueryAsync<ShoeDb, BrandDb, (ShoeDb, BrandDb)>(
+        _dapper.QueryAsync(
             Arg.Any<string>(),
             Arg.Any<Func<ShoeDb, BrandDb, (ShoeDb, BrandDb)>>(),
             Arg.Any<object>(),

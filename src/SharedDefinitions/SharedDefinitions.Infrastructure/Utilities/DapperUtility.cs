@@ -16,9 +16,9 @@ namespace SharedDefinitions.Infrastructure.Utilities;
 /// Initializes a new instance of the <see cref="DapperUtility"/> class.
 /// </remarks>
 /// <param name="connectionFactory">ISqlConnectionFactory injected.</param>
-public sealed class DapperUtility(ISqlConnectionFactory<DbConnection> connectionFactory) : IDapperUtility
+public sealed class DapperUtility(ISqlConnectionFactory connectionFactory) : IDapperUtility
 {
-    private readonly ISqlConnectionFactory<DbConnection> _connectionFactory = connectionFactory;
+    private readonly ISqlConnectionFactory _connectionFactory = connectionFactory;
 
     /// <inheritdoc/>
     public async Task<IEnumerable<T>> QueryAsync<T>(

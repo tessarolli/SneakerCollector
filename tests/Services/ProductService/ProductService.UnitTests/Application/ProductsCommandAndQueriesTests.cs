@@ -9,7 +9,7 @@ using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.Enums;
 using ProductService.Domain.Shoes.ValueObjects;
 
-namespace ShoeService.UnitTests.Application;
+namespace ProductService.UnitTests.Application;
 
 public class ShoesCommandAndQueriesTests
 {

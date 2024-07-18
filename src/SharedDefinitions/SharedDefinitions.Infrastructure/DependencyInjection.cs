@@ -82,7 +82,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IDapperUtility, DapperUtility>();
 
-        services.AddScoped(typeof(ISqlConnectionFactory<>), typeof(PostgresSqlConnectionFactory));
+        services.AddScoped<ISqlConnectionFactory, PostgresSqlConnectionFactory>();
 
         return services;
     }

@@ -12,7 +12,7 @@ namespace SharedDefinitions.Infrastructure.Services;
 /// <summary>
 /// Postgres Sql Connection Factory.
 /// </summary>
-public sealed class PostgresSqlConnectionFactory : ISqlConnectionFactory<DbConnection>
+public sealed class PostgresSqlConnectionFactory : ISqlConnectionFactory
 {
     /// <inheritdoc/>
     public DbConnection CreateConnection()
