@@ -18,4 +18,6 @@ public record ShoeDto(
     decimal Price,
     ShoeSizeUnit SizeUnit,
     decimal Size,
+    int Year,
+    int Rating,
     DateTime CreatedAtUtc);

@@ -37,6 +37,8 @@ public class GetShoeByIdQueryHandler(IShoeRepository shoeRepository)
             productDomainModel.Value.Price.Amount,
             productDomainModel.Value.Size.Unit,
             productDomainModel.Value.Size.Value,
+            productDomainModel.Value.Year,
+            productDomainModel.Value.Rating,
             productDomainModel.Value.CreatedAtUtc));
     }
 }

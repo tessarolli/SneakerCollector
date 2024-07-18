@@ -59,6 +59,8 @@ public class AddShoeCommandHandler(IShoeRepository shoeRepository) : ICommandHan
             addResult.Value.Price.Amount,
             addResult.Value.Size.Unit,
             addResult.Value.Size.Value,
+            addResult.Value.Year,
+            addResult.Value.Rating,
             addResult.Value.CreatedAtUtc));
     }
 }

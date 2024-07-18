@@ -10,16 +10,16 @@ using SharedDefinitions.Application.Abstractions.Messaging;
 namespace ProductService.Application.Shoes.Queries.GetShoesList;
 
 /// <summary>
-/// Mediator Handler for the <see cref="GetProductsListQuery"/>.
+/// Mediator Handler for the <see cref="GetShoesListQuery"/>.
 /// </summary>
 /// <param name="shoeRepository">Injected ShoeRepository.</param>
 public class GetShoesListQueryHandler(IShoeRepository shoeRepository)
-    : IQueryHandler<GetProductsListQuery, List<ShoeDto>>
+    : IQueryHandler<GetShoesListQuery, List<ShoeDto>>
 {
     private readonly IShoeRepository _shoeRepository = shoeRepository;
 
     /// <inheritdoc/>
-    public async Task<Result<List<ShoeDto>>> Handle(GetProductsListQuery query, CancellationToken cancellationToken)
+    public async Task<Result<List<ShoeDto>>> Handle(GetShoesListQuery query, CancellationToken cancellationToken)
     {
         var result = new List<ShoeDto>();
 
@@ -40,6 +40,8 @@ public class GetShoesListQueryHandler(IShoeRepository shoeRepository)
                 shoe.Price.Amount,
                 shoe.Size.Unit,
                 shoe.Size.Value,
+                shoe.Year,
+                shoe.Rating,
                 shoe.CreatedAtUtc));
         }
 

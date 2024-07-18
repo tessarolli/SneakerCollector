@@ -43,7 +43,7 @@ public class ProductsController(
     [HttpGet]
     [RoleAuthorize]
     public async Task<IActionResult> GetProducts() =>
-        await HandleRequestAsync<GetProductsListQuery, List<ShoeDto>, List<ProductResponse>>();
+        await HandleRequestAsync<GetShoesListQuery, List<ShoeDto>, List<ProductResponse>>();
 
     /// <summary>
     /// Gets a Shoe by its Id.

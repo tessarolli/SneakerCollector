@@ -58,6 +58,8 @@ public class UpdateShoeCommandHandler(IShoeRepository shoeRepository) : ICommand
             updateResult.Value.Price.Amount,
             updateResult.Value.Size.Unit,
             updateResult.Value.Size.Value,
+            updateResult.Value.Year,
+            updateResult.Value.Rating,
             updateResult.Value.CreatedAtUtc));
     }
 }

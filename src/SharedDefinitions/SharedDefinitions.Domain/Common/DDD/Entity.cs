@@ -22,6 +22,21 @@ public abstract class Entity<TId>(TId id) : IEntity, IEqualityComparer<Entity<TI
     /// </summary>
     public TId Id { get; protected set; } = id;
 
+    public static bool operator ==(Entity<TId>? left, Entity<TId>? right)
+    {
+        if (left is null)
+        {
+            return right is null;
+        }
+
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(Entity<TId>? left, Entity<TId>? right)
+    {
+        return !(left == right);
+    }
+
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
@@ -42,7 +57,7 @@ public abstract class Entity<TId>(TId id) : IEntity, IEqualityComparer<Entity<TI
     /// <inheritdoc/>
     public int GetHashCode([DisallowNull] Entity<TId> obj)
     {
-        return Id.GetHashCode();
+        return obj.Id.GetHashCode();
     }
 
     /// <inheritdoc/>

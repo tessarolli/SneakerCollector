@@ -1,4 +1,4 @@
-﻿// <copyright file="GetProductByIdQueryValidator.cs" company="SneakerCollector">
+﻿// <copyright file="GetShoeByIdQueryValidator.cs" company="SneakerCollector">
 // Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
@@ -9,12 +9,12 @@ namespace ProductService.Application.Shoes.Queries.GetShoeById;
 /// <summary>
 /// Validator for the <see cref="GetShoeByIdQuery"/>.
 /// </summary>
-public class GetProductByIdQueryValidator : AbstractValidator<GetShoeByIdQuery>
+public class GetShoeByIdQueryValidator : AbstractValidator<GetShoeByIdQuery>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="GetProductByIdQueryValidator"/> class.
+    /// Initializes a new instance of the <see cref="GetShoeByIdQueryValidator"/> class.
     /// </summary>
-    public GetProductByIdQueryValidator()
+    public GetShoeByIdQueryValidator()
     {
         RuleFor(x => x.Id)
           .NotEmpty()

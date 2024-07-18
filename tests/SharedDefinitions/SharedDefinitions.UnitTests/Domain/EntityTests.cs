@@ -10,10 +10,8 @@ namespace SharedDefinitions.UnitTests.Domain;
 
 public class EntityTests
 {
-    public class TestEntity : Entity<int>
+    public class TestEntity(int id) : Entity<int>(id)
     {
-        public TestEntity(int id) : base(id) { }
-
         protected override object GetValidator()
         {
             return new TestEntityValidator();
