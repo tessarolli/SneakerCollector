@@ -1,4 +1,5 @@
 ﻿using ProductService.Application.Abstractions.Repositories;
+using ProductService.Application.Abstractions.Services;
 using ProductService.Application.Shoes.Commands.AddShoe;
 using ProductService.Application.Shoes.Commands.DeleteShoe;
 using ProductService.Application.Shoes.Commands.UpdateShoe;
@@ -9,16 +10,21 @@ using ProductService.Domain.Brands;
 using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.Enums;
 using ProductService.Domain.Shoes.ValueObjects;
+using SharedDefinitions.Application.Models;
 
 namespace ProductService.UnitTests.Application;
 
 public class ShoesCommandAndQueriesTests
 {
     private readonly IShoeRepository _shoeRepository;
+    private readonly IBrandRepository _brandRepository;
+    private readonly IUserService _userService;
 
     public ShoesCommandAndQueriesTests()
     {
         _shoeRepository = Substitute.For<IShoeRepository>();
+        _brandRepository = Substitute.For<IBrandRepository>();
+        _userService = Substitute.For<IUserService>();
     }
 
     [Fact]
@@ -27,11 +33,11 @@ public class ShoesCommandAndQueriesTests
         // Arrange
         var utcNow = DateTime.UtcNow;
         var shoeDto = new ShoeDto(1, 1, 1, "Shoe", Currency.USD, 0, ShoeSizeUnit.EU, 0, 2000, 0, utcNow);
-        var addShoeCommand = new AddShoeCommand(1, 1, "Brand", "Shoe", Currency.USD, 0, ShoeSizeUnit.EU, 0, 2000, 0);
+        var addShoeCommand = new AddShoeCommand(1, 1, "Shoe", Currency.USD, 0, ShoeSizeUnit.EU, 0, 2000, 0);
         var shoeDomainModel = Shoe.Create(new ShoeId(1), 1, "Shoe", Brand.Create(new(1), "Brand").Value, new Price(Currency.USD, 0), new Size(ShoeSizeUnit.EU, 0), 2000, 0, utcNow);
         _shoeRepository.AddAsync(Arg.Any<Shoe>()).Returns(Result.Ok(shoeDomainModel.Value));
 
-        var handler = new AddShoeCommandHandler(_shoeRepository);
+        var handler = new AddShoeCommandHandler(_brandRepository, _shoeRepository, _userService);
 
         // Act
         var result = await handler.Handle(addShoeCommand, CancellationToken.None);
@@ -46,11 +52,11 @@ public class ShoesCommandAndQueriesTests
     {
         // Arrange
         var utcNow = DateTime.UtcNow;
-        var addShoeCommand = new AddShoeCommand(1, 1, "Brand", "Shoe", Currency.USD, 0, ShoeSizeUnit.EU, 0, 2000, 0);
+        var addShoeCommand = new AddShoeCommand(1, 1, "Shoe", Currency.USD, 0, ShoeSizeUnit.EU, 0, 2000, 0);
         var error = new Error("Invalid Shoe Data");
         _ = Shoe.Create(new ShoeId(1), 1, "Shoe", Brand.Create(new(1), "Brand").Value, new Price(Currency.USD, 0), new Size(ShoeSizeUnit.EU, 0), 2000, 0, utcNow);
         _shoeRepository.AddAsync(Arg.Any<Shoe>()).Returns(Result.Fail(error));
-        var handler = new AddShoeCommandHandler(_shoeRepository);
+        var handler = new AddShoeCommandHandler(_brandRepository, _shoeRepository, _userService);
 
         // Act
         var result = await handler.Handle(addShoeCommand, CancellationToken.None);
@@ -117,7 +123,7 @@ public class ShoesCommandAndQueriesTests
     {
         // Arrange
         var utcNow = DateTime.UtcNow;
-        var handler = new UpdateShoeCommandHandler(_shoeRepository);
+        var handler = new UpdateShoeCommandHandler(_brandRepository, _shoeRepository, _userService);
         var request = new UpdateShoeCommand(1, 1, 1, "Brand", "Shoe", Currency.USD, 100, ShoeSizeUnit.EU, 5, 2000, 0);
         var shoeDomainModel = Shoe.Create(new ShoeId(1), 1, "Shoe", Brand.Create(new(1), "Brand").Value, new Price(Currency.USD, 100), new Size(ShoeSizeUnit.EU, 0), 2000, 0, utcNow);
 
@@ -140,7 +146,7 @@ public class ShoesCommandAndQueriesTests
     public async Task Handle_InvalidRequest_ReturnsFailureResult()
     {
         // Arrange
-        var handler = new UpdateShoeCommandHandler(_shoeRepository);
+        var handler = new UpdateShoeCommandHandler(_brandRepository, _shoeRepository, _userService);
         var request = new UpdateShoeCommand(1, 1, 1, "Brand", "Shoe", Currency.USD, -1, ShoeSizeUnit.US, 1, 100, 0);
         var shoeDomainModel = Result.Fail<Shoe>("Invalid data.");
 
@@ -213,15 +219,15 @@ public class ShoesCommandAndQueriesTests
     {
         // Arrange
         var userRepository = Substitute.For<IShoeRepository>();
-        var shoesListQuery = new GetShoesListQuery();
+        var shoesListQuery = new GetShoesListQuery(null);
         var shoesListQueryHandler = new GetShoesListQueryHandler(userRepository);
-
-        var mockedShoes = new List<Shoe>
+        var shoeDomainModel = Shoe.Create(new ShoeId(1), 1, "Shoe", Brand.Create(new(1), "Brand").Value, new Price(Currency.USD, 100), new Size(ShoeSizeUnit.EU, 0), 2000, 0).Value;
+        var mockedShoes = new PagedResult<Shoe>
         {
-            Shoe.Create(new ShoeId(1), 1, "Shoe", Brand.Create(new(1), "Brand").Value, new Price(Currency.USD, 100), new Size(ShoeSizeUnit.EU, 0), 2000, 0).Value
+            Items = [shoeDomainModel],
         };
 
-        userRepository.GetAllAsync().Returns(Result.Ok(mockedShoes));
+        userRepository.GetAllAsync(null).Returns(Result.Ok(mockedShoes));
 
         // Act
         var result = await shoesListQueryHandler.Handle(shoesListQuery, CancellationToken.None);
@@ -240,10 +246,11 @@ public class ShoesCommandAndQueriesTests
     {
         // Arrange
         var userRepository = Substitute.For<IShoeRepository>();
-        var shoesListQuery = new GetShoesListQuery();
+        var shoesListQuery = new GetShoesListQuery(null);
         var shoesListQueryHandler = new GetShoesListQueryHandler(userRepository);
+        var mockedShoes = new PagedResult<Shoe>();
 
-        userRepository.GetAllAsync().Returns(Result.Ok(new List<Shoe>()));
+        userRepository.GetAllAsync(null).Returns(Result.Ok(mockedShoes));
 
         // Act
         var result = await shoesListQueryHandler.Handle(shoesListQuery, CancellationToken.None);

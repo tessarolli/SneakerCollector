@@ -35,7 +35,7 @@ public class UserRepository(IDapperUtility dapperUtility, ILogger<UserRepository
 
         var user = await _db.QueryFirstOrDefaultAsync<UserDb>(sql, new { id });
 
-        return CreateUserResultFromUserDB(user);
+        return MapToDomainModel(user);
     }
 
     /// <inheritdoc/>
@@ -53,7 +53,7 @@ public class UserRepository(IDapperUtility dapperUtility, ILogger<UserRepository
         var users = await _db.QueryAsync<UserDb>(sql, parameters);
 
         return users
-            .Select(CreateUserResultFromUserDB)
+            .Select(MapToDomainModel)
             .Where(x => x.IsSuccess)
             .Select(x => x.Value)
             .ToList();
@@ -67,7 +67,7 @@ public class UserRepository(IDapperUtility dapperUtility, ILogger<UserRepository
         var users = await _db.QueryAsync<UserDb>(sql, null);
 
         return users
-            .Select(CreateUserResultFromUserDB)
+            .Select(MapToDomainModel)
             .Where(x => x.IsSuccess)
             .Select(x => x.Value)
             .ToList();
@@ -82,7 +82,7 @@ public class UserRepository(IDapperUtility dapperUtility, ILogger<UserRepository
 
         var user = await _db.QueryFirstOrDefaultAsync<UserDb>(sql, new { email });
 
-        return CreateUserResultFromUserDB(user);
+        return MapToDomainModel(user);
     }
 
     /// <inheritdoc/>
@@ -163,7 +163,7 @@ public class UserRepository(IDapperUtility dapperUtility, ILogger<UserRepository
     /// </summary>
     /// <param name="user">The User Data Transfer Object.</param>
     /// <returns>An Result indicating the status of the operation.</returns>
-    private static Result<User> CreateUserResultFromUserDB(UserDb? user)
+    private static Result<User> MapToDomainModel(UserDb? user)
     {
         if (user is null)
         {

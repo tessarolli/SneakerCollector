@@ -6,6 +6,7 @@ using System.Data.Common;
 using FluentResults;
 using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.ValueObjects;
+using SharedDefinitions.Application.Models;
 
 namespace ProductService.Application.Abstractions.Repositories;
 
@@ -25,8 +26,9 @@ public interface IShoeRepository
     /// <summary>
     /// Gets a List of all Shoes from the repository.
     /// </summary>
-    /// <returns>A Result indicating the status of this operation.</returns>
-    Task<Result<List<Shoe>>> GetAllAsync();
+    /// <param name="request">Pagination, Filtering and Sorting request.</param>
+    /// <returns>A Paged Result indicating the status of this operation.</returns>
+    public Task<Result<PagedResult<Shoe>>> GetAllAsync(PagedAndSortedResultRequest? request);
 
     /// <summary>
     /// Add an Shoe into the Repository.

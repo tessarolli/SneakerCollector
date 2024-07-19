@@ -15,7 +15,9 @@ using ProductService.Domain.Shoes.Enums;
 using ProductService.Domain.Shoes.ValueObjects;
 using ProductService.Infrastructure.Dtos;
 using SharedDefinitions.Application.Common.Errors;
+using SharedDefinitions.Application.Models;
 using SharedDefinitions.Infrastructure.Abstractions;
+using SharedDefinitions.Infrastructure.Services;
 
 namespace ProductService.Infrastructure.Repositories;
 
@@ -25,14 +27,17 @@ namespace ProductService.Infrastructure.Repositories;
 /// <param name="dapperUtility">IDapperUtility to inject.</param>
 /// <param name="logger">ILogger to inject.</param>
 /// <param name="dapr">DaprClient to inject.</param>
+/// <param name="pagingSortingFilteringService">IPagingSortingFilteringService to inject.</param>
 public class ShoeRepository(
     IDapperUtility dapperUtility,
     ILogger<ShoeRepository> logger,
-    DaprClient dapr) : IShoeRepository
+    DaprClient dapr,
+    IPagingSortingFilteringService pagingSortingFilteringService) : IShoeRepository
 {
     private readonly IDapperUtility _db = dapperUtility ?? throw new ArgumentNullException(nameof(dapperUtility));
     private readonly DaprClient _dapr = dapr ?? throw new ArgumentNullException(nameof(dapr));
     private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly IPagingSortingFilteringService _pagingSortingFilteringService = pagingSortingFilteringService;
 
     /// <inheritdoc/>
     public async Task<Result<Shoe>> GetByIdAsync(ShoeId id, DbTransaction? transaction = null)
@@ -71,11 +76,13 @@ public class ShoeRepository(
     }
 
     /// <inheritdoc/>
-    public async Task<Result<List<Shoe>>> GetAllAsync()
+    public async Task<Result<PagedResult<Shoe>>> GetAllAsync(PagedAndSortedResultRequest? request)
     {
         _logger.LogInformation("ShoeRepository.GetAllAsync");
 
-        const string sql = @"
+        request ??= new();
+
+        const string baseQuery = @"
             SELECT 
                 s.*, b.*
             FROM 
@@ -83,13 +90,20 @@ public class ShoeRepository(
             JOIN
                 brands b ON s.brand_id = b.id";
 
-        var shoes = await _db.QueryAsync<ShoeDb, BrandDb, (ShoeDb, BrandDb)>(sql, (shoe, brand) => (shoe, brand));
+        var query = _pagingSortingFilteringService.BuildCompleteQuery(baseQuery, request, "s");
+
+        var shoes = await _db.QueryAsync<ShoeDb, BrandDb, (ShoeDb, BrandDb)>(query, (shoe, brand) => (shoe, brand));
 
         var domainModelResults = shoes.Select((tuple) => MapToDomainModel(tuple.Item1, tuple.Item2));
 
         var validDomainModels = domainModelResults.Where(mapped => mapped.IsSuccess).Select(mapped => mapped.Value).ToList();
 
-        return Result.Ok(validDomainModels);
+        return Result.Ok(new PagedResult<Shoe>
+        {
+            Items = validDomainModels,
+            Page = request.Page,
+            PageSize = request.PageSize,
+        });
     }
 
     /// <inheritdoc/>
@@ -156,7 +170,6 @@ public class ShoeRepository(
                  SET 
                      name = @Name, 
                      owner_id = @OwnerId,
-                     description = @Description,
                      size_value = @Value,
                      size_unit = @Unit,
                      price_amount = @Amount,

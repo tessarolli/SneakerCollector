@@ -16,6 +16,7 @@ using ProductService.Application.Shoes.Queries.GetShoesList;
 using ProductService.Contracts.Shoes.Requests;
 using ProductService.Contracts.Shoes.Responses;
 using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Application.Models;
 using SharedDefinitions.Presentation.Attributes;
 using SharedDefinitions.Presentation.Controllers;
 
@@ -39,11 +40,12 @@ public class ShoesController(
     /// <summary>
     /// Gets a list of Shoes.
     /// </summary>
+    /// <param name="request">Pagination, Filtering and Sorting request.</param>
     /// <returns>The list of Shoes.</returns>
     [HttpGet]
     [RoleAuthorize]
-    public async Task<IActionResult> GetAll() =>
-        await HandleRequestAsync<GetShoesListQuery, List<ShoeDto>, List<ShoeResponse>>();
+    public async Task<IActionResult> GetAll([FromQuery] PagedAndSortedResultRequest request) =>
+        await HandleRequestAsync<GetShoesListQuery, PagedResult<ShoeDto>, PagedResult<ShoeResponse>>(request);
 
     /// <summary>
     /// Gets a Shoe by its Id.

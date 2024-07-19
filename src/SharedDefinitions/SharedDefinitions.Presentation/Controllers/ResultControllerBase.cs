@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SharedDefinitions.Application.Abstractions.Services;
 using SharedDefinitions.Application.Common.Errors;
+using SharedDefinitions.Application.Models;
 using SharedDefinitions.Domain.Common;
 
 namespace SharedDefinitions.Presentation.Controllers;
@@ -169,6 +170,7 @@ public class ResultControllerBase<TController>(
         return request switch
         {
             long idRequest => Activator.CreateInstance(typeof(TCommandOrQuery), idRequest)!,
+            PagedAndSortedResultRequest pagedRequest => Activator.CreateInstance(typeof(TCommandOrQuery), pagedRequest)!,
             _ => _mapper.Map<TCommandOrQuery>(request)!
         };
     }

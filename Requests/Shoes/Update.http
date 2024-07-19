@@ -9,7 +9,7 @@ Content-Type: application/json
   "shoeId": 1,
   "ownerId": 29,
   "brandId": 1,
-  "name": "New Shoe asda",
+  "name": "Nike running quickz",
   "currency": 1,
   "price": 99.99,
   "sizeUnit": 1,
