@@ -3,8 +3,8 @@
 // </copyright>
 
 using FluentResults;
+using ProductService.Domain.Brands.Validators;
 using ProductService.Domain.Brands.ValueObjects;
-using ProductService.Domain.Shoes.Validators;
 using SharedDefinitions.Domain.Common.DDD;
 
 namespace ProductService.Domain.Brands;

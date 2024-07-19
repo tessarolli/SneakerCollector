@@ -4,7 +4,7 @@
 
 using SharedDefinitions.Application.Abstractions.Messaging;
 
-namespace ProductService.Application.Brands.Commands.DeleteBrand;
+namespace ProductService.Application.Brands.Commands.Delete;
 
 /// <summary>
 /// Command to remove a product from the catalog.

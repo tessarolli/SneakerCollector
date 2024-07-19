@@ -4,7 +4,7 @@
 
 using FluentValidation;
 
-namespace ProductService.Application.Brands.Queries.GetBrandsList;
+namespace ProductService.Application.Brands.Queries.GetAll;
 
 /// <summary>
 /// Validator for the <see cref="GetBrandsListQuery"/>.

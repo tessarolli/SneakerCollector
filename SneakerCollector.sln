@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{A132639A
 	ProjectSection(SolutionItems) = preProject
 		Requests\Users\Add.http = Requests\Users\Add.http
 		Requests\Users\Delete.http = Requests\Users\Delete.http
+		Requests\Users\GetAll.http = Requests\Users\GetAll.http
 		Requests\Users\GetById.http = Requests\Users\GetById.http
 		Requests\Users\Update.http = Requests\Users\Update.http
 	EndProjectSection
@@ -39,11 +40,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shoes", "Shoes", "{A486C5AD-F5B3-4046-8434-39C6BF7CE38C}"
 	ProjectSection(SolutionItems) = preProject
-		Requests\Products\Add.http = Requests\Products\Add.http
-		Requests\Products\Delete.http = Requests\Products\Delete.http
-		Requests\Products\GetAll.http = Requests\Products\GetAll.http
-		Requests\Products\Update.http = Requests\Products\Update.http
-		Requests\Products\GetById.http = Requests\Products\GetById.http
+		Requests\Shoes\Add.http = Requests\Shoes\Add.http
+		Requests\Shoes\Delete.http = Requests\Shoes\Delete.http
+		Requests\Shoes\GetAll.http = Requests\Shoes\GetAll.http
+		Requests\Shoes\GetById.http = Requests\Shoes\GetById.http
+		Requests\Shoes\Update.http = Requests\Shoes\Update.http
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ADE927F6-F592-4CE2-9412-5BA99CEE6A80}"
@@ -109,6 +110,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.UnitTests", "tests\Services\ProductService\ProductService.UnitTests\ProductService.UnitTests.csproj", "{C2D06E0D-32D0-4D3D-8A9F-B90FA1EF1A07}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedDefinitions.UnitTests", "tests\SharedDefinitions\SharedDefinitions.UnitTests\SharedDefinitions.UnitTests.csproj", "{CCDA9181-6057-48F1-9243-FD3381BF726F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Brands", "Brands", "{5396473A-408D-4716-AD7C-66734B224BAB}"
+	ProjectSection(SolutionItems) = preProject
+		Requests\Brands\Add.http = Requests\Brands\Add.http
+		Requests\Brands\Delete.http = Requests\Brands\Delete.http
+		Requests\Brands\GetAll.http = Requests\Brands\GetAll.http
+		Requests\Brands\GetById.http = Requests\Brands\GetById.http
+		Requests\Brands\Update.http = Requests\Brands\Update.http
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -224,6 +234,7 @@ Global
 		{22D00C07-DD21-4119-919F-00EB88F6976F} = {AB2ABD2E-5AFE-4D59-8E0F-9D4E7D31D872}
 		{C2D06E0D-32D0-4D3D-8A9F-B90FA1EF1A07} = {E5E2C8D3-0C60-4F7E-927B-CD6389B12401}
 		{CCDA9181-6057-48F1-9243-FD3381BF726F} = {8E540235-75F4-4C68-8872-85D067CB959E}
+		{5396473A-408D-4716-AD7C-66734B224BAB} = {FC5CA935-B5AF-4E76-BC72-762D51C2EFE0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FC4D3CA-E266-48F0-8E90-A7623AAB730D}

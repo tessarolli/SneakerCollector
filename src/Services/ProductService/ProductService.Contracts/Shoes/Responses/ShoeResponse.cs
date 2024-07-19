@@ -2,14 +2,14 @@
 // Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-namespace ShoeService.Contracts.Shoes.Responses;
+namespace ProductService.Contracts.Shoes.Responses;
 
 /// <summary>
 /// The Contract for Shoe Response.
 /// Contract for a Shoe Aggregate Instance Response.
 /// Can be used in collections.
 /// </summary>
-/// <param name="ShoeId">The Shoe's Id.</param>
+/// <param name="Id">The Shoe's Id.</param>
 /// <param name="OwnerId">The Shoe's Owner Id.</param>
 /// <param name="BrandId">The Shoe's Brand Id.</param>
 /// <param name="BrandName">The Shoe's Brand Name.</param>
@@ -22,7 +22,7 @@ namespace ShoeService.Contracts.Shoes.Responses;
 /// <param name="Rating">The Shoe's Rating.</param>
 /// <param name="CreatedAtUtc">The Shoe's Creation Date in UTC.</param>
 public record ShoeResponse(
-    long ShoeId,
+    long Id,
     long OwnerId,
     long BrandId,
     string BrandName,

@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder
         .AddSharedDefinitionsInfrastructure("ProductService")
-        .AddProductServicePersistance()
+        .AddProductServiceInfrastructure()
         .AddSharedDefinitionsApplication(typeof(AssemblyAnchor).Assembly)
         .AddPresentation();
 }

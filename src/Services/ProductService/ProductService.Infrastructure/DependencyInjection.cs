@@ -4,7 +4,9 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using ProductService.Application.Abstractions.Repositories;
+using ProductService.Application.Abstractions.Services;
 using ProductService.Infrastructure.Repositories;
+using ProductService.Infrastructure.Services;
 
 namespace ProductService.Infrastructure;
 
@@ -18,9 +20,12 @@ public static class DependencyInjection
     /// </summary>
     /// <param name="services">Injected services.</param>
     /// <returns>Services with dependencies injected.</returns>
-    public static IServiceCollection AddProductServicePersistance(this IServiceCollection services)
+    public static IServiceCollection AddProductServiceInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<IShoeRepository, ShoeRepository>();
+        services.AddScoped<IBrandRepository, BrandRepository>();
+
+        services.AddScoped<IUserService, UserService>();
 
         return services;
     }

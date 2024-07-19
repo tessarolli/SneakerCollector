@@ -4,7 +4,7 @@
 
 using FluentValidation;
 
-namespace ProductService.Application.Brands.Commands.DeleteBrand;
+namespace ProductService.Application.Brands.Commands.Delete;
 
 /// <summary>
 /// Validator for the <see cref="DeleteBrandCommand"/>.

@@ -35,11 +35,17 @@ static_resources:
                   auto_host_rewrite: true
                   prefix_rewrite: "/v1.0/invoke/auth-service-api/method/users"
               - match: 
-                  prefix: "/products" 
+                  prefix: "/shoes" 
                 route:
                   cluster: dapr
                   auto_host_rewrite: true
-                  prefix_rewrite: "/v1.0/invoke/product-service-api/method/products"
+                  prefix_rewrite: "/v1.0/invoke/product-service-api/method/shoes"
+              - match: 
+                  prefix: "/brands" 
+                route:
+                  cluster: dapr
+                  auto_host_rewrite: true
+                  prefix_rewrite: "/v1.0/invoke/product-service-api/method/brands"
           http_filters:
            - name: envoy.filters.http.router
              typed_config:

@@ -4,7 +4,7 @@
 
 using FluentValidation;
 
-namespace ProductService.Application.Brands.Queries.GetBrandById;
+namespace ProductService.Application.Brands.Queries.GetById;
 
 /// <summary>
 /// Validator for the <see cref="GetBrandByIdQuery"/>.

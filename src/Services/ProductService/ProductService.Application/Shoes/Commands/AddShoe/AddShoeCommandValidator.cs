@@ -32,10 +32,6 @@ public class AddShoeCommandValidator : AbstractValidator<AddShoeCommand>
         RuleFor(shoe => shoe.BrandId)
             .NotNull();
 
-        RuleFor(shoe => shoe.BrandName)
-            .NotNull()
-            .NotEmpty();
-
         RuleFor(shoe => shoe.Price)
             .NotNull()
             .GreaterThan(-1);

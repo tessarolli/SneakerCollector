@@ -7,6 +7,14 @@ using FluentResults;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ProductService.Application.Brands.Commands.Add;
+using ProductService.Application.Brands.Commands.Delete;
+using ProductService.Application.Brands.Commands.Update;
+using ProductService.Application.Brands.Dtos;
+using ProductService.Application.Brands.Queries.GetAll;
+using ProductService.Application.Brands.Queries.GetById;
+using ProductService.Contracts.Brands.Requests;
+using ProductService.Contracts.Brands.Responses;
 using SharedDefinitions.Application.Abstractions.Services;
 using SharedDefinitions.Presentation.Attributes;
 using SharedDefinitions.Presentation.Controllers;
@@ -14,12 +22,12 @@ using SharedDefinitions.Presentation.Controllers;
 namespace ProductService.API.Controllers;
 
 /// <summary>
-/// BrandsController Controller.
+/// BrandsController.
 /// </summary>
-/// <param name="mediator">Injected _mediator.</param>
-/// <param name="mapper">Injected _mapper.</param>
-/// <param name="logger">Injected Logger.</param>
-/// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
+/// <param name="mediator">Injected IMediator.</param>
+/// <param name="mapper">Injected IMapper.</param>
+/// <param name="logger">Injected ILogger.</param>
+/// <param name="exceptionHandlingService">Injected IExceptionHandlingService.</param>
 [Route("[controller]")]
 public class BrandsController(
     IMediator mediator,
@@ -35,7 +43,7 @@ public class BrandsController(
     [HttpGet]
     [RoleAuthorize]
     public async Task<IActionResult> GetAll() =>
-        await HandleRequestAsync<GetBrandsListQuery, List<BrandDto>, List<ProductResponse>>();
+        await HandleRequestAsync<GetBrandsListQuery, List<BrandDto>, List<BrandResponse>>();
 
     /// <summary>
     /// Gets a Brand by its Id.
@@ -45,7 +53,7 @@ public class BrandsController(
     [HttpGet("{id:long}")]
     [RoleAuthorize]
     public async Task<IActionResult> GetById(long id) =>
-        await HandleRequestAsync<GetBrandByIdQuery, BrandDto, ProductResponse>(id);
+        await HandleRequestAsync<GetBrandByIdQuery, BrandDto, BrandResponse>(id);
 
     /// <summary>
     /// Add a Brand to the Brand Repository.
@@ -55,7 +63,7 @@ public class BrandsController(
     [HttpPost]
     [RoleAuthorize(Roles.Admin)]
     public async Task<IActionResult> Add(AddBrandRequest request) =>
-        await HandleRequestAsync<AddBrandCommand, BrandDto, ProductResponse>(request);
+        await HandleRequestAsync<AddBrandCommand, BrandDto, BrandResponse>(request);
 
     /// <summary>
     /// Updates a Brand in the Brand Repository.
@@ -65,7 +73,7 @@ public class BrandsController(
     [HttpPut]
     [RoleAuthorize(Roles.Admin)]
     public async Task<IActionResult> Update(UpdateBrandRequest request) =>
-        await HandleRequestAsync<UpdateBrandCommand, BrandDto, ProductResponse>(request);
+        await HandleRequestAsync<UpdateBrandCommand, BrandDto, BrandResponse>(request);
 
     /// <summary>
     /// Deletes a Brand from the Brand Repository.

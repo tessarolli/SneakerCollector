@@ -1,13 +1,19 @@
 @host=http://localhost:5000
 @token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNSIsImZhbWlseV9uYW1lIjoiQWRtaW4iLCJnaXZlbl9uYW1lIjoiQWRtaW4iLCJqdGkiOiIyNSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzIxNTAyMzY1LCJpc3MiOiJTbmVha2VyQ29sbGVjdG9yIiwiYXVkIjoiU25lYWtlckNvbGxlY3RvciJ9.wVa_CzLvDNZHZnSpHrx4vNmS4M7Nos3lQ3T7EqKLLcs
 
-POST {{host}}/users/
+PUT {{host}}/shoes/
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "FirstName": "Luiz",
-    "LastName": "Tessarolli 24",
-    "Email": "teste@sneakercollector.com",
-    "Password": "teste"
+  "shoeId": 1,
+  "ownerId": 29,
+  "brandId": 1,
+  "name": "New Shoe asda",
+  "currency": 1,
+  "price": 99.99,
+  "sizeUnit": 1,
+  "size": 10.5,
+  "year": 2024,
+  "rating": 5
 }

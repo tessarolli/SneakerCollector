@@ -7,42 +7,33 @@ using ProductService.Application.Abstractions.Repositories;
 using ProductService.Application.Brands.Dtos;
 using SharedDefinitions.Application.Abstractions.Messaging;
 
-namespace ProductService.Application.Brands.Queries.GetBrandsList;
+namespace ProductService.Application.Brands.Queries.GetAll;
 
 /// <summary>
 /// Mediator Handler for the <see cref="GetBrandsListQuery"/>.
 /// </summary>
-/// <param name="shoeRepository">Injected BrandRepository.</param>
-public class GetBrandsListQueryHandler(IBrandRepository shoeRepository)
+/// <param name="brandRepository">Injected BrandRepository.</param>
+public class GetBrandsListQueryHandler(IBrandRepository brandRepository)
     : IQueryHandler<GetBrandsListQuery, List<BrandDto>>
 {
-    private readonly IBrandRepository _shoeRepository = shoeRepository;
+    private readonly IBrandRepository _brandRepository = brandRepository;
 
     /// <inheritdoc/>
     public async Task<Result<List<BrandDto>>> Handle(GetBrandsListQuery query, CancellationToken cancellationToken)
     {
         var result = new List<BrandDto>();
 
-        var getAllBrandsResult = await _shoeRepository.GetAllAsync();
+        var getAllBrandsResult = await _brandRepository.GetAllAsync();
         if (getAllBrandsResult.IsFailed)
         {
             return Result.Fail(getAllBrandsResult.Errors);
         }
 
-        foreach (var shoe in getAllBrandsResult.Value)
+        foreach (var brand in getAllBrandsResult.Value)
         {
             result.Add(new BrandDto(
-                shoe.Id.Value,
-                shoe.OwnerId,
-                shoe.BrandId,
-                shoe.Name,
-                shoe.Price.Currency,
-                shoe.Price.Amount,
-                shoe.Size.Unit,
-                shoe.Size.Value,
-                shoe.Year,
-                shoe.Rating,
-                shoe.CreatedAtUtc));
+                brand.Id.Value,
+                brand.Name));
         }
 
         return Result.Ok(result);

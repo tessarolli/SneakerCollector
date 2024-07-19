@@ -5,7 +5,7 @@
 using ProductService.Application.Brands.Dtos;
 using SharedDefinitions.Application.Abstractions.Messaging;
 
-namespace ProductService.Application.Brands.Commands.AddBrand;
+namespace ProductService.Application.Brands.Commands.Add;
 
 /// <summary>
 /// Command to Add a Brand to the catalog.

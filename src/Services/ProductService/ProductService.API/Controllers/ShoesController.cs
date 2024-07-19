@@ -22,12 +22,12 @@ using SharedDefinitions.Presentation.Controllers;
 namespace ProductService.API.Controllers;
 
 /// <summary>
-/// ShoesController Controller.
+/// ShoesController.
 /// </summary>
-/// <param name="mediator">Injected _mediator.</param>
-/// <param name="mapper">Injected _mapper.</param>
-/// <param name="logger">Injected Logger.</param>
-/// <param name="exceptionHandlingService">Injected _exceptionHandlingService.</param>
+/// <param name="mediator">Injected IMediator.</param>
+/// <param name="mapper">Injected IMapper.</param>
+/// <param name="logger">Injected ILogger.</param>
+/// <param name="exceptionHandlingService">Injected IExceptionHandlingService.</param>
 [Route("[controller]")]
 public class ShoesController(
     IMediator mediator,
@@ -43,7 +43,7 @@ public class ShoesController(
     [HttpGet]
     [RoleAuthorize]
     public async Task<IActionResult> GetAll() =>
-        await HandleRequestAsync<GetShoesListQuery, List<ShoeDto>, List<ProductResponse>>();
+        await HandleRequestAsync<GetShoesListQuery, List<ShoeDto>, List<ShoeResponse>>();
 
     /// <summary>
     /// Gets a Shoe by its Id.
@@ -53,7 +53,7 @@ public class ShoesController(
     [HttpGet("{id:long}")]
     [RoleAuthorize]
     public async Task<IActionResult> GetById(long id) =>
-        await HandleRequestAsync<GetShoeByIdQuery, ShoeDto, ProductResponse>(id);
+        await HandleRequestAsync<GetShoeByIdQuery, ShoeDto, ShoeResponse>(id);
 
     /// <summary>
     /// Add a Shoe to the Shoe Repository.
@@ -63,7 +63,7 @@ public class ShoesController(
     [HttpPost]
     [RoleAuthorize(Roles.Admin)]
     public async Task<IActionResult> Add(AddShoeRequest request) =>
-        await HandleRequestAsync<AddShoeCommand, ShoeDto, ProductResponse>(request);
+        await HandleRequestAsync<AddShoeCommand, ShoeDto, ShoeResponse>(request);
 
     /// <summary>
     /// Updates a Shoe in the Shoe Repository.
@@ -73,7 +73,7 @@ public class ShoesController(
     [HttpPut]
     [RoleAuthorize(Roles.Admin)]
     public async Task<IActionResult> Update(UpdateShoeRequest request) =>
-        await HandleRequestAsync<UpdateShoeCommand, ShoeDto, ProductResponse>(request);
+        await HandleRequestAsync<UpdateShoeCommand, ShoeDto, ShoeResponse>(request);
 
     /// <summary>
     /// Deletes a Shoe from the Shoe Repository.

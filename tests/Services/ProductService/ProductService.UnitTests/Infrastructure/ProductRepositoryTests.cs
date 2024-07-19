@@ -9,9 +9,8 @@ using ProductService.Domain.Shoes.ValueObjects;
 using ProductService.Infrastructure.Dtos;
 using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.Enums;
-using NSubstitute;
-using FluentAssertions;
 using ProductService.Domain.Brands;
+using ProductService.Domain.Brands.ValueObjects;
 
 namespace ProductService.UnitTests.Infrastructure;
 

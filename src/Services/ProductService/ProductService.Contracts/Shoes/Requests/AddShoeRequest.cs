@@ -9,7 +9,6 @@ namespace ProductService.Contracts.Shoes.Requests;
 /// </summary>
 /// <param name="OwnerId">The Shoe's Owner Id.</param>
 /// <param name="BrandId">The Shoe's Brand Id.</param>
-/// <param name="BrandName">The Shoe's Brand Name.</param>
 /// <param name="Name">The Shoe's Name.</param>
 /// <param name="Currency">The Shoe's Price Currency.</param>
 /// <param name="Price">The Shoe's Price Amount.</param>
@@ -20,7 +19,6 @@ namespace ProductService.Contracts.Shoes.Requests;
 public record AddShoeRequest(
     long OwnerId,
     long BrandId,
-    string BrandName,
     string Name,
     int Currency,
     decimal Price,

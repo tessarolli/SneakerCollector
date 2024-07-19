@@ -4,7 +4,7 @@
 
 using FluentValidation;
 
-namespace ProductService.Application.Brands.Commands.UpdateBrand;
+namespace ProductService.Application.Brands.Commands.Update;
 
 /// <summary>
 /// Validator for the <see cref="UpdateBrandCommand"/>.
@@ -16,41 +16,12 @@ public class UpdateBrandCommandValidator : AbstractValidator<UpdateBrandCommand>
     /// </summary>
     public UpdateBrandCommandValidator()
     {
-        RuleFor(shoe => shoe.BrandId)
+        RuleFor(brand => brand.BrandId)
             .NotNull()
             .GreaterThan(0);
 
-        RuleFor(shoe => shoe.OwnerId)
+        RuleFor(brand => brand.BrandName)
             .NotNull()
-            .GreaterThan(0);
-
-        RuleFor(shoe => shoe.Name)
-            .NotNull()
-            .NotEmpty()
-            .MaximumLength(255);
-
-        RuleFor(shoe => shoe.Year)
-            .GreaterThan(1900);
-
-        RuleFor(shoe => shoe.BrandId)
-            .NotNull();
-
-        RuleFor(shoe => shoe.BrandName)
-            .NotNull()
-            .NotEmpty();
-
-        RuleFor(shoe => shoe.Price)
-            .NotNull()
-            .GreaterThan(-1);
-
-        RuleFor(shoe => shoe.Currency)
-            .NotEmpty();
-
-        RuleFor(shoe => shoe.Size)
-            .NotNull()
-            .GreaterThan(-1);
-
-        RuleFor(shoe => shoe.SizeUnit)
             .NotEmpty();
     }
 }

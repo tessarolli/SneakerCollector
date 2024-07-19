@@ -4,36 +4,51 @@
 
 using FluentResults;
 using ProductService.Application.Abstractions.Repositories;
+using ProductService.Application.Abstractions.Services;
 using ProductService.Application.Shoes.Dtos;
-using ProductService.Domain.Brands;
 using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.ValueObjects;
 using SharedDefinitions.Application.Abstractions.Messaging;
+using SharedDefinitions.Application.Common.Errors;
 
 namespace ProductService.Application.Shoes.Commands.AddShoe;
 
 /// <summary>
 /// Mediator Handler for the <see cref="AddShoeCommand"/>.
 /// </summary>
-/// <param name="shoeRepository">Injected ShoeRepository.</param>
-public class AddShoeCommandHandler(IShoeRepository shoeRepository) : ICommandHandler<AddShoeCommand, ShoeDto>
+/// <param name="brandRepository">Injected IBrandRepository.</param>
+/// <param name="shoeRepository">Injected IShoeRepository.</param>
+/// <param name="userService">Injected IUserService.</param>
+public class AddShoeCommandHandler(
+    IBrandRepository brandRepository,
+    IShoeRepository shoeRepository,
+    IUserService userService)
+    : ICommandHandler<AddShoeCommand, ShoeDto>
 {
+    private readonly IBrandRepository _brandRepository = brandRepository;
     private readonly IShoeRepository _shoeRepository = shoeRepository;
+    private readonly IUserService _userService = userService;
 
     /// <inheritdoc/>
     public async Task<Result<ShoeDto>> Handle(AddShoeCommand request, CancellationToken cancellationToken)
     {
-        var brandDomainModelResult = Brand.Create(new(request.BrandId), request.BrandName);
-        if (brandDomainModelResult.IsFailed)
+        var brandResult = await _brandRepository.GetByIdAsync(new(request.BrandId));
+        if (brandResult.IsFailed)
         {
-            return Result.Fail(brandDomainModelResult.Errors);
+            return Result.Fail(brandResult.Errors);
+        }
+
+        var shoeOwner = await _userService.GetUserByIdAsync(request.OwnerId);
+        if (shoeOwner is null)
+        {
+            return Result.Fail(new NotFoundError("Could not find the specified user."));
         }
 
         var shoeDomainModelResult = Shoe.Create(
              null,
              request.OwnerId,
              request.Name,
-             brandDomainModelResult.Value,
+             brandResult.Value,
              new Price(request.Currency, request.Price),
              new Size(request.SizeUnit, request.Size),
              request.Year,

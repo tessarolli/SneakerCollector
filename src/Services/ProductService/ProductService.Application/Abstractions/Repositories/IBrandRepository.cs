@@ -15,11 +15,11 @@ namespace ProductService.Application.Abstractions.Repositories;
 public interface IBrandRepository
 {
     /// <summary>
-    /// Get an Brand aggregate by Id.
+    /// Get an Brand entity by Id.
     /// </summary>
     /// <param name="id">The Brand Id.</param>
     /// <param name="transaction">The Transaction.</param>
-    /// <returns>A Result with the Brand Aggregate, or a error message.</returns>
+    /// <returns>A Result with the Brand entity, or a error message.</returns>
     Task<Result<Brand>> GetByIdAsync(BrandId id, DbTransaction? transaction = null);
 
     /// <summary>
@@ -31,21 +31,21 @@ public interface IBrandRepository
     /// <summary>
     /// Add an Brand into the Repository.
     /// </summary>
-    /// <param name="shoe">The Brand to Add.</param>
+    /// <param name="brand">The Brand to Add.</param>
     /// <returns>A Result indicating the status of this operation.</returns>
-    Task<Result<Brand>> AddAsync(Brand shoe);
+    Task<Result<Brand>> AddAsync(Brand brand);
 
     /// <summary>
     /// Update the Brand in the Repository.
     /// </summary>
-    /// <param name="shoe">The Brand to Update.</param>
+    /// <param name="brand">The Brand to Update.</param>
     /// <returns>A Result indicating the status of this operation.</returns>
-    Task<Result<Brand>> UpdateAsync(Brand shoe);
+    Task<Result<Brand>> UpdateAsync(Brand brand);
 
     /// <summary>
     /// Remove the Brand from the Repository.
     /// </summary>
-    /// <param name="shoeId">The Brand to Remove.</param>
+    /// <param name="brandId">The Brand to Remove.</param>
     /// <returns>A Result indicating the status of this operation.</returns>
-    Task<Result> RemoveAsync(BrandId shoeId);
+    Task<Result> RemoveAsync(BrandId brandId);
 }

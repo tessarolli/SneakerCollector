@@ -176,7 +176,8 @@ public class UserRepository(IDapperUtility dapperUtility, ILogger<UserRepository
                 user.last_name,
                 user.email,
                 user.password,
-                (Roles)user.role);
+                (Roles)user.role,
+                user.created_at_utc);
 
         if (!userDomainModel.IsSuccess)
         {
