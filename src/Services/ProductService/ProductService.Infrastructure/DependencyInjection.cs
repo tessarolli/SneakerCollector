@@ -16,7 +16,7 @@ namespace ProductService.Infrastructure;
 public static class DependencyInjection
 {
     /// <summary>
-    /// Add Persistence dependencies.
+    /// Add Product Service Infrastructure dependencies.
     /// </summary>
     /// <param name="services">Injected services.</param>
     /// <returns>Services with dependencies injected.</returns>

@@ -2,7 +2,7 @@
 // Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
-using FluentResults;using SharedDefinitions.Application.Models;namespace SharedDefinitions.Infrastructure.Services;/// <summary>
+using FluentResults;using SharedDefinitions.Application.Models;namespace SharedDefinitions.Application.Abstractions.Services;/// <summary>
 /// Interface for a service responsible for building SQL queries.
 /// </summary>
 public interface ISqlBuilderService{

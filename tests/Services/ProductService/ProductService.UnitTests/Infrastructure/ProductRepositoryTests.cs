@@ -11,8 +11,8 @@ using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.Enums;
 using ProductService.Domain.Brands;
 using ProductService.Domain.Brands.ValueObjects;
-using SharedDefinitions.Infrastructure.Services;
 using SharedDefinitions.Application.Models;
+using SharedDefinitions.Application.Abstractions.Services;
 
 namespace ProductService.UnitTests.Infrastructure;
 

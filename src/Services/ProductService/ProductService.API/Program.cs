@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder
         .AddSharedDefinitionsInfrastructure("ProductService")
-        .AddProductServiceInfrastructure()
         .AddSharedDefinitionsApplication(typeof(AssemblyAnchor).Assembly)
+        .AddProductServiceInfrastructure()
         .AddPresentation();
 }
 
@@ -48,5 +48,5 @@ var app = builder.Build();
 
     app.UseAuthorization();
 
-    app.Run();
+    await app.RunAsync();
 }

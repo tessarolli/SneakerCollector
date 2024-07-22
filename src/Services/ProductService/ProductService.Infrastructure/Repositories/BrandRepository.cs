@@ -10,10 +10,10 @@ using ProductService.Application.Abstractions.Repositories;
 using ProductService.Domain.Brands;
 using ProductService.Domain.Brands.ValueObjects;
 using ProductService.Infrastructure.Dtos;
+using SharedDefinitions.Application.Abstractions.Services;
 using SharedDefinitions.Application.Common.Errors;
 using SharedDefinitions.Application.Models;
 using SharedDefinitions.Infrastructure.Abstractions;
-using SharedDefinitions.Infrastructure.Services;
 
 namespace ProductService.Infrastructure.Repositories;
 

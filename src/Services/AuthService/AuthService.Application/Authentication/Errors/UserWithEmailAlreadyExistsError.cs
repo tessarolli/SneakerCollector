@@ -7,7 +7,7 @@ using SharedDefinitions.Application.Common.Errors;
 namespace AuthService.Application.Authentication.Errors;
 
 /// <summary>
-/// User with this email already exists.
+/// User with this email already exists error.
 /// </summary>
 public class UserWithEmailAlreadyExistsError : ConflictError
 {

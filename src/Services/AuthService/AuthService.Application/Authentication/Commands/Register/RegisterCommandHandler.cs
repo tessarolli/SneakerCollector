@@ -20,7 +20,11 @@ namespace AuthService.Application.Authentication.Commands.Register;
 /// <param name="userRepository">IUserRepository being injected.</param>
 /// <param name="jwtTokenGenerator">IJwtTokenGenerator being injected.</param>
 /// <param name="passwordHasher">IPasswordHashingService being injected.</param>
-public class RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator, IPasswordHashingService passwordHasher) : ICommandHandler<RegisterCommand, AuthenticationResult>
+public class RegisterCommandHandler(
+    IUserRepository userRepository,
+    IJwtTokenGenerator jwtTokenGenerator,
+    IPasswordHashingService passwordHasher)
+    : ICommandHandler<RegisterCommand, AuthenticationResult>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
     private readonly IUserRepository _userRepository = userRepository;

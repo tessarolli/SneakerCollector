@@ -3,8 +3,12 @@
 // </copyright>
 
 using AuthService.Application.Abstractions.Authentication;
+using AuthService.Application.Abstractions.Repositories;
 using AuthService.Infrastructure.Authentication;
+using AuthService.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using SharedDefinitions.Domain.Common.Abstractions;
+using SharedDefinitions.Infrastructure.Services;
 
 namespace AuthService.Infrastructure;
 
@@ -18,9 +22,11 @@ public static class DependencyInjection
     /// </summary>
     /// <param name="services">Injected services.</param>
     /// <returns>Services with dependencies injected.</returns>
-    public static IServiceCollection AddAuthentication(this IServiceCollection services)
+    public static IServiceCollection AddAuthenticationInfrastructure(this IServiceCollection services)
     {
-        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddScoped<IPasswordHashingService, PasswordHashingService>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

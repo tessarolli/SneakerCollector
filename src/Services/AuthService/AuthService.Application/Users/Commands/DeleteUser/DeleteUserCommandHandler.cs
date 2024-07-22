@@ -12,9 +12,6 @@ namespace AuthService.Application.Users.Commands.DeleteUser;
 /// <summary>
 /// Mediator Handler for the <see cref="DeleteUserCommand"/>.
 /// </summary>
-/// <remarks>
-/// Initializes a new instance of the <see cref="DeleteUserCommandHandler"/> class.
-/// </remarks>
 /// <param name="userRepository">Injected UserRepository.</param>
 public class DeleteUserCommandHandler(IUserRepository userRepository)
     : ICommandHandler<DeleteUserCommand>

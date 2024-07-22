@@ -22,7 +22,11 @@ namespace AuthService.Infrastructure.Repositories;
 /// <param name="dapperUtility">IDapperUtility to inject.</param>
 /// <param name="passwordHasher">IPasswordHashingService to inject.</param>
 /// <param name="logger">ILogger to inject.</param>
-public class UserRepository(IDapperUtility dapperUtility, ILogger<UserRepository> logger, IPasswordHashingService passwordHasher) : IUserRepository
+public class UserRepository(
+    IDapperUtility dapperUtility,
+    ILogger<UserRepository> logger,
+    IPasswordHashingService passwordHasher)
+    : IUserRepository
 {
     private readonly ILogger _logger = logger;
     private readonly IPasswordHashingService _passwordHasher = passwordHasher;

@@ -14,10 +14,10 @@ using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.Enums;
 using ProductService.Domain.Shoes.ValueObjects;
 using ProductService.Infrastructure.Dtos;
+using SharedDefinitions.Application.Abstractions.Services;
 using SharedDefinitions.Application.Common.Errors;
 using SharedDefinitions.Application.Models;
 using SharedDefinitions.Infrastructure.Abstractions;
-using SharedDefinitions.Infrastructure.Services;
 
 namespace ProductService.Infrastructure.Repositories;
 

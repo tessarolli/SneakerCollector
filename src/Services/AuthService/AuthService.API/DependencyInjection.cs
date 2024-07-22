@@ -24,20 +24,6 @@ namespace AuthService.API;
 public static class DependencyInjection
 {
     /// <summary>
-    /// Register local resources dependencies.
-    /// </summary>
-    /// <param name="services">IServiceCollection for the dependencies to be injected at.</param>
-    /// <returns>IServiceCollection with dependencies injected.</returns>
-    public static IServiceCollection AddLocalResources(this IServiceCollection services)
-    {
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IPasswordHashingService, PasswordHashingService>();
-        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-
-        return services;
-    }
-
-    /// <summary>
     /// Add Presentation's layers dependencies.
     /// </summary>
     /// <param name="services">IServiceCollection for the dependencies to be injected at.</param>

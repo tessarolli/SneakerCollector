@@ -4,6 +4,7 @@
 
 using AuthService.API;
 using AuthService.Application;
+using AuthService.Infrastructure;
 using Microsoft.AspNetCore.Diagnostics;
 using Serilog;
 using SharedDefinitions.Application;
@@ -13,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder
         .AddSharedDefinitionsInfrastructure("AuthService")
-        .AddLocalResources()
         .AddSharedDefinitionsApplication(typeof(AssemblyAnchor).Assembly)
+        .AddAuthenticationInfrastructure()
         .AddPresentation();
 }
 
@@ -50,5 +51,5 @@ var app = builder.Build();
 
     app.UseSerilogRequestLogging();
 
-    app.Run();
+    await app.RunAsync();
 }

@@ -6,7 +6,6 @@ using FluentResults;
 using ProductService.Application.Abstractions.Repositories;
 using ProductService.Application.Abstractions.Services;
 using ProductService.Application.Shoes.Dtos;
-using ProductService.Domain.Brands;
 using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.ValueObjects;
 using SharedDefinitions.Application.Abstractions.Messaging;

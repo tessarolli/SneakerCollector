@@ -5,6 +5,7 @@
 using System.Text.RegularExpressions;
 using Dapper;
 using FluentResults;
+using SharedDefinitions.Application.Abstractions.Services;
 using SharedDefinitions.Application.Models;
 
 namespace SharedDefinitions.Infrastructure.Services;
