@@ -2,11 +2,10 @@
 // Copyright (c) SneakerCollector. All rights reserved.
 // </copyright>
 
+using System.Text.RegularExpressions;
 using Dapper;
 using FluentResults;
-using Microsoft.Extensions.DependencyInjection;
 using SharedDefinitions.Application.Models;
-using System.Text.RegularExpressions;
 
 namespace SharedDefinitions.Infrastructure.Services;
 
@@ -95,7 +94,9 @@ public class SqlBuilderService : ISqlBuilderService
     private static string EscapeSearchString(string searchString)
     {
         if (string.IsNullOrEmpty(searchString))
+        {
             return searchString;
+        }
 
         // Escape special characters: %, _, [, ]
         // We're using Regex.Replace to handle all occurrences
