@@ -241,7 +241,7 @@ public class ShoesCommandAndQueriesTests
             Items = [shoeDomainModel],
         };
 
-        userRepository.GetAllAsync(null).Returns(Result.Ok(mockedShoes));
+        userRepository.GetAllAsync(Arg.Any<PagedAndSortedResultRequest>()).Returns(Result.Ok(mockedShoes));
 
         // Act
         var result = await shoesListQueryHandler.Handle(shoesListQuery, CancellationToken.None);
@@ -264,7 +264,7 @@ public class ShoesCommandAndQueriesTests
         var shoesListQueryHandler = new GetShoesListQueryHandler(userRepository);
         var mockedShoes = new PagedResult<Shoe>();
 
-        userRepository.GetAllAsync(null).Returns(Result.Ok(mockedShoes));
+        userRepository.GetAllAsync(Arg.Any<PagedAndSortedResultRequest>()).Returns(Result.Ok(mockedShoes));
 
         // Act
         var result = await shoesListQueryHandler.Handle(shoesListQuery, CancellationToken.None);
