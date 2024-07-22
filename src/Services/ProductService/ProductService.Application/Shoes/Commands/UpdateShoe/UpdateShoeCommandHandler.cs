@@ -71,6 +71,7 @@ public class UpdateShoeCommandHandler(
             updateResult.Value.OwnerId,
             updateResult.Value.BrandId,
             updateResult.Value.Name,
+            updateResult.Value.Brand.Name,
             updateResult.Value.Price.Currency,
             updateResult.Value.Price.Amount,
             updateResult.Value.Size.Unit,

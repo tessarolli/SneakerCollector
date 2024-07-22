@@ -1,5 +1,5 @@
 @host=http://localhost:5000
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNSIsImZhbWlseV9uYW1lIjoiQWRtaW4iLCJnaXZlbl9uYW1lIjoiQWRtaW4iLCJqdGkiOiIyNSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzIxNTAyMzY1LCJpc3MiOiJTbmVha2VyQ29sbGVjdG9yIiwiYXVkIjoiU25lYWtlckNvbGxlY3RvciJ9.wVa_CzLvDNZHZnSpHrx4vNmS4M7Nos3lQ3T7EqKLLcs
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNSIsImZhbWlseV9uYW1lIjoiQWRtaW4iLCJnaXZlbl9uYW1lIjoiQWRtaW4iLCJqdGkiOiIyNSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzIxNzM3NjQ3LCJpc3MiOiJTbmVha2VyQ29sbGVjdG9yIiwiYXVkIjoiU25lYWtlckNvbGxlY3RvciJ9.MrPmhJXNYj97IpowklG5cFRPgeJuforNEUQVpuaHRt4
 
 POST {{host}}/shoes/
 Authorization: Bearer {{token}}
@@ -7,12 +7,12 @@ Content-Type: application/json
 
 {
   "ownerId": 29,
-  "brandId": 1,
-  "name": "New Shoe",
+  "brandId": 2,
+  "name": "Fast Runningn",
   "currency": 1,
-  "price": 99.99,
+  "price": 199.99,
   "sizeUnit": 1,
-  "size": 10.5,
-  "year": 2024,
-  "rating": 5
+  "size": 11.5,
+  "year": 2019,
+  "rating": 4
 }

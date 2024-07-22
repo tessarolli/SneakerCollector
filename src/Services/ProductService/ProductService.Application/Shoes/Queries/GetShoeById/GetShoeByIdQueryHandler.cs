@@ -33,6 +33,7 @@ public class GetShoeByIdQueryHandler(IShoeRepository shoeRepository)
             productDomainModel.Value.OwnerId,
             productDomainModel.Value.BrandId,
             productDomainModel.Value.Name,
+            productDomainModel.Value.Brand.Name,
             productDomainModel.Value.Price.Currency,
             productDomainModel.Value.Price.Amount,
             productDomainModel.Value.Size.Unit,

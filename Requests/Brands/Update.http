@@ -1,11 +1,11 @@
 @host=http://localhost:5000
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNSIsImZhbWlseV9uYW1lIjoiQWRtaW4iLCJnaXZlbl9uYW1lIjoiQWRtaW4iLCJqdGkiOiIyNSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzIxNTAyMzY1LCJpc3MiOiJTbmVha2VyQ29sbGVjdG9yIiwiYXVkIjoiU25lYWtlckNvbGxlY3RvciJ9.wVa_CzLvDNZHZnSpHrx4vNmS4M7Nos3lQ3T7EqKLLcs
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNSIsImZhbWlseV9uYW1lIjoiQWRtaW4iLCJnaXZlbl9uYW1lIjoiQWRtaW4iLCJqdGkiOiIyNSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzIxNzM3NjQ3LCJpc3MiOiJTbmVha2VyQ29sbGVjdG9yIiwiYXVkIjoiU25lYWtlckNvbGxlY3RvciJ9.MrPmhJXNYj97IpowklG5cFRPgeJuforNEUQVpuaHRt4
 
 PUT {{host}}/brands/
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "brandId": 1,
-  "brandName": "Updated Brand"
+  "brandId": 2,
+  "brandName": "Adidas"
 }

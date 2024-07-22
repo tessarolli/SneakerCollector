@@ -37,6 +37,7 @@ public class GetShoesListQueryHandler(IShoeRepository shoeRepository)
                 shoe.OwnerId,
                 shoe.BrandId,
                 shoe.Name,
+                shoe.Brand.Name,
                 shoe.Price.Currency,
                 shoe.Price.Amount,
                 shoe.Size.Unit,
@@ -49,8 +50,9 @@ public class GetShoesListQueryHandler(IShoeRepository shoeRepository)
         return Result.Ok(new PagedResult<ShoeDto>
         {
             Items = result,
-            Page = getAllShoesResult.Value.Page,
-            PageSize = getAllShoesResult.Value.PageSize,
+            TotalCount = getAllShoesResult.Value.TotalCount,
+            Offset = getAllShoesResult.Value.Offset,
+            Limit = getAllShoesResult.Value.Limit,
         });
     }
 }

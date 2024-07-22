@@ -27,17 +27,18 @@ namespace ProductService.Infrastructure.Repositories;
 /// <param name="dapperUtility">IDapperUtility to inject.</param>
 /// <param name="logger">ILogger to inject.</param>
 /// <param name="dapr">DaprClient to inject.</param>
-/// <param name="pagingSortingFilteringService">IPagingSortingFilteringService to inject.</param>
+/// <param name="sqlBuilderService">ISqlBuilderService to inject.</param>
 public class ShoeRepository(
     IDapperUtility dapperUtility,
     ILogger<ShoeRepository> logger,
     DaprClient dapr,
-    IPagingSortingFilteringService pagingSortingFilteringService) : IShoeRepository
+    ISqlBuilderService sqlBuilderService)
+    : IShoeRepository
 {
     private readonly IDapperUtility _db = dapperUtility ?? throw new ArgumentNullException(nameof(dapperUtility));
     private readonly DaprClient _dapr = dapr ?? throw new ArgumentNullException(nameof(dapr));
     private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    private readonly IPagingSortingFilteringService _pagingSortingFilteringService = pagingSortingFilteringService;
+    private readonly ISqlBuilderService _sqlBuilderService = sqlBuilderService;
 
     /// <inheritdoc/>
     public async Task<Result<Shoe>> GetByIdAsync(ShoeId id, DbTransaction? transaction = null)
@@ -79,31 +80,67 @@ public class ShoeRepository(
     public async Task<Result<PagedResult<Shoe>>> GetAllAsync(PagedAndSortedResultRequest? request)
     {
         _logger.LogInformation("ShoeRepository.GetAllAsync");
-
+        var transaction = _db.BeginTransaction();
         request ??= new();
-
-        const string baseQuery = @"
-            SELECT 
-                s.*, b.*
-            FROM 
-                shoes s
-            JOIN
-                brands b ON s.brand_id = b.id";
-
-        var query = _pagingSortingFilteringService.BuildCompleteQuery(baseQuery, request, "s");
-
-        var shoes = await _db.QueryAsync<ShoeDb, BrandDb, (ShoeDb, BrandDb)>(query, (shoe, brand) => (shoe, brand));
-
-        var domainModelResults = shoes.Select((tuple) => MapToDomainModel(tuple.Item1, tuple.Item2));
-
-        var validDomainModels = domainModelResults.Where(mapped => mapped.IsSuccess).Select(mapped => mapped.Value).ToList();
-
-        return Result.Ok(new PagedResult<Shoe>
+        Dictionary<string, string> validSortFields = new()
         {
-            Items = validDomainModels,
-            Page = request.Page,
-            PageSize = request.PageSize,
-        });
+            { "id", "s.id" },
+            { "brandname", "b.name" },
+            { "shoename", "s.name" },
+            { "year", "s.launch_year" },
+            { "price", "s.price_amount" },
+            { "rating", "s.rating" },
+            { "size", "s.size_value" },
+            { "createdatutc", "s.created_at_utc" },
+        };
+
+        var buildResult = _sqlBuilderService.BuildPagedQuery(
+                "s.*, b.*",
+                "shoes s JOIN brands b ON s.brand_id = b.id",
+                request,
+                "s.Name, b.Name",
+                "s.Id",
+                validSortFields);
+
+        if (buildResult.IsFailed)
+        {
+            return Result.Fail<PagedResult<Shoe>>(buildResult.Errors);
+        }
+
+        try
+        {
+            var (querySql, counterSql, parameters) = buildResult.Value;
+
+            var shoes = await _db.QueryAsync<ShoeDb, BrandDb, (ShoeDb, BrandDb)>(
+           querySql,
+           (shoe, brand) => (shoe, brand),
+           parameters,
+           transaction: transaction);
+
+            var totalCount = await _db.ExecuteScalarAsync(counterSql, parameters, transaction: transaction);
+
+            var domainModelResults = shoes.Select((tuple) => MapToDomainModel(tuple.Item1, tuple.Item2));
+
+            var validDomainModels = domainModelResults.Where(mapped => mapped.IsSuccess).Select(mapped => mapped.Value).ToList();
+
+            return Result.Ok(new PagedResult<Shoe>
+            {
+                Items = validDomainModels,
+                TotalCount = (int)totalCount,
+                Offset = request.Offset,
+                Limit = request.Limit,
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error on Shoes Repository GetAll: {Message}", ex.Message);
+        }
+        finally
+        {
+            _db.CloseTransaction(transaction);
+        }
+
+        return Result.Fail("Internal Server Error fetching Shoes.");
     }
 
     /// <inheritdoc/>

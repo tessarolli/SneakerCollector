@@ -16,6 +16,7 @@ using ProductService.Application.Brands.Queries.GetById;
 using ProductService.Contracts.Brands.Requests;
 using ProductService.Contracts.Brands.Responses;
 using SharedDefinitions.Application.Abstractions.Services;
+using SharedDefinitions.Application.Models;
 using SharedDefinitions.Presentation.Attributes;
 using SharedDefinitions.Presentation.Controllers;
 
@@ -39,11 +40,12 @@ public class BrandsController(
     /// <summary>
     /// Gets a list of Brands.
     /// </summary>
+    /// <param name="request">Pagination, Filtering and Sorting request.</param>
     /// <returns>The list of Brands.</returns>
     [HttpGet]
     [RoleAuthorize]
-    public async Task<IActionResult> GetAll() =>
-        await HandleRequestAsync<GetBrandsListQuery, List<BrandDto>, List<BrandResponse>>();
+    public async Task<IActionResult> GetAll([FromQuery] PagedAndSortedResultRequest request) =>
+        await HandleRequestAsync<GetBrandsListQuery, PagedResult<BrandDto>, PagedResult<BrandResponse>>(request);
 
     /// <summary>
     /// Gets a Brand by its Id.

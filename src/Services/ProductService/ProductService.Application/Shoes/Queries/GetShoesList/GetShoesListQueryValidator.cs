@@ -16,5 +16,10 @@ public class GetShoesListQueryValidator : AbstractValidator<GetShoesListQuery>
     /// </summary>
     public GetShoesListQueryValidator()
     {
+        RuleFor(r => r.Request.Limit)
+            .GreaterThan(0);
+
+        RuleFor(r => r.Request.Offset)
+            .GreaterThanOrEqualTo(0);
     }
 }

@@ -6,6 +6,8 @@ using System.Data.Common;
 using FluentResults;
 using ProductService.Domain.Brands;
 using ProductService.Domain.Brands.ValueObjects;
+using ProductService.Domain.Shoes;
+using SharedDefinitions.Application.Models;
 
 namespace ProductService.Application.Abstractions.Repositories;
 
@@ -25,8 +27,9 @@ public interface IBrandRepository
     /// <summary>
     /// Gets a List of all Brands from the repository.
     /// </summary>
-    /// <returns>A Result indicating the status of this operation.</returns>
-    Task<Result<List<Brand>>> GetAllAsync();
+    /// <param name="request">Pagination, Filtering and Sorting request.</param>
+    /// <returns>A Paged Result indicating the status of this operation.</returns>
+    Task<Result<PagedResult<Brand>>> GetAllAsync(PagedAndSortedResultRequest? request);
 
     /// <summary>
     /// Add an Brand into the Repository.

@@ -4,6 +4,7 @@
 
 using System.Data;
 using System.Data.Common;
+using static Dapper.SqlMapper;
 
 namespace SharedDefinitions.Infrastructure.Abstractions;
 
@@ -108,4 +109,15 @@ public interface IDapperUtility
         object? parameters = null,
         CommandType commandType = CommandType.Text,
         DbTransaction? transaction = null);
+
+    /// <summary>
+    /// Executes a query that returns multiple result sets asynchronously.
+    /// </summary>
+    /// <param name="sql">The SQL query to be executed.</param>
+    /// <param name="param">The parameters to pass to the query (optional).</param>
+    /// <param name="transaction">The transaction within which the query should be executed (optional).</param>
+    /// <param name="commandTimeout">The command timeout value in seconds (optional).</param>
+    /// <param name="commandType">The type of command to execute (optional).</param>
+    /// <returns>A Task representing the asynchronous operation that returns a GridReader object containing the multiple result sets.</returns>
+    Task<GridReader> QueryMultipleAsync(string sql, object? param = null, DbTransaction? transaction = null, int? commandTimeout = null, CommandType? commandType = null);
 }

@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Common;
 using Dapper;
 using SharedDefinitions.Infrastructure.Abstractions;
+using static Dapper.SqlMapper;
 
 namespace SharedDefinitions.Infrastructure.Utilities;
 
@@ -64,6 +65,23 @@ public sealed class DapperUtility(ISqlConnectionFactory connectionFactory) : IDa
         var connection = transaction?.Connection ?? _connectionFactory.CreateConnection();
 
         var result = await connection.QueryFirstOrDefaultAsync<T>(sql, parameters, commandType: commandType, transaction: transaction);
+
+        ProperlyDisposeConnection(connection, transaction);
+
+        return result;
+    }
+
+    /// <inheritdoc/>
+    public async Task<GridReader> QueryMultipleAsync(
+        string sql,
+        object? param = null,
+        DbTransaction? transaction = null,
+        int? commandTimeout = null,
+        CommandType? commandType = null)
+    {
+        var connection = transaction?.Connection ?? _connectionFactory.CreateConnection();
+
+        var result = await connection.QueryMultipleAsync(sql, param, transaction, commandTimeout, commandType);
 
         ProperlyDisposeConnection(connection, transaction);
 

@@ -44,7 +44,7 @@ public static class DependencyInjection
 
         builder.Services.AddScoped<IExceptionHandlingService, ExceptionHandlingService>();
 
-        builder.Services.AddScoped<IPagingSortingFilteringService, PagingSortingFilteringService>();
+        builder.Services.AddScoped<ISqlBuilderService, SqlBuilderService>();
 
         return builder.Services;
     }

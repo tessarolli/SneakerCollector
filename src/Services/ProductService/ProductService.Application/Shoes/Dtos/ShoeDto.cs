@@ -14,6 +14,7 @@ public record ShoeDto(
     long OwnerId,
     long BrandId,
     string Name,
+    string BrandName,
     Currency Currency,
     decimal Price,
     ShoeSizeUnit SizeUnit,

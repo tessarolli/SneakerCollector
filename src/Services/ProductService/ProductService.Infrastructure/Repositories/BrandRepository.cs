@@ -11,7 +11,9 @@ using ProductService.Domain.Brands;
 using ProductService.Domain.Brands.ValueObjects;
 using ProductService.Infrastructure.Dtos;
 using SharedDefinitions.Application.Common.Errors;
+using SharedDefinitions.Application.Models;
 using SharedDefinitions.Infrastructure.Abstractions;
+using SharedDefinitions.Infrastructure.Services;
 
 namespace ProductService.Infrastructure.Repositories;
 
@@ -20,12 +22,15 @@ namespace ProductService.Infrastructure.Repositories;
 /// </summary>
 /// <param name="dapperUtility">IDapperUtility to inject.</param>
 /// <param name="logger">ILogger to inject.</param>
+/// <param name="sqlBuilderService">ISqlBuilderService to inject.</param>
 public class BrandRepository(
     IDapperUtility dapperUtility,
-    ILogger<BrandRepository> logger) : IBrandRepository
+    ILogger<BrandRepository> logger,
+    ISqlBuilderService sqlBuilderService) : IBrandRepository
 {
     private readonly IDapperUtility _db = dapperUtility ?? throw new ArgumentNullException(nameof(dapperUtility));
     private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly ISqlBuilderService _sqlBuilderService = sqlBuilderService;
 
     /// <inheritdoc/>
     public async Task<Result<Brand>> GetByIdAsync(BrandId id, DbTransaction? transaction = null)
@@ -57,24 +62,63 @@ public class BrandRepository(
     }
 
     /// <inheritdoc/>
-    public async Task<Result<List<Brand>>> GetAllAsync()
+    public async Task<Result<PagedResult<Brand>>> GetAllAsync(PagedAndSortedResultRequest? request)
     {
         _logger.LogInformation("BrandRepository.GetAllAsync");
+        var transaction = _db.BeginTransaction();
+        request ??= new();
+        Dictionary<string, string> validSortFields = new()
+        {
+            { "id", "b.id" },
+            { "name", "b.name" },
+        };
 
-        const string sql = @"
-            SELECT 
-                b.*
-            FROM 
-                brands b
-            ";
+        var buildResult = _sqlBuilderService.BuildPagedQuery(
+                "b.*",
+                "brands b",
+                request,
+                "b.Name",
+                "b.Id",
+                validSortFields);
 
-        var brands = await _db.QueryAsync<BrandDb>(sql);
+        if (buildResult.IsFailed)
+        {
+            return Result.Fail<PagedResult<Brand>>(buildResult.Errors);
+        }
 
-        var domainModelResults = brands.Select(MapToDomainModel);
+        try
+        {
+            var (querySql, counterSql, parameters) = buildResult.Value;
 
-        var validDomainModels = domainModelResults.Where(mapped => mapped.IsSuccess).Select(mapped => mapped.Value).ToList();
+            var brands = await _db.QueryAsync<BrandDb>(
+                querySql,
+                parameters,
+                transaction: transaction);
 
-        return Result.Ok(validDomainModels);
+            var totalCount = await _db.ExecuteScalarAsync(counterSql, parameters, transaction: transaction);
+
+            var domainModelResults = brands.Select(MapToDomainModel);
+
+            var validDomainModels = domainModelResults.Where(mapped => mapped.IsSuccess).Select(mapped => mapped.Value).ToList();
+
+            return Result.Ok(new PagedResult<Brand>
+            {
+                Items = validDomainModels,
+                TotalCount = (int)totalCount,
+                Offset = request.Offset,
+                Limit = request.Limit,
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error on Brands Repository GetAll: {Message}", ex.Message);
+        }
+        finally
+        {
+            _db.CloseTransaction(transaction);
+        }
+
+        return Result.Fail("Internal Server Error fetching Brands.");
     }
 
     /// <inheritdoc/>

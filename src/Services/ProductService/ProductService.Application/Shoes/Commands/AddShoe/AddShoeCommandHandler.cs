@@ -71,6 +71,7 @@ public class AddShoeCommandHandler(
             addResult.Value.OwnerId,
             addResult.Value.BrandId,
             addResult.Value.Name,
+            addResult.Value.Brand.Name,
             addResult.Value.Price.Currency,
             addResult.Value.Price.Amount,
             addResult.Value.Size.Unit,
