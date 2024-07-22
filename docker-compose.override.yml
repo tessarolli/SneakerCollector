@@ -50,9 +50,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=80
     ports:
-      - "5030:80"
-      - "50031:50001" # Dapr instances communicate over gRPC so we need to expose the gRPC port
-      - "3530:3500" # Dapr sidecar port
+      - "5020:80"
+      - "50021:50001" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+      - "3520:3500" # Dapr sidecar port
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

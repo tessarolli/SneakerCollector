@@ -8,13 +8,11 @@ The application provides an API for users to Products in a Catalog, along with A
 The system architecture of Sneaker Collector can be visualized as a set of microservices deployed within containers orchestrated by Kubernetes. 
 Each microservice follows a modular architecture, leveraging the principles of Clean Architecture, Domain-Driven Design (DDD), and Command Query Responsibility Segregation (CQRS).
 
-## Architecture and Infrastructure Diagram
-![Diagram](https://github.com/tessarolli/SneakerCollector/assets/11618432/209fff2e-050b-4f52-8a8c-38486f51c932)
-
 ## Available Features
 - User authentication
 - User management (CRUD)
-- Product Catalog Management (CRUD)
+- Shoes Catalog Management (CRUD)
+- Brands Catalog Management (CRUD)
 - Role-based access control (user, manager, and admin)
 - RESTful API
 
@@ -54,13 +52,13 @@ Throughout the distributed application source code, you will encounter several a
 
 - **Repository Pattern**: The Repository Pattern provides an abstraction layer between the application's business logic and data access mechanisms, such as databases or web services. It centralizes data access logic within repositories, allowing for better separation of concerns and improved testability. By utilizing the Repository Pattern, the application can achieve a cleaner architecture and reduce coupling with specific data storage implementations.
 
+- **Service Pattern**: The Service Pattern structures business logic into distinct services, encapsulating related operations and processes. This separation enhances modularity and reusability, making it easier to maintain and test the application. Services interact with repositories or other data sources, providing a clean API for the rest of the application. By adopting the Service Pattern, the application benefits from a well-organized and scalable architecture, with clearly defined responsibilities and reduced complexity.
+
 - **RESTful architecture**: REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful architecture emphasizes using HTTP methods (such as GET, POST, PUT, and DELETE) to perform CRUD (Create, Read, Update, Delete) operations on resources. It leverages stateless communication between client and server, where each request from the client contains all the necessary information for the server to fulfill it. RESTful APIs are typically designed to be simple, scalable, and loosely coupled.
 
 ### Design Principles and Standards
 
 - **API Contracts**: API (Application Programming Interface) contracts are formal agreements that define the interactions and expectations between different software components or systems. These contracts outline the methods, parameters, data formats, authentication mechanisms, and behavior that developers can rely on when integrating with an API. API contracts serve as blueprints for building and consuming APIs, ensuring consistency, interoperability, and compatibility between different software modules, services, or platforms. They help establish clear guidelines for developers, streamline development efforts, and mitigate potential integration issues by specifying how data should be exchanged and processed. API contracts can take various forms, including OpenAPI specifications, Swagger documents, RAML files, or custom documentation formats tailored to the specific requirements of the API.
-
-- **Caching**: Caching is a design principle used to improve the performance and scalability of software systems by storing frequently accessed data in a temporary storage location, known as a cache. This architectural pattern involves leveraging caching mechanisms, such as in-memory caches or distributed caches, to reduce latency and alleviate the load on backend resources. By caching data at various levels of the application stack, developers can accelerate response times and enhance scalability by minimizing the need for repeated computations or data retrieval from backend services. Effective caching strategies ensure data consistency, handle cache invalidation and prevent stale or outdated information from being served to users, thereby optimizing system performance and resource utilization.
 
 - **Clean Code**: Clean Code principles focus on writing code that is easy to read, understand, and maintain. It emphasizes concepts such as meaningful naming, small functions, single responsibility, and minimal duplication. By writing clean code, developers can reduce bugs, improve collaboration, and enhance the overall quality of the software.
 
@@ -90,9 +88,7 @@ Throughout the distributed application source code, you will encounter several a
 
 2. **Auth Service**: Responsible for managing user authentication and authorization. Utilizes JWT (JSON Web Tokens) for secure authentication. Implements role-based access control (RBAC), distinguishing between user roles such as regular users, managers, and administrators. Controls access to different parts of the system based on user roles and permissions. Handles CRUD operations related to user entities, including creation, retrieval, updating, and deletion of user accounts.
 
-4. **Discount Service**: Act as a single source of truth for calculating product discount amounts.
-
-5. **Product Catalog Service**: Manages the CRUD operations for products in the catalog. This includes functionalities for adding, updating, deleting, and retrieving product information.
+5. **Product Service**: Manages operations for shoes and brands in the catalog. This includes functionalities for adding, updating, deleting, and retrieving information.
 
 ### Communication:
 
@@ -113,11 +109,15 @@ Throughout the distributed application source code, you will encounter several a
 - **Fault Tolerance**: Implements redundancy and failover mechanisms to ensure system resilience in the face of hardware failures or network issues.
 
 ## Tests Layer
-The Tests Layer is a crucial component aimed at ensuring the reliability, functionality, and correctness of our software system. It comprises a suite of automated tests developed using popular testing frameworks including Xunit, Nsubstitute, and Fluent Assertions. This documentation provides an overview of the purpose, structure, and usage of the Tests Layer.
+The Tests Layer is a crucial component aimed at ensuring the reliability, functionality, and correctness of our software system. 
+It comprises a suite of automated tests developed using popular testing frameworks including Xunit, Nsubstitute, and Fluent Assertions. 
+This documentation provides an overview of the purpose, structure, and usage of the Tests Layer.
 
 ### Purpose
 
-The primary purpose of the Tests Layer is to validate the behavior of our software components across various scenarios and edge cases. By automating tests, we can systematically verify that each unit of code performs as expected, detects regressions, and maintains compatibility as the codebase evolves. This layer also aids in identifying and debugging issues early in the development cycle, promoting higher software quality and faster iteration.
+The primary purpose of the Tests Layer is to validate the behavior of our software components across various scenarios and edge cases. 
+By automating tests, we can systematically verify that each unit of code performs as expected, detects regressions, and maintains compatibility as the codebase evolves. 
+This layer also aids in identifying and debugging issues early in the development cycle, promoting higher software quality and faster iteration.
 
 ### Components
 
@@ -135,11 +135,14 @@ The primary purpose of the Tests Layer is to validate the behavior of our softwa
 
 ### Structure
 
-The Tests Layer is organized into separate test projects corresponding to the different layers and modules of our application architecture. Each test project contains test classes that target specific units of code, such as classes, methods, or functional units. Within these test classes, individual test cases are defined to cover different scenarios and behaviors.
+The Tests Layer is organized into separate test projects corresponding to the different layers and modules of our application architecture. 
+Each test project contains test classes that target specific units of code, such as classes, methods, or functional units. 
+Within these test classes, individual test cases are defined to cover different scenarios and behaviors.
 
 ### Usage
 
-Developers can run the tests using integrated development environment (IDE) tools such as Visual Studio or via command-line interfaces using build automation tools like MSBuild or .NET CLI. To execute the tests, simply build the solution and run the test runner, which will execute all tests and report the results, including any failures or errors encountered during the test run.
+Developers can run the tests using integrated development environment (IDE) tools such as Visual Studio or via command-line interfaces using build automation tools like MSBuild or .NET CLI. 
+To execute the tests, simply build the solution and run the test runner, which will execute all tests and report the results, including any failures or errors encountered during the test run.
 
 ## Running in Local Development Environment
 To run the application locally, follow these steps:
@@ -192,8 +195,8 @@ For convenience, there is an Envoy API Gateway available at:
 You can use it to access all distributed services resources from a single base URL.
 Available endpoints are:
 - /authentication
-- /discounts
-- /products
+- /brands
+- /shoes
 - /users
 
 2. **Authentication Service:**
@@ -201,15 +204,10 @@ Available endpoints are:
 
   http://localhost:5010/swagger/
 
-3. **Discounts Service:**
-    To access the Discounts Service Api Documentation, open a browser window at:
-
-  http://localhost:5020/swagger/
-
-4. **Products Service:**
+3. **Products Service:**
     To access the Products Service Api Documentation, open a browser window at:
 
-  http://localhost:5030/swagger/
+  http://localhost:5020/swagger/
 
 
 ## Azure Cloud Production Environment
@@ -227,13 +225,10 @@ You can access your resources in Azure Public Cloud (for a short time) from thes
 2. **Authentication Service:**
   Service de-provisioned due to costs. You can clone and run locally with the same results.
 
-3. **Discounts Service:**
+3. **Products Service:**
    Service de-provisioned due to costs. You can clone and run locally with the same results.
 
-4. **Products Service:**
-   Service de-provisioned due to costs. You can clone and run locally with the same results.
-
-If you have Visual Studio installed, you can use the provided .http files available under **Requests** folder pre-configure for interacting with the production API gateway.
+If you have Visual Studio installed, you can use the provided .http files available under **Requests** folder pre-configure for interacting with the API gateway.
 - Start with one of the login requests, I would recommend the AdminLogin.http first.
 - Next, copy the token from the response, you will need it in the following requests.
 - Choose another request you want to test out from the available list, and replace the existing @token=ey... with the new token you just generated on the LoginRequest, and you are all set.
@@ -241,9 +236,13 @@ If you have Visual Studio installed, you can use the provided .http files availa
 
 ### Production Environment Monitoring Strategy
 
-For monitoring our distributed system, we've chosen Azure Application Insights. Azure Application Insights provides powerful monitoring and diagnostics capabilities for our application, allowing us to collect telemetry data, track performance metrics, detect issues, and gain insights into user behavior. It integrates seamlessly with Azure services and offers features such as application performance monitoring, request tracking, exception logging, and dependency tracking, enabling us to monitor the health and performance of our application effectively.
+For monitoring our distributed system, we've chosen Azure Application Insights. 
+Azure Application Insights provides powerful monitoring and diagnostics capabilities for our application, allowing us to collect telemetry data, track performance metrics, detect issues, and gain insights into user behavior. 
+It integrates seamlessly with Azure services and offers features such as application performance monitoring, request tracking, exception logging, and dependency tracking, enabling us to monitor the health and performance of our application effectively.
 
-In addition, we utilize Azure Container Apps to monitor our containerized microservices deployed within the Azure environment. Azure Container Apps offers built-in monitoring and observability features, including container health checks, logs aggregation, metrics visualization, and autoscaling based on resource utilization. By leveraging Azure Container Apps, we can monitor the performance and availability of our microservices, detect and troubleshoot issues in real time, and ensure the reliability and scalability of our distributed system.
+In addition, we utilize Azure Container Apps to monitor our containerized microservices deployed within the Azure environment. 
+Azure Container Apps offers built-in monitoring and observability features, including container health checks, logs aggregation, metrics visualization, and autoscaling based on resource utilization. 
+By leveraging Azure Container Apps, we can monitor the performance and availability of our microservices, detect and troubleshoot issues in real time, and ensure the reliability and scalability of our distributed system.
 
 ## Conclusion:
 

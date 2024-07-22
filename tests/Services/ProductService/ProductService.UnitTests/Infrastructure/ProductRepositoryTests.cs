@@ -11,6 +11,8 @@ using ProductService.Domain.Shoes;
 using ProductService.Domain.Shoes.Enums;
 using ProductService.Domain.Brands;
 using ProductService.Domain.Brands.ValueObjects;
+using SharedDefinitions.Infrastructure.Services;
+using SharedDefinitions.Application.Models;
 
 namespace ProductService.UnitTests.Infrastructure;
 
@@ -19,13 +21,15 @@ public class ShoeRepositoryTests
     private readonly IShoeRepository _shoeRepository;
     private readonly IDapperUtility _dapper;
     private readonly DaprClient _daprClient;
+    private readonly ISqlBuilderService _sqlBuilderService;
 
     public ShoeRepositoryTests()
     {
         _dapper = Substitute.For<IDapperUtility>();
         var logger = Substitute.For<ILogger<ShoeRepository>>();
         _daprClient = Substitute.For<DaprClient>();
-        _shoeRepository = new ShoeRepository(_dapper, logger, _daprClient);
+        _sqlBuilderService = Substitute.For<ISqlBuilderService>();
+        _shoeRepository = new ShoeRepository(_dapper, logger, _daprClient, _sqlBuilderService);
     }
 
     [Fact]
@@ -64,7 +68,10 @@ public class ShoeRepositoryTests
             (new ShoeDb(2, 1, 1, "Test Shoe 2", 1, 150, 11, 0, 2023, 4, DateTime.UtcNow), new BrandDb(1, "Brand 1"))
         };
 
-        _dapper.QueryAsync(
+        var totalCount = 2;
+        var request = new PagedAndSortedResultRequest { Offset = 0, Limit = 10 };
+
+        _dapper.QueryAsync<ShoeDb, BrandDb, (ShoeDb, BrandDb)>(
             Arg.Any<string>(),
             Arg.Any<Func<ShoeDb, BrandDb, (ShoeDb, BrandDb)>>(),
             Arg.Any<object>(),
@@ -73,13 +80,35 @@ public class ShoeRepositoryTests
             Arg.Any<DbTransaction>()
         ).Returns(shoes);
 
+        _dapper.ExecuteScalarAsync(
+            Arg.Any<string>(),
+            Arg.Any<object>(),
+            Arg.Any<CommandType>(),
+            Arg.Any<DbTransaction>()
+        ).Returns(totalCount);
+
+        _sqlBuilderService.BuildPagedQuery(
+            Arg.Any<string>(),
+            Arg.Any<string>(),
+            Arg.Any<PagedAndSortedResultRequest>(),
+            Arg.Any<string>(),
+            Arg.Any<string>(),
+            Arg.Any<Dictionary<string, string>>()
+        ).Returns(Result.Ok((
+            "querySql",
+            "counterSql",
+            new Dictionary<string, object>()
+        )));
+
         // Act
-        var result = await _shoeRepository.GetAllAsync();
+        var result = await _shoeRepository.GetAllAsync(request);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().HaveCount(2);
+        result.Value.Items.Should().HaveCount(2);
+        result.Value.TotalCount.Should().Be(totalCount);
     }
+
 
     [Fact]
     public async Task AddAsync_ValidShoe_ReturnsAddedShoe()

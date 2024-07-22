@@ -4,7 +4,9 @@
 
 using Dapper;
 using FluentResults;
+using Microsoft.Extensions.DependencyInjection;
 using SharedDefinitions.Application.Models;
+using System.Text.RegularExpressions;
 
 namespace SharedDefinitions.Infrastructure.Services;
 
@@ -22,6 +24,26 @@ public class SqlBuilderService : ISqlBuilderService
             string defaultOrderBy,
             Dictionary<string, string> validSortFields)
     {
+        if (string.IsNullOrWhiteSpace(fields))
+        {
+            return Result.Fail("Fields parameter cannot be empty");
+        }
+
+        if (string.IsNullOrWhiteSpace(tables))
+        {
+            return Result.Fail("Tables parameter cannot be empty");
+        }
+
+        if (request.Offset < 0)
+        {
+            return Result.Fail("Offset must be non-negative");
+        }
+
+        if (request.Limit <= 0)
+        {
+            return Result.Fail("Limit must be greater than zero");
+        }
+
         var sqlBuilder = new SqlBuilder();
         var selector = sqlBuilder.AddTemplate($"SELECT {fields} FROM {tables} /**where**/ /**orderby**/");
         var counter = sqlBuilder.AddTemplate($"SELECT COUNT(*) FROM {tables} /**where**/");
@@ -61,8 +83,25 @@ public class SqlBuilderService : ISqlBuilderService
                 .Select(column => $"LOWER({column.Trim()}) LIKE LOWER(@Search)")
                 .ToList();
             sqlBuilder.Where($"({string.Join(" OR ", searchConditions)})");
-            parameters.Add("Search", $"%{filters}%");
+            parameters.Add("Search", $"%{EscapeSearchString(filters)}%");
         }
+    }
+
+    /// <summary>
+    /// Escapes special characters in the search string to prevent SQL injection and ensure proper LIKE clause behavior.
+    /// </summary>
+    /// <param name="searchString">The original search string.</param>
+    /// <returns>The escaped search string.</returns>
+    private static string EscapeSearchString(string searchString)
+    {
+        if (string.IsNullOrEmpty(searchString))
+            return searchString;
+
+        // Escape special characters: %, _, [, ]
+        // We're using Regex.Replace to handle all occurrences
+        searchString = Regex.Replace(searchString, @"[%_\[\]]", match => $"[{match.Value}]");
+
+        return searchString;
     }
 
     /// <summary>
@@ -79,21 +118,19 @@ public class SqlBuilderService : ISqlBuilderService
         string defaultOrderBy,
         Dictionary<string, string> validSortFields)
     {
-        if (!string.IsNullOrWhiteSpace(sort))
-        {
-            var (column, direction) = ParseSort(sort);
-            if (!validSortFields.TryGetValue(column, out string? value))
-            {
-                return Result.Fail($"Invalid sort field: {column}");
-            }
-
-            sqlBuilder.OrderBy($"{value} {direction}");
-        }
-        else
+        if (validSortFields.Count == 0 || string.IsNullOrWhiteSpace(sort))
         {
             sqlBuilder.OrderBy(defaultOrderBy);
+            return Result.Ok();
         }
 
+        var (column, direction) = ParseSort(sort);
+        if (!validSortFields.TryGetValue(column, out string? value))
+        {
+            return Result.Fail($"Invalid sort field: {column}");
+        }
+
+        sqlBuilder.OrderBy($"{value} {direction}");
         return Result.Ok();
     }
 
@@ -105,11 +142,11 @@ public class SqlBuilderService : ISqlBuilderService
     /// A tuple containing the extracted column and direction.
     /// </returns>
     private static (string column, string direction) ParseSort(string sort)
-    {
-        var direction = sort.StartsWith('-')
-            ? "DESC"
-            : "ASC";
-        var column = sort.TrimStart('-', '+');
-        return (column, direction);
-    }
+{
+    var direction = sort.StartsWith('-')
+        ? "DESC"
+        : "ASC";
+    var column = sort.TrimStart('-', '+');
+    return (column, direction);
+}
 }
